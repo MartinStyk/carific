@@ -1,7 +1,7 @@
 package sk.momosi.carific.ui
 
-import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -9,9 +9,10 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
+import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        main_bottom_navigation.disableShiftMode()
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -28,6 +31,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         firebaseAuth.requestLogin(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

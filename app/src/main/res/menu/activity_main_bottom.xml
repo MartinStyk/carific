@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_fuel"
+        android:icon="@drawable/ic_gas_station"
+        android:title="@string/navigation_fuel"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_expenses"
+        android:icon="@drawable/ic_expense"
+        android:title="@string/navigation_expenses"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_statistics"
+        android:icon="@drawable/ic_show_chart"
+        android:title="@string/navigation_statistics"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_achievements"
+        android:icon="@drawable/ic_stars"
+        android:title="@string/navigation_achievements"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/navigation_profile" />
+
+</menu>
