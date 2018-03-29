@@ -9,12 +9,9 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
+import sk.momosi.carific.ui.expense.ExpenseListFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.ViewCompat.setActivated
-import android.support.design.widget.AppBarLayout
-
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -42,12 +39,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val fragment = when (item.itemId) {
             R.id.navigation_fuel -> ProfileFragment()
-            R.id.navigation_expenses -> ProfileFragment()
+            R.id.navigation_expenses -> ExpenseListFragment.newInstance("my_car_id")
             R.id.navigation_statistics -> ProfileFragment()
             R.id.navigation_achievements -> ProfileFragment()
-            R.id.navigation_account -> {
-                ProfileFragment()
-            }
+            R.id.navigation_account -> ProfileFragment()
             else -> throw IllegalStateException()
         }
 
