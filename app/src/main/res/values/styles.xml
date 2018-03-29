@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TextImportant" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_margin">@dimen/space_basic</item>
+    </style>
+
 </resources>
