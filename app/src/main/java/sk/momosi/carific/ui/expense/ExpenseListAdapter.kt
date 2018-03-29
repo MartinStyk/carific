@@ -5,24 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import sk.momosi.carific.databinding.ListItemExpenseBinding
 import sk.momosi.carific.model.Expense
-import java.math.BigDecimal
-import java.util.*
 
 /**
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class ExpenseListAdapter() : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
-
-    private val data = listOf(
-            Expense(price = BigDecimal.ONE,
-                    date = Date(20, 1, 20),
-                    info = "my Infooooo"),
-            Expense(price = BigDecimal.TEN,
-                    date = Date(30, 2, 22),
-                    info = "secooond expense")
-    )
-
+class ExpenseListAdapter(val data: List<Expense>) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     init {
         this.setHasStableIds(true)

@@ -19,6 +19,21 @@ data class Expense(
 ) : Parcelable, Comparable<Expense> {
 
     override fun compareTo(other: Expense) = date.compareTo(other.date)
+
+    fun toMap(): Map<String, Any> = mapOf(
+            Pair("price", price.toString()),
+            Pair("date", date.time),
+            Pair("info", info)
+    )
+
+    companion object {
+        fun fromMap(map: Map<String, Any>) = Expense(
+                price = BigDecimal(map.get("price") as String),
+                date = Date(map["date"] as Long),
+                info = map["info"] as String
+        )
+    }
+
 }
 
 
