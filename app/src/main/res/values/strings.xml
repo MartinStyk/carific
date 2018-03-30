@@ -21,7 +21,7 @@
     <string name="car_create_name_hint">Vehicle name</string>
     <string name="car_create_manufacturer_hint">Vehicle manufacturer</string>
     <string name="car_create_type_hint">Vehicle type</string>
-
+    <string name="car_create_picture_fail">Can not add vehicle picture</string>
 
 
     <string name="vehicle_type_sedan">Sedan</string>

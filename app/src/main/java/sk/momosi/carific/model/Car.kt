@@ -14,9 +14,9 @@ data class Car(
         val id: String = "",
         val name: String,
         val manufacturer: String,
-        val type: VehicleType
+        val type: VehicleType,
+        val picturePath: String?
 //        val mileage: Long?,
-//        val pathToPicure: String?
 ) : Parcelable
 
 
