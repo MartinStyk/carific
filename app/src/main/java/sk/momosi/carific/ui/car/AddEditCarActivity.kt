@@ -4,12 +4,16 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.databinding.Observable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_edit_car.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditCarBinding
+import sk.momosi.carific.model.VehicleType
 
 
 class AddEditCarActivity : AppCompatActivity() {
@@ -32,6 +36,8 @@ class AddEditCarActivity : AppCompatActivity() {
 
         setupAddButton()
 
+        setupCarTypeSpinner()
+
         loadData()
 
     }
@@ -44,6 +50,21 @@ class AddEditCarActivity : AppCompatActivity() {
     })
 
     private fun setupAddButton() = car_add_save.setOnClickListener { viewModel.saveCar() }
+
+    private fun setupCarTypeSpinner() {
+        binding.carCreateType.adapter = CarTypeSpinnerAdapter(this)
+
+        binding.carCreateType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, number: Int, id: Long) = viewModel.type.set(VehicleType.values()[number])
+            override fun onNothingSelected(p0: AdapterView<*>?) = Unit
+        }
+
+        viewModel.type.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                binding.carCreateType.setSelection(VehicleType.values().indexOf(viewModel.type.get()))
+            }
+        })
+    }
 
     private fun loadData() = viewModel.start(intent?.extras?.getString(ARG_CAR_ID))
 

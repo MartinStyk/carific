@@ -6,6 +6,7 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.util.Log
 import sk.momosi.carific.model.Car
+import sk.momosi.carific.model.VehicleType
 import sk.momosi.carific.util.data.SingleLiveEvent
 
 /**
@@ -17,6 +18,8 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
     val name = ObservableField<String>()
 
     val manufacturer = ObservableField<String>()
+
+    val type = ObservableField<VehicleType>()
 
     val isLoading = ObservableBoolean(false)
 
@@ -41,12 +44,13 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
         //TODO load car and call onDataLoaded, with retrieved car
         //temporary debug with sample car
-        onExistingCarLoaded(Car("id", "name", "manufacturer"))
+        onExistingCarLoaded(Car("id", "name", "manufacturer", VehicleType.MOTOCYCLE))
     }
 
-    fun onExistingCarLoaded(existingCar: Car){
+    fun onExistingCarLoaded(existingCar: Car) {
         name.set(existingCar.name)
         manufacturer.set(existingCar.manufacturer)
+        type.set(existingCar.type)
 
         isLoading.set(false)
     }
@@ -55,7 +59,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
     fun saveCar() {
         // TODO handle invalid input
 
-        var car = Car("", name.get()!!, manufacturer.get()!!)
+        var car = Car("", name.get()!!, manufacturer.get()!!, type.get()!!)
         if (isNewCar || carId == null) {
             createCar(car)
         } else {

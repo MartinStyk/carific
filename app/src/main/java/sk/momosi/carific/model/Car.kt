@@ -13,9 +13,9 @@ import kotlinx.android.parcel.Parcelize
 data class Car(
         val id: String = "",
         val name: String,
-        val manufacturer: String
+        val manufacturer: String,
+        val type: VehicleType
 //        val mileage: Long?,
-//        val type: VehicleType,
 //        val pathToPicure: String?
 ) : Parcelable
 
