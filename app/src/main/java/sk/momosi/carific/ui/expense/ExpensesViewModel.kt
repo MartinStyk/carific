@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Expense
+import sk.momosi.carific.util.data.SingleLiveEvent
 
 /**
  * @author Martin Styk
@@ -23,6 +24,8 @@ class ExpensesViewModel : ViewModel() {
     val isEmpty = ObservableBoolean(false)
 
     val isError = ObservableBoolean(false)
+
+    val expenseClickEvent = SingleLiveEvent<Expense>()
 
     fun loadData(): LiveData<List<Expense>> {
         FirebaseDatabase.getInstance()

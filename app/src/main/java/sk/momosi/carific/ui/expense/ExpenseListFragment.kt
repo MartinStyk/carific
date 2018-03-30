@@ -1,5 +1,6 @@
 package sk.momosi.carific.ui.expense
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_expense_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentExpenseListBinding
@@ -26,6 +28,11 @@ class ExpenseListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         carId = arguments?.getString(ARGUMENT_CAR_ID) ?: throw IllegalArgumentException("Car id argument missing")
         viewModel = ViewModelProviders.of(this).get(ExpensesViewModel::class.java)
+
+        viewModel.expenseClickEvent.observe(this, Observer {
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_LONG).show()
+        })
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +45,7 @@ class ExpenseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        expense_list.adapter = ExpenseListAdapter()
+        expense_list.adapter = ExpenseListAdapter(viewModel = viewModel)
         expense_list.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_expenses)

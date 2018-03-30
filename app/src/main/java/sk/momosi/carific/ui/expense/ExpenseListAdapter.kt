@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import sk.momosi.carific.databinding.ListItemExpenseBinding
 import sk.momosi.carific.model.Expense
+import sk.momosi.carific.ui.ListItemUserInteractionListener
 
 /**
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class ExpenseListAdapter(var data: List<Expense> = emptyList()) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
+class ExpenseListAdapter(var data: List<Expense> = emptyList(),
+                         val viewModel: ExpensesViewModel)
+    : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     init {
         this.setHasStableIds(true)
@@ -18,6 +21,13 @@ class ExpenseListAdapter(var data: List<Expense> = emptyList()) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding = ListItemExpenseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        itemBinding.listener = object : ListItemUserInteractionListener<Expense>{
+            override fun onItemClick(item: Expense) {
+                viewModel.expenseClickEvent.value = item
+            }
+        }
+
         return ViewHolder(itemBinding)
     }
 
@@ -37,7 +47,7 @@ class ExpenseListAdapter(var data: List<Expense> = emptyList()) : RecyclerView.A
         }
     }
 
-    fun replaceData(data: List<Expense>){
+    fun replaceData(data: List<Expense>) {
         this.data = data
         notifyDataSetChanged()
     }
