@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/space_basic"
+        android:background="?android:attr/selectableItemBackground"
         android:onClick="@{() -> listener.onItemClick(expense)}">
 
         <TextView
