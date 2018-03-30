@@ -10,7 +10,7 @@ import sk.momosi.carific.model.Expense
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class ExpenseListAdapter(val data: List<Expense>) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
+class ExpenseListAdapter(var data: List<Expense> = emptyList()) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     init {
         this.setHasStableIds(true)
@@ -35,5 +35,10 @@ class ExpenseListAdapter(val data: List<Expense>) : RecyclerView.Adapter<Expense
             binding.expense = item
             binding.executePendingBindings()
         }
+    }
+
+    fun replaceData(data: List<Expense>){
+        this.data = data
+        notifyDataSetChanged()
     }
 }

@@ -13,5 +13,6 @@
     <string name="sign_out">Sign Out</string>
 
     <string name="expense_list_empty">No expenses</string>
+    <string name="expense_list_error_loading">Can not load expenses</string>
 
 </resources>
