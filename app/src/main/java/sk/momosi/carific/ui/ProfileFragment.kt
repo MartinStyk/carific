@@ -1,6 +1,7 @@
 package sk.momosi.carific.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
+import sk.momosi.carific.ui.car.AddEditCarActivity
 import sk.momosi.carific.util.extensions.requestLogin
 
 class ProfileFragment : Fragment() {
@@ -39,12 +41,27 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profile_sign_out.setOnClickListener { signOut() }
+
+        //TODO temporary way to test create/update car
+        profile_car_add.setOnClickListener { createCar() }
+        profile_car_edit.setOnClickListener { updateCar() }
+
         profile_scroller.isNestedScrollingEnabled = false
 
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_profile)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
 
         updateUI(firebaseAuth.currentUser)
+    }
+
+    private fun createCar() {
+        startActivity(Intent(activity, AddEditCarActivity::class.java))
+    }
+
+    private fun updateCar() {
+        val intent = Intent(activity, AddEditCarActivity::class.java)
+        intent.putExtra(AddEditCarActivity.ARG_CAR_ID, "TODOcarID")
+        startActivity(intent)
     }
 
     private fun signOut() {

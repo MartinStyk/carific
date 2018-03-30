@@ -26,6 +26,10 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/sign_in" />
+        <activity
+            android:name=".ui.car.AddEditCarActivity"
+            android:label="@string/car_create"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

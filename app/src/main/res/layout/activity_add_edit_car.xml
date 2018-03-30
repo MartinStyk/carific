@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="sk.momosi.carific.ui.car.AddEditCarViewModel" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.car.AddEditCarActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{viewmodel.isLoading ? View.GONE : View.VISIBLE}">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/car_create_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/car_create_name_hint"
+                            android:inputType="textCapWords"
+                            android:maxLines="1"
+                            android:text="@={viewmodel.name}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/car_create_manufacturer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/car_create_manufacturer_hint"
+                            android:inputType="textCapWords"
+                            android:maxLines="1"
+                            android:text="@={viewmodel.manufacturer}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/whole_spinner_margin_bottom"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<android.support.design.widget.TextInputLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="6">-->
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/txt_addVehicle_mileage"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:hint="@string/title_mileage"-->
+                    <!--android:inputType="number"-->
+                    <!--android:maxLines="1" />-->
+                    <!--</android.support.design.widget.TextInputLayout>-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/txt_addVehicle_mileage_distanceUnit"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textSize="20sp" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/whole_spinner_margin_bottom"-->
+                    <!--android:layout_marginLeft="@dimen/whole_spinner_margin_left"-->
+                    <!--android:layout_marginStart="@dimen/whole_spinner_margin_left"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/currency"-->
+                    <!--android:textColor="@color/colorAccent" />-->
+
+                    <!--<Spinner-->
+                    <!--android:id="@+id/spinner_currency"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="@dimen/spinner_height"></Spinner>-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/whole_spinner_margin_bottom"-->
+                    <!--android:layout_marginLeft="@dimen/whole_spinner_margin_left"-->
+                    <!--android:layout_marginStart="@dimen/whole_spinner_margin_left"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/vehicle_type"-->
+                    <!--android:textColor="@color/colorAccent" />-->
+
+                    <!--<Spinner-->
+                    <!--android:id="@+id/spinner_addVehicle_types"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="@dimen/spinner_height"></Spinner>-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/whole_spinner_margin_bottom"-->
+                    <!--android:layout_marginLeft="@dimen/whole_spinner_margin_left"-->
+                    <!--android:layout_marginStart="@dimen/whole_spinner_margin_left"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:text="@string/volume_units"-->
+                    <!--android:textColor="@color/colorAccent" />-->
+
+                    <!--<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--android:id="@+id/radio_volume_unit"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<RadioButton-->
+                    <!--android:id="@+id/radio_litres"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/volumeUnit_litres"-->
+                    <!--android:textSize="@dimen/radio_btn_font_size" />-->
+
+                    <!--<RadioButton-->
+                    <!--android:id="@+id/radio_us_gallons"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/volumeUnit_gallons_us"-->
+                    <!--android:textSize="@dimen/radio_btn_font_size" />-->
+
+                    <!--<RadioButton-->
+                    <!--android:id="@+id/radio_uk_gallons"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/volumeUnit_gallons_uk"-->
+                    <!--android:textSize="@dimen/radio_btn_font_size" />-->
+                    <!--</RadioGroup>-->
+
+                    <!--</LinearLayout>-->
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/car_add_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

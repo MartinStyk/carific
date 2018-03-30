@@ -15,4 +15,20 @@
     <string name="expense_list_empty">No expenses</string>
     <string name="expense_list_error_loading">Can not load expenses</string>
 
+
+    <string name="car_create">Add car</string>
+    <string name="car_create_name_hint">Vehicle name</string>
+    <string name="car_create_manufacturer_hint">Vehicle manufacturer</string>
+    <string name="car_edit">Edit car</string>
+
+
+    <string name="vehicle_type_sedan">Sedan</string>
+    <string name="vehicle_type_hatchback">Hatchback</string>
+    <string name="vehicle_type_combi">Combi</string>
+    <string name="vehicle_type_van">Van</string>
+    <string name="vehicle_type_motocycle">Motocycle</string>
+    <string name="vehicle_type_pickup">Pickup</string>
+    <string name="vehicle_type_suv">SUV</string>
+    <string name="vehicle_type_coupe">Coupe</string>
+    <string name="vehicle_type_sport">Sport</string>
 </resources>
