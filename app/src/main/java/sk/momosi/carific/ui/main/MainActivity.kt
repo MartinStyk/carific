@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui
+package sk.momosi.carific.ui.main
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
+import sk.momosi.carific.ui.profile.ProfileFragment
 import sk.momosi.carific.ui.expense.ExpenseListFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin

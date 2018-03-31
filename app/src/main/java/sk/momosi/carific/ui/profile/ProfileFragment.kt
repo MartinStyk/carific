@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui
+package sk.momosi.carific.ui.profile
 
 import android.app.Activity
 import android.content.Intent

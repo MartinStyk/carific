@@ -3,7 +3,7 @@ package sk.momosi.carific.util.extensions
 import android.content.Context
 import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
-import sk.momosi.carific.ui.LoginActivity
+import sk.momosi.carific.ui.login.LoginActivity
 
 /**
  * @author Martin Styk

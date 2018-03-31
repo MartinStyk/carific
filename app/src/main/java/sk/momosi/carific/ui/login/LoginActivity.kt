@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui
+package sk.momosi.carific.ui.login
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -12,13 +12,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 import sk.momosi.carific.R
+import sk.momosi.carific.ui.main.MainActivity
 import sk.momosi.carific.util.ConnectivityUtils
 
 @SuppressLint("RestrictedApi")
