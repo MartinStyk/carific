@@ -69,8 +69,9 @@
 
                         <!-- Name-->
                         <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/car_create_name_error}"
+                            app:isValid="@{viewmodel.isNameValid}">
 
                             <EditText
                                 android:id="@+id/car_create_name"
@@ -84,8 +85,9 @@
 
                         <!-- Manufacturer-->
                         <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/car_create_manufacturer_error}"
+                            app:isValid="@{viewmodel.isManufacturerValid}">
 
                             <EditText
                                 android:id="@+id/car_create_manufacturer"
@@ -133,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_done" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

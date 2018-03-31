@@ -2,12 +2,15 @@ package sk.momosi.carific.ui.car
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.databinding.Observable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.util.Log
+import sk.momosi.carific.R
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.VehicleType
 import sk.momosi.carific.util.data.SingleLiveEvent
+import sk.momosi.carific.util.data.SnackbarMessage
 import java.io.File
 
 /**
@@ -17,8 +20,10 @@ import java.io.File
 class AddEditCarViewModel(application: Application) : AndroidViewModel(application) {
 
     val name = ObservableField<String>()
+    val isNameValid = ObservableBoolean(false)
 
     val manufacturer = ObservableField<String>()
+    val isManufacturerValid = ObservableBoolean(false)
 
     val type = ObservableField<VehicleType>()
 
@@ -30,12 +35,34 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     val selectPicture = SingleLiveEvent<String>()
 
+    val snackbarMessage = SnackbarMessage()
+
     private var isNewCar: Boolean = false
+
+    private var isLoaded: Boolean = false
 
     private var carId: String? = null
 
+    init {
+        name.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                isNameValid.set(!name.get().isNullOrBlank())
+            }
+        })
+
+        manufacturer.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                isManufacturerValid.set(!manufacturer.get().isNullOrBlank())
+            }
+        })
+    }
+
     fun start(carId: String?) {
         this.carId = carId
+
+        if (isLoaded) {
+            return
+        }
 
         if (carId == null) {
             // No need to populate, it's a new car
@@ -61,11 +88,15 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         }
 
         isLoading.set(false)
+        isLoaded = true
     }
 
     // Called when clicking on add button.
     fun saveCar() {
-        // TODO handle invalid input
+        if (!isManufacturerValid.get() || !isNameValid.get()) {
+            snackbarMessage.value = R.string.car_create_validation_error
+            return
+        }
 
         var car = Car("", name.get()!!, manufacturer.get()!!, type.get()!!, picturePath.get())
         if (isNewCar || carId == null) {

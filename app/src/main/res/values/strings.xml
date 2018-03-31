@@ -19,9 +19,13 @@
     <string name="car_create">Add car</string>
     <string name="car_edit">Edit car</string>
     <string name="car_create_name_hint">Vehicle name</string>
+    <string name="car_create_name_error">Name is empty</string>
     <string name="car_create_manufacturer_hint">Vehicle manufacturer</string>
+    <string name="car_create_manufacturer_error">Manufacturer is empty</string>
     <string name="car_create_type_hint">Vehicle type</string>
-    <string name="car_create_picture_fail">Can not add vehicle picture</string>
+    <string name="car_create_picture_fail">Picture not added</string>
+    <string name="car_create_validation_error">Enter vehicle name and manufacturer</string>
+
 
 
     <string name="vehicle_type_sedan">Sedan</string>

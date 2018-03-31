@@ -22,6 +22,7 @@ import permissions.dispatcher.RuntimePermissions
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditCarBinding
 import sk.momosi.carific.model.VehicleType
+import sk.momosi.carific.util.data.SnackbarMessage
 import java.io.File
 
 @RuntimePermissions
@@ -48,6 +49,8 @@ class AddEditCarActivity : AppCompatActivity() {
         setupCarTypeSpinner()
 
         setupPicture()
+
+        setupSnackbar()
 
         loadData()
 
@@ -85,6 +88,14 @@ class AddEditCarActivity : AppCompatActivity() {
         })
     }
 
+    private fun setupSnackbar() {
+        viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {
+            override fun onNewMessage(snackbarMessageResourceId: Int) {
+                Snackbar.make(binding.root, snackbarMessageResourceId, Snackbar.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     @NeedsPermission(Manifest.permission.CAMERA)
     fun pickImage() {
         CropImage.startPickImageActivity(this)
@@ -110,7 +121,7 @@ class AddEditCarActivity : AppCompatActivity() {
             CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> cropImageWithPermissionCheck(CropImage.getPickImageResultUri(this, data))
-                    else -> Snackbar.make(findViewById(android.R.id.content), R.string.car_create_picture_fail, Snackbar.LENGTH_SHORT).show()
+                    else -> Snackbar.make(binding.root, R.string.car_create_picture_fail, Snackbar.LENGTH_SHORT).show()
                 }
             }
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
@@ -119,7 +130,7 @@ class AddEditCarActivity : AppCompatActivity() {
                         viewModel.picturePath.set(CropImage.getActivityResult(data).uri.path)
                     }
                     else -> {
-                        Snackbar.make(findViewById(android.R.id.content), R.string.car_create_picture_fail, Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, R.string.car_create_picture_fail, Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
