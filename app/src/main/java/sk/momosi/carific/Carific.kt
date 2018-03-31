@@ -1,6 +1,7 @@
 package sk.momosi.carific
 
 import android.app.Application
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.leakcanary.LeakCanary
 
 /**
@@ -19,5 +20,7 @@ class Carific: Application() {
         }
 
         LeakCanary.install(this)
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 }
