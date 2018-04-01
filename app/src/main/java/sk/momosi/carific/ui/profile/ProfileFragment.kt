@@ -1,7 +1,6 @@
 package sk.momosi.carific.ui.profile
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -20,7 +19,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentProfileBinding
-import sk.momosi.carific.ui.car.AddEditCarActivity
+import sk.momosi.carific.ui.car.CarListActivity
 import sk.momosi.carific.util.extensions.requestLogin
 
 class ProfileFragment : Fragment() {
@@ -37,17 +36,14 @@ class ProfileFragment : Fragment() {
     }
 
     lateinit var binding: FragmentProfileBinding
-    lateinit var viewModel: ProfileFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ProfileFragmentViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.viewmodel = viewModel
         binding.setLifecycleOwner(this)
         return binding.root
     }
@@ -56,7 +52,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         profile_sign_out.setOnClickListener { signOut() }
 
-        profile_car_edit.setOnClickListener { updateCar() }
+        profile_manage_cars.setOnClickListener { manageCars() }
 
         profile_scroller.isNestedScrollingEnabled = false
 
@@ -64,22 +60,10 @@ class ProfileFragment : Fragment() {
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
 
         updateUI(firebaseAuth.currentUser)
-
-        viewModel.start(arguments?.getString(ARGUMENT_CAR_ID)
-                ?: throw IllegalArgumentException("Car id argument missing"))
-
     }
 
-    private fun createCar() {
-        startActivity(Intent(activity, AddEditCarActivity::class.java))
-    }
-
-    private fun updateCar() {
-        val intent = Intent(activity, AddEditCarActivity::class.java)
-        intent.putExtra(AddEditCarActivity.ARG_CAR_ID,
-                arguments?.getString(ARGUMENT_CAR_ID)
-                        ?: throw IllegalArgumentException("Car id argument missing"))
-        startActivity(intent)
+    private fun manageCars() {
+        startActivity(Intent(context, CarListActivity::class.java))
     }
 
     private fun signOut() {
@@ -97,17 +81,11 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-
-        private const val ARGUMENT_CAR_ID = "car_id"
         private val TAG = ProfileFragment::class.java.simpleName
 
         @JvmStatic
-        fun newInstance(param1: String) =
-                ProfileFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARGUMENT_CAR_ID, param1)
-                    }
-                }
+        fun newInstance() =
+                ProfileFragment()
     }
 
 }

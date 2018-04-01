@@ -18,6 +18,7 @@
 
     <string name="car_create">Add car</string>
     <string name="car_edit">Edit car</string>
+    <string name="car_manage">Manage cars</string>
     <string name="car_create_name_hint">Vehicle name</string>
     <string name="car_create_name_error">Name is empty</string>
     <string name="car_create_manufacturer_hint">Vehicle manufacturer</string>
@@ -27,7 +28,8 @@
     <string name="car_create_validation_error">Enter vehicle name and manufacturer</string>
     <string name="car_create_error">Can not create vehicle</string>
 
-
+    <string name="car_list_empty">No cars</string>
+    <string name="car_list_error_loading">Can not load cars</string>
 
     <string name="vehicle_type_sedan">Sedan</string>
     <string name="vehicle_type_hatchback">Hatchback</string>
@@ -38,4 +40,5 @@
     <string name="vehicle_type_suv">SUV</string>
     <string name="vehicle_type_coupe">Coupe</string>
     <string name="vehicle_type_sport">Sport</string>
+    <string name="title_activity_car_list">CarListActivity</string>
 </resources>
