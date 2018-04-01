@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.list
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Car
-import sk.momosi.carific.model.Expense
 import sk.momosi.carific.util.data.SingleLiveEvent
 
 /**
@@ -40,8 +39,10 @@ class CarListViewModel : ViewModel() {
                             dataSnapshot.children.forEach {
                                 list.add(Car.fromMap(it.key, it.value as Map<String, Any>))
                             }
-                            cars.postValue(list)
                         }
+
+                        cars.postValue(list)
+
                         isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)
                     }

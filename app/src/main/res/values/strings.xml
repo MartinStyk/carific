@@ -2,6 +2,8 @@
     <string name="app_name">Carific</string>
 
     <string name="action_settings">Settings</string>
+    <string name="dismiss">Dismiss</string>
+
     <string name="navigation_fuel">Fuel</string>
     <string name="navigation_expenses">Expenses</string>
     <string name="navigation_statistics">Statistics</string>
@@ -18,6 +20,7 @@
 
     <string name="car_create">Add car</string>
     <string name="car_edit">Edit car</string>
+    <string name="car_delete">Delete</string>
     <string name="car_manage">Manage cars</string>
     <string name="car_create_name_hint">Vehicle name</string>
     <string name="car_create_name_error">Name is empty</string>
@@ -27,6 +30,8 @@
     <string name="car_create_picture_fail">Picture not added</string>
     <string name="car_create_validation_error">Enter vehicle name and manufacturer</string>
     <string name="car_create_error">Can not create vehicle</string>
+    <string name="car_delete_dialog_title">Delete vehicle</string>
+    <string name="car_delete_dialog_message">Do you really want to delete this vehicle and all its data?</string>
 
     <string name="car_list_empty">No cars</string>
     <string name="car_list_error_loading">Can not load cars</string>

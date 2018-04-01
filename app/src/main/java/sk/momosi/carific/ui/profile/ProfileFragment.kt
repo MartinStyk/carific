@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentProfileBinding
-import sk.momosi.carific.ui.car.CarListActivity
+import sk.momosi.carific.ui.car.list.CarListActivity
 import sk.momosi.carific.util.extensions.requestLogin
 
 class ProfileFragment : Fragment() {

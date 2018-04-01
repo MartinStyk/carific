@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_car_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityCarListBinding
+import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 
 class CarListActivity : AppCompatActivity() {
 
@@ -35,6 +36,7 @@ class CarListActivity : AppCompatActivity() {
         setupListItemClicks()
 
         viewModel.loadData()
+
     }
 
     private fun setupAddButton() {

@@ -29,16 +29,16 @@
             android:name=".ui.login.LoginActivity"
             android:label="@string/sign_in" />
         <activity
-            android:name=".ui.car.AddEditCarActivity"
+            android:name=".ui.car.edit.AddEditCarActivity"
             android:label="@string/car_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".ui.car.CarListActivity"
+            android:name=".ui.car.list.CarListActivity"
             android:label="@string/title_activity_car_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

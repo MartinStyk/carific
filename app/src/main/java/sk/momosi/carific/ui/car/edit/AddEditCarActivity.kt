@@ -1,9 +1,10 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.edit
 
 import android.Manifest
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.Observable
@@ -11,7 +12,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -22,6 +26,7 @@ import permissions.dispatcher.RuntimePermissions
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditCarBinding
 import sk.momosi.carific.model.VehicleType
+import sk.momosi.carific.ui.car.CarTypeSpinnerAdapter
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.io.File
 
@@ -36,11 +41,12 @@ class AddEditCarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit_car)
-        setSupportActionBar(toolbar)
 
         viewModel = ViewModelProviders.of(this).get(AddEditCarViewModel::class.java)
 
         binding.viewmodel = viewModel
+
+        setSupportActionBar(toolbar)
 
         setupNavigation()
 
@@ -116,6 +122,20 @@ class AddEditCarActivity : AppCompatActivity() {
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
+    private fun removeCar() {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.car_delete_dialog_title)
+                .setMessage(R.string.car_delete_dialog_message)
+                .setIcon(R.drawable.ic_tow)
+                .setPositiveButton(R.string.car_delete, { _: DialogInterface, _: Int ->
+                    viewModel.removeCar()
+                })
+                .setNegativeButton(R.string.dismiss, { _: DialogInterface, _: Int ->
+                })
+                .create()
+                .show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE -> {
@@ -134,6 +154,26 @@ class AddEditCarActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        return if (intent?.extras?.getString(ARG_CAR_ID) != null) {
+            menuInflater.inflate(R.menu.menu_add_edit_car, menu)
+            return true
+        } else {
+            super.onCreateOptionsMenu(menu)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.action_remove -> {
+                removeCar()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

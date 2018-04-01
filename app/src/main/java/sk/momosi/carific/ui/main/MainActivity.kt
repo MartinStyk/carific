@@ -13,8 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityMainBinding
-import sk.momosi.carific.ui.car.AddEditCarActivity
+import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific.ui.expense.ExpenseListFragment
+import sk.momosi.carific.ui.login.LoginActivity
 import sk.momosi.carific.ui.profile.ProfileFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         setupCarActions()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.load()
     }
 

@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

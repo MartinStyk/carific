@@ -1,9 +1,8 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.list
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import sk.momosi.carific.model.Car
-import sk.momosi.carific.model.Expense
 
 /**
  * @author Martin Styk

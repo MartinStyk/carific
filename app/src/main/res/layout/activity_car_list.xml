@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.car.CarListViewModel" />
+            type="sk.momosi.carific.ui.car.list.CarListViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.car.CarListActivity">
+        tools:context=".ui.car.list.CarListActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".ui.car.CarListActivity"
+            tools:context=".ui.car.list.CarListActivity"
             tools:showIn="@layout/activity_car_list">
 
             <RelativeLayout
@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:fadeScrollbars="true"
                     android:scrollbars="vertical"
-                    android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.isLoading || viewModel.isEmpty ? View.GONE : View.VISIBLE}"
                     app:cars="@{viewModel.cars}"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     tools:listitem="@layout/list_item_car" />

@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.edit
 
 import android.databinding.BindingAdapter
 import android.databinding.Observable

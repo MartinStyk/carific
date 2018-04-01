@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.car
+package sk.momosi.carific.ui.car.edit
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -36,13 +36,13 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     val isLoading = ObservableBoolean(false)
 
+    val isCreateNew = ObservableBoolean(false)
+
     val taskFished = SingleLiveEvent<Car>()
 
     val selectPicture = SingleLiveEvent<String>()
 
     val snackbarMessage = SnackbarMessage()
-
-    private var isNewCar: Boolean = false
 
     private var isLoaded: Boolean = false
 
@@ -71,11 +71,11 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
         if (carId == null) {
             // No need to populate, it's a new car
-            isNewCar = true
+            isCreateNew.set(true)
             return
         }
 
-        isNewCar = false
+        isCreateNew.set(false)
         isLoading.set(true)
 
         //TODO load car and call onDataLoaded, with retrieved car
@@ -115,7 +115,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         }
 
         var car = Car("", name.get()!!, manufacturer.get()!!, type.get()!!, picturePath.get())
-        if (isNewCar || carId == null) {
+        if (isCreateNew.get() || carId == null) {
             createCar(car)
         } else {
             updateCar(car)
@@ -138,7 +138,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
     private fun updateCar(car: Car) {
         Log.d(TAG, "Updating car " + car)
 
-        if (isNewCar) {
+        if (isCreateNew.get()) {
             throw RuntimeException("updateCar() was called but car is new.")
         }
 
@@ -151,5 +151,19 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     companion object {
         val TAG = AddEditCarViewModel::class.java.simpleName
+    }
+
+    fun removeCar(){
+        Log.d(TAG, "Removing car " + carId)
+
+        if (isCreateNew.get()) {
+            throw RuntimeException("removeCar() was called but car is new.")
+        }
+
+        FirebaseDatabase.getInstance()
+                .getReference("user/${FirebaseAuth.getInstance().currentUser?.uid}/cars/$carId")
+                .removeValue()
+
+        taskFished.call()
     }
 }
