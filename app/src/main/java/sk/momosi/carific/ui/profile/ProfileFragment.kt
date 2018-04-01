@@ -3,6 +3,7 @@ package sk.momosi.carific.ui.profile
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
@@ -10,7 +11,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,9 +19,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
+import sk.momosi.carific.databinding.FragmentProfileBinding
 import sk.momosi.carific.ui.car.AddEditCarActivity
-import sk.momosi.carific.ui.expense.ExpenseListFragment
-import sk.momosi.carific.ui.expense.ExpensesViewModel
 import sk.momosi.carific.util.extensions.requestLogin
 
 class ProfileFragment : Fragment() {
@@ -37,17 +36,26 @@ class ProfileFragment : Fragment() {
                         .build())
     }
 
+    lateinit var binding: FragmentProfileBinding
+    lateinit var viewModel: ProfileFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(ProfileFragmentViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        binding.viewmodel = viewModel
+        binding.setLifecycleOwner(this)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profile_sign_out.setOnClickListener { signOut() }
 
-        //TODO temporary way to test create/update car
-        profile_car_add.setOnClickListener { createCar() }
         profile_car_edit.setOnClickListener { updateCar() }
 
         profile_scroller.isNestedScrollingEnabled = false
@@ -56,6 +64,10 @@ class ProfileFragment : Fragment() {
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
 
         updateUI(firebaseAuth.currentUser)
+
+        viewModel.start(arguments?.getString(ARGUMENT_CAR_ID)
+                ?: throw IllegalArgumentException("Car id argument missing"))
+
     }
 
     private fun createCar() {
@@ -65,7 +77,8 @@ class ProfileFragment : Fragment() {
     private fun updateCar() {
         val intent = Intent(activity, AddEditCarActivity::class.java)
         intent.putExtra(AddEditCarActivity.ARG_CAR_ID,
-                arguments?.getString(ARGUMENT_CAR_ID) ?: throw IllegalArgumentException("Car id argument missing"))
+                arguments?.getString(ARGUMENT_CAR_ID)
+                        ?: throw IllegalArgumentException("Car id argument missing"))
         startActivity(intent)
     }
 
