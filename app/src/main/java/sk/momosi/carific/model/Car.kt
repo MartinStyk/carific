@@ -17,6 +17,24 @@ data class Car(
         val type: VehicleType,
         val picturePath: String?
 //        val mileage: Long?,
-) : Parcelable
+) : Parcelable {
+
+    fun toMap(): Map<String, Any> = mapOf(
+            Pair("name", name),
+            Pair("manufacturer", manufacturer),
+            Pair("type", type.name),
+            Pair("picturePath", picturePath ?: "")
+    )
+
+    companion object {
+        fun fromMap(id: String, map: Map<String, Any>) = Car(
+                id = id,
+                name = map["name"] as String,
+                manufacturer = map["manufacturer"] as String,
+                type = VehicleType.valueOf(map["type"] as String),
+                picturePath = map["picturePath"] as String
+        )
+    }
+}
 
 

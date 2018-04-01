@@ -14,8 +14,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_login.*
 import sk.momosi.carific.R
+import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.main.MainActivity
 import sk.momosi.carific.util.ConnectivityUtils
 
@@ -77,7 +82,27 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
-                        startMainActivity()
+
+                        FirebaseDatabase.getInstance().getReference("user/${firebaseAuth.currentUser?.uid}")
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        if (!dataSnapshot.exists()) {
+                                            FirebaseDatabase.getInstance().getReference("user")
+                                                    .child(firebaseAuth.currentUser?.uid)
+                                                    .setValue(User(firebaseAuth.currentUser?.uid
+                                                            ?: ""))
+                                                    .addOnSuccessListener {
+                                                        startMainActivity()
+                                                    }
+                                        } else {
+                                            startMainActivity()
+                                        }
+                                    }
+
+                                    override fun onCancelled(p0: DatabaseError?) = Unit
+                                }
+                                )
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException())

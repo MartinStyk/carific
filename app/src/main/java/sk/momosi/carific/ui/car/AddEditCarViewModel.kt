@@ -6,6 +6,11 @@ import android.databinding.Observable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.R
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.VehicleType
@@ -74,8 +79,19 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         isLoading.set(true)
 
         //TODO load car and call onDataLoaded, with retrieved car
-        //temporary debug with sample car
-        onExistingCarLoaded(Car("id", "name", "manufacturer", VehicleType.MOTOCYCLE, "/data/dsaduser/0/sk.momosi.carific/files/1522439720639.jpg"))
+        FirebaseDatabase.getInstance()
+                .getReference("user/${FirebaseAuth.getInstance().currentUser?.uid}/cars/$carId")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            onExistingCarLoaded(
+                                    Car.fromMap(carId, dataSnapshot.getValue() as Map<String, Any>)
+                            )
+                        }
+                    }
+
+                    override fun onCancelled(p0: DatabaseError?) = Unit
+                })
     }
 
     fun onExistingCarLoaded(existingCar: Car) {
@@ -110,7 +126,11 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     private fun createCar(newCar: Car) {
         Log.d(TAG, "Creating car " + newCar)
-        // TODO save in DB
+
+        FirebaseDatabase.getInstance()
+                .getReference("user/${FirebaseAuth.getInstance().currentUser?.uid}/cars")
+                .push()
+                .setValue(newCar.toMap())
 
         taskFished.value = newCar
     }
@@ -121,7 +141,10 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         if (isNewCar) {
             throw RuntimeException("updateCar() was called but car is new.")
         }
-        // TODO update in DB
+
+        FirebaseDatabase.getInstance()
+                .getReference("user/${FirebaseAuth.getInstance().currentUser?.uid}/cars")
+                .updateChildren(mapOf(Pair("$carId", car.toMap())))
 
         taskFished.value = car
     }

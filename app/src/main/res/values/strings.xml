@@ -25,6 +25,7 @@
     <string name="car_create_type_hint">Vehicle type</string>
     <string name="car_create_picture_fail">Picture not added</string>
     <string name="car_create_validation_error">Enter vehicle name and manufacturer</string>
+    <string name="car_create_error">Can not create vehicle</string>
 
 
 

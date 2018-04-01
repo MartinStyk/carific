@@ -1,6 +1,7 @@
 package sk.momosi.carific.ui.profile
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -18,6 +20,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
 import sk.momosi.carific.ui.car.AddEditCarActivity
+import sk.momosi.carific.ui.expense.ExpenseListFragment
+import sk.momosi.carific.ui.expense.ExpensesViewModel
 import sk.momosi.carific.util.extensions.requestLogin
 
 class ProfileFragment : Fragment() {
@@ -60,7 +64,8 @@ class ProfileFragment : Fragment() {
 
     private fun updateCar() {
         val intent = Intent(activity, AddEditCarActivity::class.java)
-        intent.putExtra(AddEditCarActivity.ARG_CAR_ID, "TODOcarID")
+        intent.putExtra(AddEditCarActivity.ARG_CAR_ID,
+                arguments?.getString(ARGUMENT_CAR_ID) ?: throw IllegalArgumentException("Car id argument missing"))
         startActivity(intent)
     }
 
@@ -76,6 +81,20 @@ class ProfileFragment : Fragment() {
                 .load(user?.photoUrl)
                 .placeholder(R.drawable.ic_account_circle_100dp)
                 .into(login_user_image)
+    }
+
+    companion object {
+
+        private const val ARGUMENT_CAR_ID = "car_id"
+        private val TAG = ProfileFragment::class.java.simpleName
+
+        @JvmStatic
+        fun newInstance(param1: String) =
+                ProfileFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARGUMENT_CAR_ID, param1)
+                    }
+                }
     }
 
 }
