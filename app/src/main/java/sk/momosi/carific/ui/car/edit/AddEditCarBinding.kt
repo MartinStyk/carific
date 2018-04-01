@@ -28,7 +28,7 @@ object AddEditCarBinding {
         if (file.exists()) {
             Picasso.get()
                     .load(file)
-                    .placeholder(R.drawable.ic_account_circle_100dp)
+                    .error((R.drawable.ic_add_a_photo))
                     .into(imageView)
         }
     }

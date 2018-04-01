@@ -15,21 +15,39 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.car.edit.AddEditCarActivity">
+        android:fitsSystemWindows="true"
+        tools:context="sk.momosi.carific.ui.car.edit.AddEditCarActivity">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/app_bar_height"
+            android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@{viewmodel.isCreateNew ? @string/car_create :  @string/car_edit }" />
+                android:layout_height="match_parent">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_a_photo"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewmodel.imageClicked()}"
+                    app:vehicle_picture="@{viewmodel.picturePath}"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:title="@{viewmodel.isCreateNew ? @string/car_create :  @string/car_edit }" />
+            </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -46,10 +64,10 @@
                     <ProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:animateLayoutChanges="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
+                        android:animateLayoutChanges="true"
                         android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}"
                         tools:visibility="visible" />
 
@@ -60,18 +78,6 @@
                         android:animateLayoutChanges="true"
                         android:orientation="vertical"
                         android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/car_create_picture"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/space_basic"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:onClick="@{() -> viewmodel.imageClicked()}"
-                            android:src="@drawable/ic_account_circle_100dp"
-                            app:vehicle_picture="@{viewmodel.picturePath}" />
 
                         <!-- Name-->
                         <android.support.design.widget.TextInputLayout
