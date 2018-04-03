@@ -28,7 +28,6 @@ object MainBinding {
         if (file.exists()) {
             Picasso.get()
                     .load(file)
-                    .placeholder(R.drawable.placeholder)
                     .into(imageView)
         }
     }
