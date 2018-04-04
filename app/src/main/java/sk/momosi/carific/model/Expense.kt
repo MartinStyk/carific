@@ -23,14 +23,14 @@ data class Expense(
     fun toMap(): Map<String, Any> = mapOf(
             Pair("price", price.toString()),
             Pair("date", date.time),
-            Pair("info", info)
+            Pair("note", info)
     )
 
     companion object {
         fun fromMap(map: Map<String, Any>) = Expense(
                 price = BigDecimal(map.get("price") as String),
                 date = Date(map["date"] as Long),
-                info = map["info"] as String
+                info = map["note"] as String
         )
     }
 

@@ -2,20 +2,22 @@ package sk.momosi.carific.ui.fuel.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_expense_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentFuelListBinding
+import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 
 
 class FuelListFragment : Fragment() {
@@ -29,10 +31,7 @@ class FuelListFragment : Fragment() {
         carId = arguments?.getString(ARGUMENT_CAR_ID) ?: throw IllegalArgumentException("Car id argument missing")
         viewModel = ViewModelProviders.of(this).get(FuelListViewModel::class.java)
 
-        viewModel.refuelClickEvent.observe(this, Observer {
-            Toast.makeText(activity, it.toString(), Toast.LENGTH_LONG).show()
-        })
-
+        setupListItemClicks()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +51,33 @@ class FuelListFragment : Fragment() {
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
 
         viewModel.loadData(carId)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setupAddButton()
+    }
+
+    private fun setupAddButton() {
+        val addBtn = activity?.findViewById<FloatingActionButton>(R.id.fab)
+
+        addBtn?.setOnClickListener{
+            val createIntent = Intent(context, AddEditFuelActivity::class.java)
+            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, carId)
+
+            startActivity(createIntent)
+        }
+    }
+
+    private fun setupListItemClicks() {
+        viewModel.refuelClickEvent.observe(this, Observer { refueling ->
+            val editIntent = Intent(context, AddEditFuelActivity::class.java)
+            editIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, carId)
+            editIntent.putExtra(AddEditFuelActivity.ARG_REFUELING, refueling)
+
+            startActivity(editIntent)
+        })
     }
 
     companion object {

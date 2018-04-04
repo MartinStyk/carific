@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="sk.momosi.carific.ui.fuel.edit.AddEditFuelViewModel" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context="sk.momosi.carific.ui.fuel.edit.AddEditfuelActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="@{viewmodel.isCreateNew ? @string/refueling_create :  @string/refueling_edit }" />
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.CardView style="@style/BasicCard">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:animateLayoutChanges="true"
+                        android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}"
+                        tools:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical"
+                        android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
+
+                        <!-- Distance -->
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/refueling_create_distance_from_last_error}"
+                            app:isValid="@{viewmodel.isDistanceFromLastValid}">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/refueling_create_distance_from_last_hint"
+                                android:inputType="number"
+                                android:text="@={viewmodel.distanceFromLast}" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <!-- Volume -->
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/refueling_create_fuel_volume_error}"
+                            app:isValid="@{viewmodel.isVolumeValid()}">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/refueling_create_fuel_volume_hint"
+                                android:inputType="numberDecimal"                                android:maxLines="1"
+                                android:text="@={viewmodel.volume}" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <!-- Price total -->
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/refueling_create_price_total_error}"
+                            app:isValid="@{viewmodel.isPriceTotalValid}">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/refueling_create_price_total_hint"
+                                android:inputType="numberDecimal"                                android:maxLines="1"
+                                android:text="@={viewmodel.priceTotal}" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <!-- Date -->
+
+                        <!-- Full tank -->
+
+                        <!-- Note -->
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutWithValidations">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/refueling_create_note_hint"
+                                android:inputType="text"
+                                android:text="@={viewmodel.note}" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/refueling_add_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_done" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

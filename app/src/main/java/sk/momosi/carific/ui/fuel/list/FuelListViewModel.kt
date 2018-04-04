@@ -4,15 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.util.data.SingleLiveEvent
-import java.math.BigDecimal
-import java.util.*
 
 /**
  * @author Martin Styk
@@ -30,7 +27,7 @@ class FuelListViewModel : ViewModel() {
 
     val refuelClickEvent = SingleLiveEvent<Refueling>()
 
-    fun loadData(carId : String): LiveData<List<Refueling>> {
+    fun loadData(carId: String): LiveData<List<Refueling>> {
 
         FirebaseDatabase.getInstance()
                 .getReference("fuel/$carId")
@@ -41,7 +38,7 @@ class FuelListViewModel : ViewModel() {
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Refueling.fromMap(it.getValue() as Map<String, Any>))
+                                list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any>))
                             }
                             refuelings.postValue(list)
                         }

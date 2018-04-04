@@ -3,6 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="dismiss">Dismiss</string>
+    <string name="delete">Delete</string>
 
     <string name="navigation_fuel">Fuel</string>
     <string name="navigation_expenses">Expenses</string>
@@ -20,6 +21,22 @@
 
     <string name="fuel_list_empty">No refuelings</string>
     <string name="fuel_list_error_loading">Can not load refuelings</string>
+
+    <string name="refueling_create">Create refueling</string>
+    <string name="refueling_edit">Edit refueling</string>
+
+    <string name="refueling_create_distance_from_last_hint">Distance from last refueling</string>
+    <string name="refueling_create_distance_from_last_error">Distance needs to be positive number</string>
+    <string name="refueling_create_fuel_volume_hint">Fuel volume</string>
+    <string name="refueling_create_fuel_volume_error">Fuel volume is incorrect</string>
+    <string name="refueling_create_price_total_hint">Total price</string>
+    <string name="refueling_create_price_total_error">Total price is incorrect</string>
+    <string name="refueling_create_note_hint">Note</string>
+    <string name="refueling_create_validation_error">Enter all required attributes</string>
+
+
+    <string name="refueling_delete_dialog_title">Delete refueling</string>
+    <string name="refueling_delete_dialog_message">Do you really want to delete this refueling?</string>
 
     <string name="car_create">Add car</string>
     <string name="car_edit">Edit car</string>
