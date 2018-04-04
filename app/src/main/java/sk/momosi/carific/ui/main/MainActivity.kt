@@ -15,6 +15,7 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityMainBinding
 import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific.ui.expense.ExpenseListFragment
+import sk.momosi.carific.ui.fuel.list.FuelListFragment
 import sk.momosi.carific.ui.login.LoginActivity
 import sk.momosi.carific.ui.profile.ProfileFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val fragment = when (item.itemId) {
-            R.id.navigation_fuel -> ProfileFragment.newInstance()
+            R.id.navigation_fuel -> FuelListFragment.newInstance(viewModel.carLocal.id)
             R.id.navigation_expenses -> ExpenseListFragment.newInstance(viewModel.carLocal.id)
             R.id.navigation_statistics -> ProfileFragment.newInstance()
             R.id.navigation_achievements -> ProfileFragment.newInstance()

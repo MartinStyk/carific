@@ -18,6 +18,9 @@
     <string name="expense_list_error_loading">Can not load expenses</string>
 
 
+    <string name="fuel_list_empty">No refuelings</string>
+    <string name="fuel_list_error_loading">Can not load refuelings</string>
+
     <string name="car_create">Add car</string>
     <string name="car_edit">Edit car</string>
     <string name="car_delete">Delete</string>
