@@ -18,6 +18,9 @@
 
     <dimen name="spinner_height">38dp</dimen>
 
+    <dimen name="text_input_unit_top_margin">20dp</dimen>
+
+
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 </resources>

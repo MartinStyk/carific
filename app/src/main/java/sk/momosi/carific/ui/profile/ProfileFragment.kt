@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +16,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import com.mynameismidori.currencypicker.CurrencyPicker
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentProfileBinding
 import sk.momosi.carific.ui.car.list.CarListActivity
 import sk.momosi.carific.util.extensions.requestLogin
+
 
 class ProfileFragment : Fragment() {
 
@@ -54,12 +58,35 @@ class ProfileFragment : Fragment() {
 
         profile_manage_cars.setOnClickListener { manageCars() }
 
+        profile_currency.setOnClickListener { selectCurrency() }
+
         profile_scroller.isNestedScrollingEnabled = false
 
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_profile)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
 
         updateUI(firebaseAuth.currentUser)
+    }
+
+    private fun selectCurrency() {
+        val picker = CurrencyPicker.newInstance(getString(R.string.profile_currency_select))
+        picker.setListener { name, code, symbol, flagDrawableResID ->
+            // TODO use viewmodel
+            FirebaseDatabase.getInstance()
+                    .getReference("user/${firebaseAuth.currentUser?.uid}")
+                    .updateChildren(
+                            mapOf(
+                                    Pair("currencySymbol", symbol),
+                                    Pair("currencyCode", code)
+                            )
+                    )
+
+            Snackbar.make(requireActivity().findViewById<View>(android.R.id.content),
+                    getString(R.string.profile_currency_selected, name),
+                    Snackbar.LENGTH_SHORT).show()
+            picker.dismiss()
+        }
+        picker.show(requireActivity().supportFragmentManager, CurrencyPicker::class.java.simpleName)
     }
 
     private fun manageCars() {

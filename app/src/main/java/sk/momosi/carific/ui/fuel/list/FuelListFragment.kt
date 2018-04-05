@@ -17,18 +17,17 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_expense_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentFuelListBinding
+import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 
 
 class FuelListFragment : Fragment() {
 
-    private lateinit var carId: String
     private lateinit var viewModel: FuelListViewModel
     private lateinit var binding: FragmentFuelListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        carId = arguments?.getString(ARGUMENT_CAR_ID) ?: throw IllegalArgumentException("Car id argument missing")
         viewModel = ViewModelProviders.of(this).get(FuelListViewModel::class.java)
 
         setupListItemClicks()
@@ -50,7 +49,14 @@ class FuelListFragment : Fragment() {
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_fuel)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
 
-        viewModel.loadData(carId)
+        viewModel.init(arguments?.getString(ARGUMENT_CAR_ID)
+                ?: throw IllegalArgumentException("Car id argument missing"),
+                arguments?.getParcelable<User>(ARGUMENT_USER)
+                        ?: throw IllegalArgumentException("User argument missing")
+        )
+
+        viewModel.loadData(arguments?.getString(ARGUMENT_CAR_ID)
+                ?: throw IllegalArgumentException("Car id argument missing"))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -62,9 +68,10 @@ class FuelListFragment : Fragment() {
     private fun setupAddButton() {
         val addBtn = activity?.findViewById<FloatingActionButton>(R.id.fab)
 
-        addBtn?.setOnClickListener{
+        addBtn?.setOnClickListener {
             val createIntent = Intent(context, AddEditFuelActivity::class.java)
-            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, carId)
+            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
+            createIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
 
             startActivity(createIntent)
         }
@@ -73,8 +80,9 @@ class FuelListFragment : Fragment() {
     private fun setupListItemClicks() {
         viewModel.refuelClickEvent.observe(this, Observer { refueling ->
             val editIntent = Intent(context, AddEditFuelActivity::class.java)
-            editIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, carId)
+            editIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
             editIntent.putExtra(AddEditFuelActivity.ARG_REFUELING, refueling)
+            editIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
 
             startActivity(editIntent)
         })
@@ -83,13 +91,15 @@ class FuelListFragment : Fragment() {
     companion object {
 
         private const val ARGUMENT_CAR_ID = "car_id"
+        private const val ARGUMENT_USER = "user"
         private val TAG = FuelListFragment::class.java.simpleName
 
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(carId: String, user: User) =
                 FuelListFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARGUMENT_CAR_ID, param1)
+                        putString(ARGUMENT_CAR_ID, carId)
+                        putParcelable(ARGUMENT_USER, user)
                     }
                 }
     }

@@ -65,6 +65,17 @@
 
             <android.support.v7.widget.CardView style="@style/BasicCard">
 
+                <Button
+                    android:id="@+id/profile_currency"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_currency" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView style="@style/BasicCard">
+
                     <Button
                         android:id="@+id/profile_sign_out"
                         style="@style/Widget.AppCompat.Button.Borderless"

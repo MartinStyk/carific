@@ -20,34 +20,38 @@ data class Refueling(
         val priceTotal: BigDecimal,
         val isFull: Boolean,
         val date: Date,
-        val note: String = ""
+        val note: String = "",
+        val consumption: BigDecimal? = null
 ) : Parcelable, Comparable<Refueling> {
 
-    override fun compareTo(other: Refueling) = date.compareTo(other.date)
+    override fun compareTo(other: Refueling) = date.compareTo(other.date).inv()
 
-    fun toMap(): Map<String, Any> = mapOf(
-            Pair("distanceFromLast", distanceFromLast),
-            Pair("volume", volume.toString()),
-            Pair("pricePerLitre", pricePerLitre.toString()),
-            Pair("priceTotal", priceTotal.toString()),
-            Pair("isFull", isFull),
-            Pair("date", date.time),
-            Pair("note", note)
-    )
+    fun toMap(): Map<String, Any?> = mapOf(
+                Pair("distanceFromLast", distanceFromLast),
+                Pair("volume", volume.toString()),
+                Pair("pricePerLitre", pricePerLitre.toString()),
+                Pair("priceTotal", priceTotal.toString()),
+                Pair("isFull", isFull),
+                Pair("date", date.time),
+                Pair("note", if(note.isNullOrBlank()) null else note),
+                Pair("consumption", consumption?.toString())
+        )
 
     companion object {
-        fun fromMap(id: String, map: Map<String, Any>) = Refueling(
+        fun fromMap(id: String, map: Map<String, Any?>) = Refueling(
                 id = id,
                 distanceFromLast = (map["distanceFromLast"] as Long).toInt(),
-                volume = BigDecimal(map.get("volume") as String),
-                pricePerLitre = BigDecimal(map.get("pricePerLitre") as String),
-                priceTotal = BigDecimal(map.get("priceTotal") as String),
-                isFull = map.get("isFull") as Boolean,
+                volume = BigDecimal(map["volume"] as String),
+                pricePerLitre = BigDecimal(map["pricePerLitre"] as String),
+                priceTotal = BigDecimal(map["priceTotal"] as String),
+                isFull = map["isFull"] as Boolean,
                 date = Date(map["date"] as Long),
-                note = map["note"] as String
+                note = if (map["note"] == null) "" else map["note"] as String,
+                consumption = if (map["consumption"] == null) null else BigDecimal(map["consumption"] as String)
         )
     }
 
 }
+
 
 

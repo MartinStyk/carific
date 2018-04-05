@@ -21,6 +21,8 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     val user: MutableLiveData<User> = MutableLiveData()
 
+    lateinit var userLocal: User
+
     val car: MutableLiveData<Car?> = MutableLiveData()
 
     lateinit var carLocal: Car
@@ -63,11 +65,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private fun loadUser() {
         FirebaseDatabase.getInstance()
                 .getReference("user/${firebaseAuth.currentUser?.uid}")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            user.postValue(User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>))
+                            userLocal = User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+                            user.postValue(userLocal)
                         }
                     }
 

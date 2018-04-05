@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Refueling
+import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SingleLiveEvent
 
 /**
@@ -27,6 +28,16 @@ class FuelListViewModel : ViewModel() {
 
     val refuelClickEvent = SingleLiveEvent<Refueling>()
 
+    lateinit var user: User
+
+    lateinit var carId: String
+
+    fun init(carId: String, user: User){
+        this.user = user
+
+        this.carId = carId
+    }
+
     fun loadData(carId: String): LiveData<List<Refueling>> {
 
         FirebaseDatabase.getInstance()
@@ -38,9 +49,9 @@ class FuelListViewModel : ViewModel() {
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any>))
+                                list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
                             }
-                            refuelings.postValue(list)
+                            refuelings.postValue(list.sorted())
                         }
                         isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)

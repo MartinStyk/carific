@@ -15,6 +15,10 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
 
+    <string name="profile_currency">Currency</string>
+    <string name="profile_currency_select">Select currency</string>
+    <string name="profile_currency_selected">Selected currency %s</string>
+
     <string name="expense_list_empty">No expenses</string>
     <string name="expense_list_error_loading">Can not load expenses</string>
 
@@ -24,6 +28,7 @@
 
     <string name="refueling_create">Create refueling</string>
     <string name="refueling_edit">Edit refueling</string>
+    <string name="na">NA</string>
 
     <string name="refueling_create_distance_from_last_hint">Distance from last refueling</string>
     <string name="refueling_create_distance_from_last_error">Distance needs to be positive number</string>
@@ -31,7 +36,11 @@
     <string name="refueling_create_fuel_volume_error">Fuel volume is incorrect</string>
     <string name="refueling_create_price_total_hint">Total price</string>
     <string name="refueling_create_price_total_error">Total price is incorrect</string>
+    <string name="refueling_create_price_per_unit_hint">Price per volume</string>
+    <string name="refueling_create_price_per_unit_error">Price is incorrect</string>
     <string name="refueling_create_note_hint">Note</string>
+    <string name="refueling_create_date_hint">Date</string>
+    <string name="refueling_create_full_tank">Is tank full?</string>
     <string name="refueling_create_validation_error">Enter all required attributes</string>
 
 

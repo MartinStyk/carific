@@ -22,6 +22,18 @@
         <item name="android:layout_margin">@dimen/space_basic</item>
     </style>
 
+    <style name="LinearHorizontal" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="UnitText" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/text_input_unit_top_margin</item>
+    </style>
+
     <style name="BasicCard" parent="CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

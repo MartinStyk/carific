@@ -42,7 +42,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:12.0.1'
     implementation 'com.google.firebase:firebase-database:12.0.1'
 
-    implementation('com.github.hotchemi:permissionsdispatcher:3.1.0')
+    implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
+    implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'

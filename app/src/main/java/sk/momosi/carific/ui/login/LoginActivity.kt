@@ -23,6 +23,7 @@ import sk.momosi.carific.R
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.main.MainActivity
 import sk.momosi.carific.util.ConnectivityUtils
+import java.util.*
 
 @SuppressLint("RestrictedApi")
 class LoginActivity : AppCompatActivity() {
@@ -90,8 +91,13 @@ class LoginActivity : AppCompatActivity() {
                                         if (!dataSnapshot.exists()) {
                                             FirebaseDatabase.getInstance().getReference("user")
                                                     .child(firebaseAuth.currentUser?.uid)
-                                                    .setValue(User(firebaseAuth.currentUser?.uid
-                                                            ?: ""))
+                                                    .setValue(
+                                                            User(
+                                                                    id = firebaseAuth.currentUser?.uid
+                                                                            ?: "",
+                                                                    currencyCode = Currency.getInstance(Locale.getDefault()).currencyCode,
+                                                                    currencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+                                                            ))
                                                     .addOnSuccessListener {
                                                         startMainActivity()
                                                     }

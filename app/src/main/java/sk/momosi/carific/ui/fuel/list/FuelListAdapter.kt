@@ -28,6 +28,8 @@ class FuelListAdapter(var data: List<Refueling> = emptyList(),
             }
         }
 
+        itemBinding.user = viewModel.user
+
         return ViewHolder(itemBinding)
     }
 

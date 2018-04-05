@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val fragment = when (item.itemId) {
-            R.id.navigation_fuel -> FuelListFragment.newInstance(viewModel.carLocal.id)
+            R.id.navigation_fuel -> FuelListFragment.newInstance(viewModel.carLocal.id, viewModel.userLocal)
             R.id.navigation_expenses -> ExpenseListFragment.newInstance(viewModel.carLocal.id)
             R.id.navigation_statistics -> ProfileFragment.newInstance()
             R.id.navigation_achievements -> ProfileFragment.newInstance()

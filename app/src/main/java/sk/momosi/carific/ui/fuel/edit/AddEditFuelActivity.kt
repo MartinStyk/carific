@@ -1,6 +1,7 @@
 package sk.momosi.carific.ui.fuel.edit
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
@@ -11,12 +12,15 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.DatePicker
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_edit_fuel.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific.model.Refueling
+import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SnackbarMessage
+import java.util.*
 
 class AddEditFuelActivity : AppCompatActivity() {
 
@@ -39,6 +43,8 @@ class AddEditFuelActivity : AppCompatActivity() {
 
         setupAddButton()
 
+        setupDatePicker()
+
         setupSnackbar()
 
         loadData()
@@ -51,12 +57,9 @@ class AddEditFuelActivity : AppCompatActivity() {
         finish()
     })
 
-    private fun setupAddButton() = refueling_add_save.setOnClickListener { viewModel.saveRefueling() }
+    private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())
 
-    private fun loadData() = viewModel
-            .start(intent?.extras?.getString(ARG_CAR_ID)
-                    ?: throw IllegalArgumentException("car id is null"),
-                    intent?.extras?.getParcelable(ARG_REFUELING))
+    private fun setupAddButton() = refueling_add_save.setOnClickListener { viewModel.saveRefueling() }
 
     private fun setupSnackbar() {
         viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {
@@ -64,6 +67,20 @@ class AddEditFuelActivity : AppCompatActivity() {
                 Snackbar.make(binding.root, snackbarMessageResourceId, Snackbar.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun setupDatePicker() {
+
+        refueling_add_date_picker.setOnClickListener {
+            DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(datePicker: DatePicker, year: Int, month: Int, day: Int) {
+                    val calendar = Calendar.getInstance()
+                    calendar.set(year, month, day)
+                    viewModel.date.set(calendar.time)
+                }
+            }, viewModel.date.get()!!.year + 1900, viewModel.date.get()!!.month, viewModel.date.get()!!.day).show()
+            // TODO do not use deprecated fields
+        }
     }
 
     private fun removeRefueling() {
@@ -81,7 +98,7 @@ class AddEditFuelActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return if (intent?.extras?.getParcelable<Refueling>(ARG_REFUELING) != null) {
+        return if (getRefueling() != null) {
             menuInflater.inflate(R.menu.menu_add_edit_car, menu)
             return true
         } else {
@@ -100,9 +117,18 @@ class AddEditFuelActivity : AppCompatActivity() {
         }
     }
 
+    private fun getCarId() = intent?.extras?.getString(ARG_CAR_ID)
+            ?: throw IllegalArgumentException("Car id passed to AddEditFuelActivity is null")
+
+    private fun getUser() = intent?.extras?.getParcelable<User>(ARG_USER)
+            ?: throw IllegalArgumentException("User passed to AddEditFuelActivity is null")
+
+    private fun getRefueling() = intent?.extras?.getParcelable<Refueling>(ARG_REFUELING)
+
     companion object {
         const val ARG_CAR_ID = "car_id_edit"
         const val ARG_REFUELING = "refueling_edit"
+        const val ARG_USER = "user"
     }
 
 }

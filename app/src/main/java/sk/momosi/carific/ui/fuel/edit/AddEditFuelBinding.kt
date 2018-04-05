@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatEditText
 import android.widget.TextView
 import java.math.BigDecimal
 import java.text.DecimalFormat
+import java.util.*
 
 
 /**
@@ -18,18 +19,22 @@ object AddEditFuelBinding {
     @BindingAdapter("android:text")
     fun bindIntegerInText(tv: AppCompatEditText, value: Int?) {
 
-        val currentlyDisplayed = try {
-            Integer.valueOf(tv.text.toString())
-        } catch (e: NumberFormatException) {
+        val displayed = if (tv.text.isNullOrBlank()) {
             null
+        } else {
+            Integer.valueOf(tv.text.toString())
         }
-        if (value != null && currentlyDisplayed != value)
+
+        if (value != null && displayed != value)
             tv.setText(value.toString())
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "android:text")
-    fun getIntegerFromBinding(view: TextView): Int {
+    fun getIntegerFromBinding(view: TextView): Int? {
+        if (view.text.isNullOrBlank())
+            return null
+
         return Integer.parseInt(view.text.toString())
     }
 
@@ -38,36 +43,45 @@ object AddEditFuelBinding {
     fun bindBigDecimalInText(tv: AppCompatEditText, value: BigDecimal?) {
         val format = DecimalFormat.getInstance()
 
-        val currentlyDisplayed = try {
-            BigDecimal(tv.text.toString())
-        } catch (e: Exception) {
+        val displayed = if (tv.text.isNullOrBlank()) {
             null
+        } else {
+            BigDecimal(tv.text.toString())
         }
 
-        if (value != null && value != currentlyDisplayed) {
+        if (value != null && value != displayed) {
             tv.setText(format.format(value))
         }
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "android:text")
-    fun getBigDecimalFromBinding(view: TextView): BigDecimal {
-        return if (view.text.isNullOrBlank()) BigDecimal.ZERO else BigDecimal(view.text.toString())
+    fun getBigDecimalFromBinding(view: TextView): BigDecimal? {
+        return if (view.text.isNullOrBlank()) null else BigDecimal(view.text.toString())
     }
 
     @JvmStatic
-    @BindingAdapter("app:price")
-    fun bindPriceInText(tv: TextView, value: BigDecimal?) {
-        if (value != null && tv.text.toString() != value.toString()) {
-            val format = DecimalFormat.getCurrencyInstance()
+    @BindingAdapter("android:text")
+    fun bindBigDecimalInTextView(tv: TextView, value: BigDecimal?) {
+        val format = DecimalFormat.getInstance()
+
+        val displayed = if (tv.text.isNullOrBlank()) {
+            null
+        } else {
+            BigDecimal(tv.text.toString())
+        }
+
+        if (value != null && value != displayed) {
             tv.setText(format.format(value))
         }
     }
 
     @JvmStatic
-    @InverseBindingAdapter(attribute = "app:price")
-    fun getPriceFromBinding(view: TextView): BigDecimal {
-        return if (view.text.isNullOrBlank()) BigDecimal.ZERO else BigDecimal(view.text.toString())
+    @BindingAdapter("android:text")
+    fun bindDateIntoText(tv: AppCompatEditText, value: Date?) {
+        if (value != null) {
+            tv.setText(value.toString())
+        }
     }
 
 }

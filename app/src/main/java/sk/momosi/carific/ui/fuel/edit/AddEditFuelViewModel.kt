@@ -9,6 +9,7 @@ import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import sk.momosi.carific.R
 import sk.momosi.carific.model.Refueling
+import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SingleLiveEvent
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.math.BigDecimal
@@ -37,8 +38,6 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     val date = ObservableField<Date>()
 
     val note = ObservableField<String>()
-    val isNoteValid = ObservableBoolean(false)
-
 
     val isLoading = ObservableBoolean(false)
 
@@ -50,7 +49,9 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
     private var isLoaded: Boolean = false
 
-    private var carId: String? = null
+    lateinit var carId: String
+
+    lateinit var user: User
 
     private var editedRefueling: Refueling? = null
 
@@ -58,38 +59,32 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     init {
         distanceFromLast.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                distanceFromLast.get()?.let { isDistanceFromLastValid.set(it > 0) }
+                isDistanceFromLastValid.set(distanceFromLast.get() != null)
             }
         })
 
         volume.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                volume.get()?.let { isVolumeValid.set(it > BigDecimal.ONE) }
+                isVolumeValid.set(volume.get() != null)
             }
         })
 
         pricePerLitre.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                pricePerLitre.get()?.let { isPricePerLitreValid.set(it > BigDecimal.ONE) }
+                isPricePerLitreValid.set(pricePerLitre.get() != null)
             }
         })
 
         priceTotal.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                priceTotal.get()?.let { isPriceTotalValid.set(it > BigDecimal.ONE) }
+                isPriceTotalValid.set(priceTotal.get() != null)
             }
         })
-
-        note.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                note.get()?.let { isNoteValid.set(!it.isNullOrBlank()) }
-            }
-        })
-
     }
 
-    fun start(carId: String, refueling: Refueling? = null) {
+    fun start(carId: String, refueling: Refueling? = null, user: User) {
         this.carId = carId
+        this.user = user
 
         if (isLoaded) {
             return
@@ -98,6 +93,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         if (refueling == null) {
             // No need to populate, it's a new refueling
             isCreateNew.set(true)
+            date.set(Date()) // set current date
             return
         }
 
@@ -109,7 +105,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         populateFiels(refueling)
     }
 
-    fun populateFiels(refueling: Refueling) {
+    private fun populateFiels(refueling: Refueling) {
         distanceFromLast.set(refueling.distanceFromLast)
         volume.set(refueling.volume)
         pricePerLitre.set(refueling.pricePerLitre)
@@ -125,7 +121,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     // Called when clicking on add button.
     fun saveRefueling() {
 
-        if (!isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get()) {
+        if (!isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get() || !isPricePerLitreValid.get()) {
             snackbarMessage.value = R.string.refueling_create_validation_error
             return
         }
@@ -135,10 +131,10 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
                 distanceFromLast = distanceFromLast.get()!!,
                 volume = volume.get()!!,
                 priceTotal = priceTotal.get()!!,
-                note = note.get()!!,
-                pricePerLitre = BigDecimal.ZERO,
-                isFull = true,
-                date = Date()
+                note = note.get() ?: "",
+                pricePerLitre = pricePerLitre.get()!!,
+                isFull = isFull.get() ?: false,
+                date = date.get()!!
         )
 
         if (isCreateNew.get() || editedRefueling == null) {
