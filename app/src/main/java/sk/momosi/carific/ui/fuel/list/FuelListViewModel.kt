@@ -3,7 +3,9 @@ package sk.momosi.carific.ui.fuel.list
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableList
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,7 +20,7 @@ import sk.momosi.carific.util.data.SingleLiveEvent
  */
 class FuelListViewModel : ViewModel() {
 
-    val refuelings: MutableLiveData<List<Refueling>> = MutableLiveData()
+    val refuelings: ObservableList<Refueling> = ObservableArrayList()
 
     val isLoading = ObservableBoolean(true)
 
@@ -38,7 +40,7 @@ class FuelListViewModel : ViewModel() {
         this.carId = carId
     }
 
-    fun loadData(carId: String): LiveData<List<Refueling>> {
+    fun loadData(carId: String) {
 
         FirebaseDatabase.getInstance()
                 .getReference("fuel/$carId")
@@ -51,8 +53,12 @@ class FuelListViewModel : ViewModel() {
                             dataSnapshot.children.forEach {
                                 list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
                             }
-                            refuelings.postValue(list.sorted())
                         }
+
+                        list.sort()
+                        refuelings.clear()
+                        refuelings.addAll(list)
+
                         isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)
                     }
@@ -61,6 +67,5 @@ class FuelListViewModel : ViewModel() {
                         isError.set(true)
                     }
                 })
-        return refuelings
     }
 }
