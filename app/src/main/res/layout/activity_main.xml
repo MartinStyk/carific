@@ -53,11 +53,25 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
+        <!-- Loading -->
+
+            <ProgressBar
+                android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.GONE : View.VISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:visibility="visible" />
+
+
+        <!-- Content -->
         <FrameLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="60dp"
+            android:animateLayoutChanges="true"
+            android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.BottomNavigationView
@@ -65,19 +79,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:animateLayoutChanges="true"
             android:background="?android:attr/windowBackground"
+            android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:menu="@menu/activity_main_bottom" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchorGravity="top|end"
             android:layout_gravity="top"
-            app:useCompatPadding="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:animateLayoutChanges="true"
             android:src="@drawable/ic_add"
-            app:layout_anchor="@id/main_bottom_navigation" />
+            android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
+            app:layout_anchor="@id/main_bottom_navigation"
+            app:layout_anchorGravity="top|end"
+            app:useCompatPadding="true" />
 
 
     </android.support.design.widget.CoordinatorLayout>

@@ -23,9 +23,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     lateinit var userLocal: User
 
+    val isUserLoaded = ObservableBoolean(false)
+
     val car: MutableLiveData<Car?> = MutableLiveData()
 
     lateinit var carLocal: Car
+
+    val isCarLoaded = ObservableBoolean(false)
 
     val requestLogin = SingleLiveEvent<Unit>()
 
@@ -52,6 +56,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             val carData = dataSnapshot.children.first()
                             carLocal = Car.fromMap(carData.key, carData.getValue() as Map<String, Any>)
                             car.postValue(carLocal)
+                            isCarLoaded.set(true)
                         } else {
                             car.postValue(null)
                         }
@@ -71,6 +76,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                         if (dataSnapshot.exists()) {
                             userLocal = User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
                             user.postValue(userLocal)
+                            isUserLoaded.set(true)
                         }
                     }
 
