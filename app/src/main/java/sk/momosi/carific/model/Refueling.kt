@@ -21,7 +21,7 @@ data class Refueling(
         val isFull: Boolean,
         val date: Date,
         val note: String = "",
-        val consumption: BigDecimal? = null
+        var consumption: BigDecimal? = null
 ) : Parcelable, Comparable<Refueling> {
 
     override fun compareTo(other: Refueling) = date.compareTo(other.date).inv()
