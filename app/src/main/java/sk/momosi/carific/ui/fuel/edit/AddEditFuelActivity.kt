@@ -2,6 +2,7 @@ package sk.momosi.carific.ui.fuel.edit
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
@@ -10,9 +11,11 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_edit_fuel.*
 import sk.momosi.carific.R
@@ -45,6 +48,8 @@ class AddEditFuelActivity : AppCompatActivity() {
 
         setupDatePicker()
 
+        setupTimePicker()
+
         setupSnackbar()
 
         loadData()
@@ -74,13 +79,22 @@ class AddEditFuelActivity : AppCompatActivity() {
         refueling_add_date_picker.setOnClickListener {
             DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(datePicker: DatePicker, year: Int, month: Int, day: Int) {
-                    val calendar = Calendar.getInstance()
-                    calendar.set(year, month, day)
-                    viewModel.date.set(calendar.time)
+                    viewModel.setDate(year, month, day)
                 }
-            }, viewModel.date.get()!!.year + 1900, viewModel.date.get()!!.month, viewModel.date.get()!!.day).show()
-            // TODO do not use deprecated fields
+            }, viewModel.date.get()!!.get(Calendar.YEAR), viewModel.date.get()!!.get(Calendar.MONTH), viewModel.date.get()!!.get(Calendar.DAY_OF_MONTH)).show()
         }
+    }
+
+    private fun setupTimePicker() {
+
+        refueling_add_time_picker.setOnClickListener {
+            TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
+                    viewModel.setTime(hourOfDay, minute)
+                }
+            }, viewModel.date.get()!!.get(Calendar.HOUR_OF_DAY), viewModel.date.get()!!.get(Calendar.MINUTE), DateFormat.is24HourFormat(this)).show()
+        }
+
     }
 
     private fun removeRefueling() {

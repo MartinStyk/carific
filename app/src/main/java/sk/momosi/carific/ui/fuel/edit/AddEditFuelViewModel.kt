@@ -13,6 +13,7 @@ import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SingleLiveEvent
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.math.BigDecimal
+import java.time.Month
 import java.util.*
 
 /**
@@ -35,7 +36,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
     val isFull = ObservableField<Boolean>()
 
-    val date = ObservableField<Date>()
+    val date = ObservableField<Calendar>()
 
     val note = ObservableField<String>()
 
@@ -93,7 +94,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         if (refueling == null) {
             // No need to populate, it's a new refueling
             isCreateNew.set(true)
-            date.set(Date()) // set current date
+            date.set(Calendar.getInstance()) // set current date
             return
         }
 
@@ -111,7 +112,11 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         pricePerLitre.set(refueling.pricePerLitre)
         priceTotal.set(refueling.priceTotal)
         isFull.set(refueling.isFull)
-        date.set(refueling.date)
+
+        val date = Calendar.getInstance()
+        date.time = refueling.date
+        this.date.set(date)
+
         note.set(refueling.note)
 
         isLoading.set(false)
@@ -134,7 +139,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
                 note = note.get() ?: "",
                 pricePerLitre = pricePerLitre.get()!!,
                 isFull = isFull.get() ?: false,
-                date = date.get()!!
+                date = date.get()!!.time
         )
 
         if (isCreateNew.get() || editedRefueling == null) {
@@ -169,10 +174,6 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         taskFished.value = refueling
     }
 
-    companion object {
-        val TAG = AddEditFuelViewModel::class.java.simpleName
-    }
-
     fun removeRefueling() {
         Log.d(TAG, "Removing refueling " + editedRefueling)
 
@@ -188,4 +189,22 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
         taskFished.call()
     }
+
+    fun setDate(year:Int, month: Int, day: Int){
+        date.get()?.set(Calendar.YEAR, year)
+        date.get()?.set(Calendar.MONTH, month)
+        date.get()?.set(Calendar.DAY_OF_MONTH, day)
+        date.notifyChange()
+    }
+
+    fun setTime(hour: Int, minute: Int){
+        date.get()?.set(Calendar.HOUR, hour)
+        date.get()?.set(Calendar.MINUTE, minute)
+        date.notifyChange()
+    }
+
+    companion object {
+        val TAG = AddEditFuelViewModel::class.java.simpleName
+    }
+
 }

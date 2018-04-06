@@ -40,6 +40,7 @@
     <string name="refueling_create_price_per_unit_error">Price is incorrect</string>
     <string name="refueling_create_note_hint">Note</string>
     <string name="refueling_create_date_hint">Date</string>
+    <string name="refueling_create_time_hint">Time</string>
     <string name="refueling_create_full_tank">Is tank full?</string>
     <string name="refueling_create_validation_error">Enter all required attributes</string>
 

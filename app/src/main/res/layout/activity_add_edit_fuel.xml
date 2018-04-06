@@ -173,19 +173,45 @@
                         </LinearLayout>
 
                         <!-- Date -->
-                        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutWithValidations">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            <EditText
-                                android:id="@+id/refueling_add_date_picker"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:freezesText="true"
-                                android:hint="@string/refueling_create_date_hint"
-                                android:text="@{viewmodel.date.get().toString()}"
-                                android:inputType="date" />
-                        </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/TextInputLayoutWithValidations"
+                                android:layout_width="0dp"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/refueling_add_date_picker"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="false"
+                                    android:focusable="false"
+                                    android:freezesText="true"
+                                    android:hint="@string/refueling_create_date_hint"
+                                    android:inputType="date"
+                                    app:date="@{viewmodel.date}"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/TextInputLayoutWithValidations"
+                                android:layout_width="0dp"
+                                android:layout_weight="1">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/refueling_add_time_picker"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="false"
+                                    android:focusable="false"
+                                    android:freezesText="true"
+                                    android:hint="@string/refueling_create_time_hint"
+                                    android:inputType="date"
+                                    app:time="@{viewmodel.date}" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
 
                         <!-- Full tank -->
                         <android.support.v7.widget.AppCompatCheckBox

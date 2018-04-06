@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter
 import android.databinding.InverseBindingAdapter
 import android.support.v7.widget.AppCompatEditText
 import android.widget.TextView
+import sk.momosi.carific.util.DateUtils
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.*
@@ -41,23 +42,25 @@ object AddEditFuelBinding {
     @JvmStatic
     @BindingAdapter("android:text")
     fun bindBigDecimalInText(tv: AppCompatEditText, value: BigDecimal?) {
-        val format = DecimalFormat.getInstance()
-
         val displayed = if (tv.text.isNullOrBlank()) {
             null
         } else {
-            BigDecimal(tv.text.toString())
+            val text = tv.text.replace(Regex("[^0-9]"),"")
+            BigDecimal(text)
         }
 
         if (value != null && value != displayed) {
-            tv.setText(format.format(value))
+            tv.setText(value.toString())
         }
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "android:text")
     fun getBigDecimalFromBinding(view: TextView): BigDecimal? {
-        return if (view.text.isNullOrBlank()) null else BigDecimal(view.text.toString())
+        return if (view.text.isNullOrBlank()) null else {
+            val text = view.text.replace(Regex("[^0-9]"),"")
+            BigDecimal(text)
+        }
     }
 
     @JvmStatic
@@ -68,7 +71,7 @@ object AddEditFuelBinding {
         val displayed = if (tv.text.isNullOrBlank()) {
             null
         } else {
-            BigDecimal(tv.text.toString())
+            BigDecimal(tv.text.replace(Regex("[^0-9]"),""))
         }
 
         if (value != null && value != displayed) {
@@ -77,11 +80,15 @@ object AddEditFuelBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("android:text")
-    fun bindDateIntoText(tv: AppCompatEditText, value: Date?) {
-        if (value != null) {
-            tv.setText(value.toString())
-        }
+    @BindingAdapter("app:date")
+    fun bindDate(tv: TextView, value: Calendar) {
+        tv.setText(DateUtils.localizeDate(value, tv.context))
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:time")
+    fun bindTime(tv: TextView, value: Calendar) {
+        tv.setText(DateUtils.localizeTime(value, tv.context))
     }
 
 }
