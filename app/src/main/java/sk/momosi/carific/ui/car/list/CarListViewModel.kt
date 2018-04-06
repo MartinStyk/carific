@@ -2,7 +2,9 @@ package sk.momosi.carific.ui.car.list
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableList
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,7 +20,7 @@ import sk.momosi.carific.util.data.SingleLiveEvent
  */
 class CarListViewModel : ViewModel() {
 
-    val cars: MutableLiveData<List<Car>> = MutableLiveData()
+    val cars: ObservableList<Car> = ObservableArrayList()
 
     val isLoading = ObservableBoolean(true)
 
@@ -34,17 +36,15 @@ class CarListViewModel : ViewModel() {
                 .addValueEventListener(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val list = mutableListOf<Car>()
+                        cars.clear()
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Car.fromMap(it.key, it.value as Map<String, Any>))
+                                cars.add(Car.fromMap(it.key, it.value as Map<String, Any>))
                             }
                         }
 
-                        cars.postValue(list)
-
-                        isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
+                        isEmpty.set(cars.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)
                     }
 
