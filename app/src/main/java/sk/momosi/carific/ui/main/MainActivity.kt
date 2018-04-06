@@ -46,11 +46,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         setupCarChangeActions()
 
+        viewModel.load()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.load()
+        viewModel.ensureUserLoggedIn()
     }
 
     private fun setupCarActions() {

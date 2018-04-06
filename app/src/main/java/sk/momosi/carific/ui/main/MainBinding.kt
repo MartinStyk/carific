@@ -1,15 +1,9 @@
 package sk.momosi.carific.ui.main
 
 import android.databinding.BindingAdapter
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.support.annotation.StringRes
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
-import sk.momosi.carific.R
 import java.io.File
-import android.support.design.widget.TextInputLayout
-
 
 
 /**

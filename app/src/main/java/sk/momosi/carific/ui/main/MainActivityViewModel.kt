@@ -44,7 +44,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
      * If no car is available, create car activity is started
      */
     fun load() {
-        if (!getLoggedUser()) {
+        if (!ensureUserLoggedIn()) {
             return
         }
 
@@ -131,7 +131,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-    fun getLoggedUser() =
+    fun ensureUserLoggedIn() =
             if (firebaseAuth.currentUser == null) {
                 requestLogin.call()
                 false
