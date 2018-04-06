@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityMainBinding
 import sk.momosi.carific.ui.car.edit.AddEditCarActivity
+import sk.momosi.carific.ui.car.list.CarChoiceListActivity
 import sk.momosi.carific.ui.expense.ExpenseListFragment
 import sk.momosi.carific.ui.fuel.list.FuelListFragment
-import sk.momosi.carific.ui.login.LoginActivity
 import sk.momosi.carific.ui.profile.ProfileFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin
@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         setupCarActions()
 
+        setupCarChangeActions()
+
     }
 
     override fun onResume() {
@@ -56,6 +58,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             if (it == null) {
                 startActivity(Intent(this, AddEditCarActivity::class.java))
             }
+        })
+    }
+
+    private fun setupCarChangeActions() {
+        viewModel.carChange.observe(this, Observer {
+            val fuelFragment = FuelListFragment.newInstance(viewModel.carLocal.id, viewModel.userLocal)
+
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, fuelFragment)
+                    .commit()
+            main_bottom_navigation.selectedItemId = R.id.navigation_fuel
         })
     }
 
@@ -100,8 +113,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         // as you specify a parent activity in AndroidManifest.xml.
 
         return when (item.itemId) {
-            R.id.action_settings ->
+            R.id.action_change_car -> {
+                startActivity(Intent(this, CarChoiceListActivity::class.java))
                 return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

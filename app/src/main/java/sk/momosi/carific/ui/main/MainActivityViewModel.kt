@@ -33,31 +33,67 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     val requestLogin = SingleLiveEvent<Unit>()
 
+    val carChange = SingleLiveEvent<Unit>()
+
     private val firebaseAuth = FirebaseAuth.getInstance()
 
 
+    /**
+     * Loads user and car
+     * If user has default car specified, this car is loaded. Otherwise first user's car is used
+     * If no car is available, create car activity is started
+     */
     fun load() {
         if (!getLoggedUser()) {
             return
         }
 
-        loadUser()
-
-        loadCars()
-    }
-
-    private fun loadCars() {
         FirebaseDatabase.getInstance()
-                .getReference("user/${firebaseAuth.currentUser?.uid}/cars")
+                .getReference("user/${firebaseAuth.currentUser?.uid}")
                 .addValueEventListener(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            val carData = dataSnapshot.children.first()
-                            carLocal = Car.fromMap(carData.key, carData.getValue() as Map<String, Any>)
+                            userLocal = User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any?>)
+                            user.postValue(userLocal)
+                            isUserLoaded.set(true)
+
+
+                            if (userLocal.defaultCar.isNullOrEmpty()) {
+                                loadFirstCar(userLocal)
+                            } else {
+                                loadDefaultCar(userLocal)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(p0: DatabaseError?) {
+                    }
+                })
+    }
+
+
+    private fun loadFirstCar(user: User) {
+
+        FirebaseDatabase.getInstance()
+                .getReference("user/${user.id}/cars")
+                .addValueEventListener(object : ValueEventListener {
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            val firstCarData = dataSnapshot.children.first()
+
+                            val loadedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
+
+                            if(::carLocal.isInitialized && loadedCar != carLocal){
+                                carChange.call()
+                            }
+
+                            carLocal= loadedCar
                             car.postValue(carLocal)
                             isCarLoaded.set(true)
                         } else {
+                            // car doesn't exist
                             car.postValue(null)
                         }
                     }
@@ -67,16 +103,25 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                 })
     }
 
-    private fun loadUser() {
+    private fun loadDefaultCar(user: User) {
+
         FirebaseDatabase.getInstance()
-                .getReference("user/${firebaseAuth.currentUser?.uid}")
+                .getReference("user/${user.id}/cars/${user.defaultCar}")
                 .addValueEventListener(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            userLocal = User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
-                            user.postValue(userLocal)
-                            isUserLoaded.set(true)
+                            val loadedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+
+                            if(::carLocal.isInitialized && loadedCar != carLocal){
+                                carChange.call()
+                            }
+
+                            carLocal= loadedCar
+                            car.postValue(carLocal)
+                            isCarLoaded.set(true)
+                        } else {
+                            loadFirstCar(user)
                         }
                     }
 
@@ -84,6 +129,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                     }
                 })
     }
+
 
     fun getLoggedUser() =
             if (firebaseAuth.currentUser == null) {

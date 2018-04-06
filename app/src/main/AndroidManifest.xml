@@ -40,6 +40,10 @@
             android:label="@string/title_activity_car_list"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".ui.car.list.CarChoiceListActivity"
+            android:label="@string/title_activity_car_choice_list"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".ui.fuel.edit.AddEditFuelActivity"
             android:label="@string/refueling_create"
             android:theme="@style/AppTheme.NoActionBar" />

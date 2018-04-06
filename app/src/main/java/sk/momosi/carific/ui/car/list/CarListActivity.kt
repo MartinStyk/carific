@@ -13,7 +13,7 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityCarListBinding
 import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 
-class CarListActivity : AppCompatActivity() {
+open class CarListActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCarListBinding
     lateinit var viewModel: CarListViewModel
@@ -50,7 +50,7 @@ class CarListActivity : AppCompatActivity() {
         car_list.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
     }
 
-    private fun setupListItemClicks() {
+    open fun setupListItemClicks() {
         viewModel.carClickEvent.observe(this, Observer {
             it?.let {
                 val editIntent = Intent(this, AddEditCarActivity::class.java)
