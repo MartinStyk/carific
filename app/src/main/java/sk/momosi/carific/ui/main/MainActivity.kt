@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun setupCarChangeActions() {
         viewModel.carChange.observe(this, Observer {
-            val fuelFragment = FuelListFragment.newInstance(viewModel.carLocal.id, viewModel.userLocal)
+            val fuelFragment = FuelListFragment.newInstance(viewModel.carLocal, viewModel.userLocal)
 
             supportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, fuelFragment)
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val fragment = when (item.itemId) {
-            R.id.navigation_fuel -> FuelListFragment.newInstance(viewModel.carLocal.id, viewModel.userLocal)
+            R.id.navigation_fuel -> FuelListFragment.newInstance(viewModel.carLocal, viewModel.userLocal)
             R.id.navigation_expenses -> ExpenseListFragment.newInstance(viewModel.carLocal.id)
             R.id.navigation_statistics -> ProfileFragment.newInstance()
             R.id.navigation_achievements -> ProfileFragment.newInstance()

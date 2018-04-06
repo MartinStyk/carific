@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_expense_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentFuelListBinding
+import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 
@@ -46,17 +47,12 @@ class FuelListFragment : Fragment() {
         expense_list.adapter = FuelListAdapter(viewModel = viewModel)
         expense_list.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
-        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_fuel)
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_fuel, getCar().name)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
 
-        viewModel.init(arguments?.getString(ARGUMENT_CAR_ID)
-                ?: throw IllegalArgumentException("Car id argument missing"),
-                arguments?.getParcelable<User>(ARGUMENT_USER)
-                        ?: throw IllegalArgumentException("User argument missing")
-        )
+        viewModel.init(getCar().id, getUser())
 
-        viewModel.loadData(arguments?.getString(ARGUMENT_CAR_ID)
-                ?: throw IllegalArgumentException("Car id argument missing"))
+        viewModel.loadData(getCar().id)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -88,17 +84,24 @@ class FuelListFragment : Fragment() {
         })
     }
 
+    private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
+            ?: throw IllegalArgumentException("Car argument missing")
+
+    private fun getUser() = arguments?.getParcelable<User>(ARGUMENT_USER)
+            ?: throw IllegalArgumentException("User argument missing")
+
+
     companion object {
 
-        private const val ARGUMENT_CAR_ID = "car_id"
+        private const val ARGUMENT_CAR = "car"
         private const val ARGUMENT_USER = "user"
         private val TAG = FuelListFragment::class.java.simpleName
 
         @JvmStatic
-        fun newInstance(carId: String, user: User) =
+        fun newInstance(car: Car, user: User) =
                 FuelListFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARGUMENT_CAR_ID, carId)
+                        putParcelable(ARGUMENT_CAR, car)
                         putParcelable(ARGUMENT_USER, user)
                     }
                 }

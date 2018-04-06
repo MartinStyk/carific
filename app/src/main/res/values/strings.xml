@@ -11,6 +11,10 @@
     <string name="navigation_profile">Profile</string>
     <string name="navigation_achievements">Achievements</string>
 
+    <string name="title_fuel">%s\'s refuelings</string>
+
+
+
     <string name="action_change_car">Change car</string>
     <string name="change_car_select">Select car</string>
 
