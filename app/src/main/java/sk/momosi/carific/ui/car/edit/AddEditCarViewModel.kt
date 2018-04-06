@@ -149,10 +149,6 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         taskFished.value = car
     }
 
-    companion object {
-        val TAG = AddEditCarViewModel::class.java.simpleName
-    }
-
     fun removeCar(){
         Log.d(TAG, "Removing car " + carId)
 
@@ -160,10 +156,26 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
             throw RuntimeException("removeCar() was called but car is new.")
         }
 
+        // Remove car
         FirebaseDatabase.getInstance()
                 .getReference("user/${FirebaseAuth.getInstance().currentUser?.uid}/cars/$carId")
                 .removeValue()
 
+        // Remove refuelings
+        FirebaseDatabase.getInstance()
+                .getReference("fuel/$carId")
+                .removeValue()
+
+        // Remove expenses
+        FirebaseDatabase.getInstance()
+                .getReference("expense/$carId")
+                .removeValue()
+
         taskFished.call()
     }
+
+    companion object {
+        val TAG = AddEditCarViewModel::class.java.simpleName
+    }
+
 }
