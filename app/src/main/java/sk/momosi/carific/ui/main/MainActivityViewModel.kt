@@ -2,8 +2,8 @@ package sk.momosi.carific.ui.main
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableParcelable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,21 +19,20 @@ import sk.momosi.carific.util.data.SingleLiveEvent
  */
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
-    val user: MutableLiveData<User> = MutableLiveData()
-
-    lateinit var userLocal: User
+    val user: ObservableParcelable<User> = ObservableParcelable()
 
     val isUserLoaded = ObservableBoolean(false)
 
-    val car: MutableLiveData<Car?> = MutableLiveData()
-
-    lateinit var carLocal: Car
+    val car: ObservableParcelable<Car> = ObservableParcelable()
 
     val isCarLoaded = ObservableBoolean(false)
 
     val requestLogin = SingleLiveEvent<Unit>()
 
     val carChange = SingleLiveEvent<Unit>()
+
+    val noCarExists = SingleLiveEvent<Unit>()
+
 
     private val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -54,15 +53,14 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            userLocal = User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any?>)
-                            user.postValue(userLocal)
+                            user.set(User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any?>))
                             isUserLoaded.set(true)
 
 
-                            if (userLocal.defaultCar.isNullOrEmpty()) {
-                                loadFirstCar(userLocal)
+                            if (user.get()?.defaultCar.isNullOrEmpty()) {
+                                loadFirstCar()
                             } else {
-                                loadDefaultCar(userLocal)
+                                loadDefaultCar()
                             }
                         }
                     }
@@ -73,61 +71,62 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-    private fun loadFirstCar(user: User) {
+    private fun loadFirstCar() {
 
-        FirebaseDatabase.getInstance()
-                .getReference("user/${user.id}/cars")
-                .addValueEventListener(object : ValueEventListener {
+        user.get()?.let {
+            FirebaseDatabase.getInstance()
+                    .getReference("user/${it.id}/cars")
+                    .addValueEventListener(object : ValueEventListener {
 
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val firstCarData = dataSnapshot.children.first()
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val firstCarData = dataSnapshot.children.first()
 
-                            val loadedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
+                                val loadedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
 
-                            if(::carLocal.isInitialized && loadedCar != carLocal){
-                                carChange.call()
+                                if (car.get() != null && loadedCar != car.get()) {
+                                    carChange.call()
+                                }
+
+                                car.set(loadedCar)
+                                isCarLoaded.set(true)
+                            } else {
+                                noCarExists.call()
                             }
-
-                            carLocal= loadedCar
-                            car.postValue(carLocal)
-                            isCarLoaded.set(true)
-                        } else {
-                            // car doesn't exist
-                            car.postValue(null)
                         }
-                    }
 
-                    override fun onCancelled(p0: DatabaseError?) {
-                    }
-                })
+                        override fun onCancelled(p0: DatabaseError?) {
+                        }
+                    })
+        }
     }
 
-    private fun loadDefaultCar(user: User) {
+    private fun loadDefaultCar() {
+        user.get()?.let {
 
-        FirebaseDatabase.getInstance()
-                .getReference("user/${user.id}/cars/${user.defaultCar}")
-                .addValueEventListener(object : ValueEventListener {
+            FirebaseDatabase.getInstance()
+                    .getReference("user/${it.id}/cars/${it.defaultCar}")
+                    .addValueEventListener(object : ValueEventListener {
 
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val loadedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val loadedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
 
-                            if(::carLocal.isInitialized && loadedCar != carLocal){
-                                carChange.call()
+                                if (car.get() != null && loadedCar != car.get()) {
+                                    carChange.call()
+                                }
+
+                                car.set(loadedCar)
+                                isCarLoaded.set(true)
+                            } else {
+                                loadFirstCar()
                             }
-
-                            carLocal= loadedCar
-                            car.postValue(carLocal)
-                            isCarLoaded.set(true)
-                        } else {
-                            loadFirstCar(user)
                         }
-                    }
 
-                    override fun onCancelled(p0: DatabaseError?) {
-                    }
-                })
+                        override fun onCancelled(p0: DatabaseError?) {
+                        }
+                    })
+        }
     }
 
 
