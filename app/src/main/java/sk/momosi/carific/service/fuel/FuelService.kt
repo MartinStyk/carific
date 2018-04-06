@@ -33,14 +33,17 @@ class FuelService {
 
         val olderRefuelings = mutableListOf<Refueling>()
 
-        allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
-            if (it.isFull) {
-                existsOlderFullFillUp = true
-                return@forEach
+
+        run loop@{
+            allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
+                if (it.isFull) {
+                    existsOlderFullFillUp = true
+                    return@loop
+                }
+                olderRefuelings.add(it)
+                olderFuelUpsDistance += it.distanceFromLast
+                olderFuelUpsVol = olderFuelUpsVol.plus(it.volume)
             }
-            olderRefuelings.add(it)
-            olderFuelUpsDistance += it.distanceFromLast
-            olderFuelUpsVol = olderFuelUpsVol.plus(it.volume)
         }
 
         val avgOlderConsumption = if (existsOlderFullFillUp) getConsumptionFromVolumeDistance(olderFuelUpsVol, olderFuelUpsDistance) else null
@@ -60,14 +63,16 @@ class FuelService {
 
         val newerRefuelings = mutableListOf<Refueling>()
 
-        allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
-            newerRefuelings.add(it)
-            newerFuelUpsDistance += it.distanceFromLast
-            newerFuelUpsVol = newerFuelUpsVol.plus(it.volume)
+        run loop@{
+            allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
+                newerRefuelings.add(it)
+                newerFuelUpsDistance += it.distanceFromLast
+                newerFuelUpsVol = newerFuelUpsVol.plus(it.volume)
 
-            if (it.isFull) {
-                existsNewerFullFillUp = true
-                return@forEach
+                if (it.isFull) {
+                    existsNewerFullFillUp = true
+                    return@loop
+                }
             }
         }
 
@@ -80,9 +85,6 @@ class FuelService {
 
     fun insertNotFullRefueling(vehicleId: String, refueling: Refueling, allRefuelings: List<Refueling>) {
 
-        // insert new fillUp
-        insertNew(refueling, vehicleId)
-
         // find first full newer fillUp in case not inserting the newest fillUp
         var newerFuelUpsVol = BigDecimal.ZERO
         var newerFuelUpsDistance = 0
@@ -90,19 +92,22 @@ class FuelService {
 
         val newerRefuelings = mutableListOf<Refueling>()
 
-        allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
-            newerRefuelings.add(it)
-            newerFuelUpsDistance += it.distanceFromLast
-            newerFuelUpsVol = newerFuelUpsVol.plus(it.volume)
+        run loop@{
+            allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
+                newerRefuelings.add(it)
+                newerFuelUpsDistance += it.distanceFromLast
+                newerFuelUpsVol = newerFuelUpsVol.plus(it.volume)
 
-            if (it.isFull) {
-                existsNewerFullFillUp = true
-                return@forEach
+                if (it.isFull) {
+                    existsNewerFullFillUp = true
+                    return@loop
+                }
             }
         }
 
-        // if there is no newer full fill up, we do not compute consumption
+        // if there is no newer full fill up, we do not compute consumption, only insert it
         if (!existsNewerFullFillUp) {
+            insertNew(refueling, vehicleId)
             return
         }
 
@@ -113,19 +118,22 @@ class FuelService {
         var olderFuelUpsDistance = 0
         var existsOlderFullFillUp = false
 
-        allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
-            if (it.isFull) {
-                existsOlderFullFillUp = true
-                return@forEach
-            }
-            olderRefuelings.add(it)
-            olderFuelUpsDistance += it.distanceFromLast
-            olderFuelUpsVol = olderFuelUpsVol.plus(it.volume)
+        run loop@{
+            allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
+                if (it.isFull) {
+                    existsOlderFullFillUp = true
+                    return@loop
+                }
+                olderRefuelings.add(it)
+                olderFuelUpsDistance += it.distanceFromLast
+                olderFuelUpsVol = olderFuelUpsVol.plus(it.volume)
 
+            }
         }
 
-        // if there is no older full fill up, we do not compute consumption
+        // if there is no older full fill up, we do not compute consumption, only insert refueling
         if (!existsOlderFullFillUp) {
+            insertNew(refueling, vehicleId)
             return
         }
 
@@ -135,7 +143,9 @@ class FuelService {
         val distance = newerFuelUpsDistance + olderFuelUpsDistance + refueling.distanceFromLast
         val avgConsumption = getConsumptionFromVolumeDistance(fuelVol, distance)
 
-        updateConsumption(newerRefuelings + olderRefuelings + refueling, avgConsumption, vehicleId)
+        refueling.consumption = avgConsumption
+        insertNew(refueling, vehicleId)
+        updateConsumption(newerRefuelings + olderRefuelings, avgConsumption, vehicleId)
     }
 
     fun deleteFillUpInTransaction(vehicleId: String, refueling: Refueling, allRefuelings: List<Refueling>) {
@@ -147,27 +157,31 @@ class FuelService {
         var existsOlderFullFillUp = false
 
         // find first full older fillUp
-        allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
-            if (it.isFull) {
-                existsOlderFullFillUp = true
-                return@forEach
+        run loop@{
+            allRefuelings.filter { it.date < refueling.date }.sorted().forEach {
+                if (it.isFull) {
+                    existsOlderFullFillUp = true
+                    return@loop
+                }
+                fuelUps.add(it)
+                fuelUpsDistance += it.distanceFromLast
+                fuelUpsVol = fuelUpsVol.plus(it.volume)
             }
-            fuelUps.add(it)
-            fuelUpsDistance += it.distanceFromLast
-            fuelUpsVol = fuelUpsVol.plus(it.volume)
         }
 
 
         // find first newer full FillUp
         var existsNewerFullFillUp = false
 
-        allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
-            fuelUps.add(it)
-            fuelUpsDistance += it.distanceFromLast
-            fuelUpsVol = fuelUpsVol.plus(it.volume)
-            if (it.isFull) {
-                existsNewerFullFillUp = true
-                return@forEach
+        run loop@{
+            allRefuelings.filter { it.date > refueling.date }.sorted().reversed().forEach {
+                fuelUps.add(it)
+                fuelUpsDistance += it.distanceFromLast
+                fuelUpsVol = fuelUpsVol.plus(it.volume)
+                if (it.isFull) {
+                    existsNewerFullFillUp = true
+                    return@loop
+                }
             }
         }
 
