@@ -11,7 +11,7 @@ import sk.momosi.carific.model.Refueling
 object FuelListBinding {
 
     @JvmStatic
-    @BindingAdapter("app:refuelings")
+    @BindingAdapter("refuelings")
     fun setExpenses(recyclerView: RecyclerView, items: List<Refueling>?) {
         val adapter = recyclerView.adapter
         if (adapter != null && adapter is FuelListAdapter) {

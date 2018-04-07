@@ -80,13 +80,13 @@ object AddEditFuelBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("app:date")
+    @BindingAdapter("date")
     fun bindDate(tv: TextView, value: Calendar) {
         tv.setText(DateUtils.localizeDate(value, tv.context))
     }
 
     @JvmStatic
-    @BindingAdapter("app:time")
+    @BindingAdapter("time")
     fun bindTime(tv: TextView, value: Calendar) {
         tv.setText(DateUtils.localizeTime(value, tv.context))
     }

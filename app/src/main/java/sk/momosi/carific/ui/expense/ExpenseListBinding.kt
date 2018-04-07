@@ -11,7 +11,7 @@ import sk.momosi.carific.model.Expense
 object ExpenseListBinding {
 
     @JvmStatic
-    @BindingAdapter("app:expenses")
+    @BindingAdapter("expenses")
     fun setExpenses(recyclerView: RecyclerView, items: List<Expense>?) {
         val adapter = recyclerView.adapter
         if (adapter != null && adapter is ExpenseListAdapter) {

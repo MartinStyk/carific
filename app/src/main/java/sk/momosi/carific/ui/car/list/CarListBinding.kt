@@ -11,7 +11,7 @@ import sk.momosi.carific.model.Car
 object CarListBinding {
 
     @JvmStatic
-    @BindingAdapter("app:cars")
+    @BindingAdapter("cars")
     fun setCars(recyclerView: RecyclerView, items: List<Car>?) {
         val adapter = recyclerView.adapter
         if (adapter != null && adapter is CarListAdapter) {

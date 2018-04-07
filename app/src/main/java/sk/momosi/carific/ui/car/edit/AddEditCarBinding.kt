@@ -19,7 +19,7 @@ import android.support.design.widget.TextInputLayout
 object AddEditCarBinding {
 
     @JvmStatic
-    @BindingAdapter("app:vehicle_picture")
+    @BindingAdapter("vehicle_picture")
     fun setPicture(imageView: ImageView, pathToPicture: String?) {
         if (pathToPicture == null)
             return
@@ -34,7 +34,7 @@ object AddEditCarBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("app:isValid","app:errorText")
+    @BindingAdapter("isValid","errorText")
     fun setErrorMessage(view: TextInputLayout, isValid : ObservableBoolean, errorMessage: String) {
         isValid.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

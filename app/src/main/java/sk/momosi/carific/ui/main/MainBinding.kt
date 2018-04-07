@@ -13,7 +13,7 @@ import java.io.File
 object MainBinding {
 
     @JvmStatic
-    @BindingAdapter("app:vehicle_picture")
+    @BindingAdapter("vehicle_picture")
     fun setPicture(imageView: ImageView, pathToPicture: String?) {
         if (pathToPicture == null)
             return
@@ -25,4 +25,4 @@ object MainBinding {
                     .into(imageView)
         }
     }
-}
+}   
