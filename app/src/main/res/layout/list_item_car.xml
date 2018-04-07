@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -19,26 +20,72 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="@{() -> listener.onItemClick(car)}"
-        android:orientation="vertical"
-        android:padding="@dimen/space_basic">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/expense_item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{car.name}"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            tools:text="My Civic" />
+        <android.support.v7.widget.CardView
+            style="@style/BasicCard"
+            android:layout_marginEnd="@dimen/space_small"
+            android:layout_marginLeft="@dimen/space_small"
+            android:layout_marginRight="@dimen/space_small"
+            android:layout_marginStart="@dimen/space_small"
+            android:padding="0dp">
 
-        <TextView
-            android:id="@+id/expense_item_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="@{car.manufacturer}"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Honda" />
+            <LinearLayout
+                style="@style/LinearVertical"
+                android:divider="?android:attr/listDivider"
+                android:showDividers="middle">
 
+                <ImageView
+                    android:id="@+id/vehicle_item_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:vehicle_picture="@{car.picturePath}"
+                    app:vehicle_picture_empty="@{car.type.drawable}"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    style="@style/LinearHorizontal"
+                    android:padding="@dimen/space_basic">
+
+                    <LinearLayout
+                        style="@style/LinearVertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/vehicle_item_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{car.name}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorAccent"
+                            tools:text="My Civic &lt;3" />
+
+                        <TextView
+                            android:id="@+id/vehicle_item_manufacturer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{car.manufacturer}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            tools:text="Honda" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
+                        android:scaleType="fitXY"
+                        app:car_type="@{car.type}" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

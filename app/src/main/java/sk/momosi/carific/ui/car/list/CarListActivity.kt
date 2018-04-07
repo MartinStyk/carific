@@ -47,7 +47,6 @@ open class CarListActivity : AppCompatActivity() {
 
     private fun setupList() {
         car_list.adapter = CarListAdapter(viewModel = viewModel)
-        car_list.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
     }
 
     open fun setupListItemClicks() {

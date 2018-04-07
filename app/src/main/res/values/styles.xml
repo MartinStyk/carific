@@ -19,13 +19,19 @@
 
     <style name="TextImportant" parent="TextAppearance.AppCompat.Title">
         <item name="android:textAllCaps">true</item>
-        <item name="android:layout_margin">@dimen/space_basic</item>
+        <item name="android:padding">@dimen/space_basic</item>
     </style>
 
     <style name="LinearHorizontal" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="LinearVertical" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
     <style name="UnitText" >

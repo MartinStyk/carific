@@ -10,6 +10,8 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="space_basic">8dp</dimen>
+    <dimen name="space_small">2dp</dimen>
+
 
     <dimen name="card_bottom_space">6dp</dimen>
     <dimen name="card_top_space">6dp</dimen>
