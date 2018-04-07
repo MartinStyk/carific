@@ -19,21 +19,6 @@ import android.support.design.widget.TextInputLayout
 object AddEditCarBinding {
 
     @JvmStatic
-    @BindingAdapter("vehicle_picture")
-    fun setPicture(imageView: ImageView, pathToPicture: String?) {
-        if (pathToPicture == null)
-            return
-
-        val file = File(pathToPicture)
-        if (file.exists()) {
-            Picasso.get()
-                    .load(file)
-                    .error((R.drawable.ic_add_a_photo))
-                    .into(imageView)
-        }
-    }
-
-    @JvmStatic
     @BindingAdapter("isValid","errorText")
     fun setErrorMessage(view: TextInputLayout, isValid : ObservableBoolean, errorMessage: String) {
         isValid.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
