@@ -80,13 +80,13 @@ object AddEditExpenseBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("app:date")
+    @BindingAdapter("date")
     fun bindDate(tv: TextView, value: Calendar) {
         tv.text = DateUtils.localizeDate(value, tv.context)
     }
 
     @JvmStatic
-    @BindingAdapter("app:time")
+    @BindingAdapter("time")
     fun bindTime(tv: TextView, value: Calendar) {
         tv.text = DateUtils.localizeTime(value, tv.context)
     }
