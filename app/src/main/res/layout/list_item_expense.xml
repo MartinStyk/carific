@@ -1,58 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="expense"
-            type="sk.momosi.carific.model.Expense" />
+                name="user"
+                type="sk.momosi.carific.model.User" />
 
         <variable
-            name="listener"
-            type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Expense>" />
+                name="expense"
+                type="sk.momosi.carific.model.Expense"/>
+
+        <variable
+                name="listener"
+                type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Expense>"/>
 
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/space_basic"
-        android:background="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> listener.onItemClick(expense)}">
-
-        <TextView
-            android:id="@+id/expense_item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@{expense.info}"
-            tools:text="My first expense" />
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> listener.onItemClick(expense)}"
+            android:orientation="vertical"
+            android:padding="@dimen/space_basic">
 
-            <TextView
-                android:id="@+id/expense_item_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@{expense.date.toString()}"
-                tools:text="13.03.2018" />
-
-            <TextView
-                android:id="@+id/expense_item_price"
+        <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorAccent"
-                android:text="@{expense.price.toString()}"
-                tools:text="12,5e" />
+                android:text="@{expense.info}"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                tools:text="My first expense" />
+
+        <LinearLayout
+                style="@style/LinearHorizontal">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="@{expense.date.toString()}"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="13.03.2018" />
+
+            <LinearLayout style="@style/LinearHorizontal"
+                          android:layout_width="wrap_content">
+
+                <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{expense.price}"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorAccent"
+                        tools:text="40" />
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{user.currencySymbol}"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorAccent"
+                        tools:text="€" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

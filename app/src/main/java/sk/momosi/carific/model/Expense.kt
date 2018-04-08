@@ -13,6 +13,7 @@ import java.util.*
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class Expense(
+        var id: String = "",
         val price: BigDecimal,
         val date: Date,
         val info: String = ""
@@ -27,7 +28,8 @@ data class Expense(
     )
 
     companion object {
-        fun fromMap(map: Map<String, Any>) = Expense(
+        fun fromMap(id: String, map: Map<String, Any?>) = Expense(
+                id = id,
                 price = BigDecimal(map.get("price") as String),
                 date = Date(map["date"] as Long),
                 info = map["note"] as String

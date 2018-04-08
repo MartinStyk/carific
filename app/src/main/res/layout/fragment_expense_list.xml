@@ -9,14 +9,14 @@
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.expense.ExpensesViewModel" />
+            type="sk.momosi.carific.ui.expense.list.ExpensesViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.expense.ExpenseListFragment">
+        tools:context=".ui.expense.list.ExpenseListFragment">
 
         <ProgressBar
             android:layout_width="wrap_content"

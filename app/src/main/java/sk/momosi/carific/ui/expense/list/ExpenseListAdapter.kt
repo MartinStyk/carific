@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.expense
+package sk.momosi.carific.ui.expense.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -27,6 +27,8 @@ class ExpenseListAdapter(var data: List<Expense> = emptyList(),
                 viewModel.expenseClickEvent.value = item
             }
         }
+
+        itemBinding.user = viewModel.user
 
         return ViewHolder(itemBinding)
     }

@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.expense
+package sk.momosi.carific.ui.expense.list
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView

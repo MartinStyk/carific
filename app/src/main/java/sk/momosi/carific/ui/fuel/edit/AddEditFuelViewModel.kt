@@ -132,7 +132,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     fun saveRefueling() {
 
         if (!isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get() || !isPricePerLitreValid.get()) {
-            snackbarMessage.value = R.string.refueling_create_validation_error
+            snackbarMessage.value = R.string.create_validation_error
             return
         }
 

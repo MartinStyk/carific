@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="sk.momosi.carific.ui.fuel.edit.AddEditFuelViewModel" />
+            type="sk.momosi.carific.ui.expense.edit.AddEditExpenseViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="sk.momosi.carific.ui.fuel.edit.AddEditfuelActivity">
+        tools:context="sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -32,7 +32,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@{viewmodel.isCreateNew ? @string/refueling_create :  @string/refueling_edit }" />
+                app:title="@{viewmodel.isCreateNew ? @string/expense_create :  @string/expense_edit }" />
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -63,88 +63,6 @@
                         android:animateLayoutChanges="true"
                         android:orientation="vertical"
                         android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
-
-                        <!-- Distance -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_distance_from_last_error}"
-                                app:isValid="@{viewmodel.isDistanceFromLastValid}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:hint="@string/refueling_create_distance_from_last_hint"
-                                    android:inputType="number"
-                                    android:text="@={viewmodel.distanceFromLast}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="km" />
-                        </LinearLayout>
-
-                        <!-- Volume -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_fuel_volume_error}"
-                                app:isValid="@{viewmodel.isVolumeValid()}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_fuel_volume_hint"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@={viewmodel.volume}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="l" />
-                        </LinearLayout>
-
-                        <!-- Price per litre -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_price_per_unit_error}"
-                                app:isValid="@{viewmodel.isPricePerLitreValid}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_price_per_unit_hint"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@={viewmodel.pricePerLitre}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="@{viewmodel.user.currencySymbol}" />
-                        </LinearLayout>
-
                         <!-- Price total -->
                         <LinearLayout style="@style/LinearHorizontal">
 
@@ -152,16 +70,16 @@
                                 style="@style/TextInputLayoutWithValidations"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_price_total_error}"
-                                app:isValid="@{viewmodel.isPriceTotalValid}">
+                                app:errorText="@{@string/expense_create_price_error}"
+                                app:isValid="@{viewmodel.isPricelValid}">
 
                                 <android.support.v7.widget.AppCompatEditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_price_total_hint"
+                                    android:hint="@string/expense_create_price_hint"
                                     android:inputType="numberDecimal"
                                     android:maxLines="1"
-                                    android:text="@={viewmodel.priceTotal}" />
+                                    android:text="@={viewmodel.price}" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -183,7 +101,7 @@
                                 android:layout_weight="1">
 
                                 <android.support.v7.widget.AppCompatEditText
-                                    android:id="@+id/refueling_add_date_picker"
+                                    android:id="@+id/expense_add_date_picker"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:clickable="false"
@@ -201,7 +119,7 @@
                                 android:layout_weight="1">
 
                                 <android.support.v7.widget.AppCompatEditText
-                                    android:id="@+id/refueling_add_time_picker"
+                                    android:id="@+id/expense_add_time_picker"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:clickable="false"
@@ -213,23 +131,15 @@
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
 
-                        <!-- Full tank -->
-                        <android.support.v7.widget.AppCompatCheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:checked="@={viewmodel.isFull}"
-                            android:gravity="center"
-                            android:text="@string/refueling_create_full_tank" />
-
                         <!-- Note -->
                         <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutWithValidations">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/refueling_create_note_hint"
+                                android:hint="@string/expense_create_info_hint"
                                 android:inputType="text"
-                                android:text="@={viewmodel.note}" />
+                                android:text="@={viewmodel.info}" />
                         </android.support.design.widget.TextInputLayout>
 
 
@@ -241,7 +151,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/refueling_add_save"
+            android:id="@+id/expense_add_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

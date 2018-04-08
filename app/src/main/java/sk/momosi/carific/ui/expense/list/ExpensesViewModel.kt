@@ -1,14 +1,15 @@
-package sk.momosi.carific.ui.expense
+package sk.momosi.carific.ui.expense.list
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableList
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Expense
+import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SingleLiveEvent
 
 /**
@@ -17,7 +18,7 @@ import sk.momosi.carific.util.data.SingleLiveEvent
  */
 class ExpensesViewModel : ViewModel() {
 
-    val expenses: MutableLiveData<List<Expense>> = MutableLiveData()
+    val expenses: ObservableList<Expense> = ObservableArrayList()
 
     val isLoading = ObservableBoolean(true)
 
@@ -27,9 +28,21 @@ class ExpensesViewModel : ViewModel() {
 
     val expenseClickEvent = SingleLiveEvent<Expense>()
 
-    fun loadData(): LiveData<List<Expense>> {
+    lateinit var user: User
+
+    lateinit var carId: String
+
+    fun init(carId: String, user: User){
+        this.user = user
+
+        this.carId = carId
+    }
+
+
+    fun loadData(carId: String) {
+
         FirebaseDatabase.getInstance()
-                .getReference("test/expenses")
+                .getReference("expense/$carId")
                 .addValueEventListener(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -37,10 +50,14 @@ class ExpensesViewModel : ViewModel() {
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Expense.fromMap(it.getValue() as Map<String, Any>))
+                                list.add(Expense.fromMap(it.key, it.value as Map<String, Any?>))
                             }
-                            expenses.postValue(list)
                         }
+
+                        list.sort()
+                        expenses.clear()
+                        expenses.addAll(list)
+
                         isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)
                     }
@@ -49,6 +66,5 @@ class ExpensesViewModel : ViewModel() {
                         isError.set(true)
                     }
                 })
-        return expenses
     }
 }

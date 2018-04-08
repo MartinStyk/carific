@@ -47,6 +47,9 @@
             android:name=".ui.fuel.edit.AddEditFuelActivity"
             android:label="@string/refueling_create"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.expense.edit.AddEditExpenseActivity"
+            android:label="@string/expense_create"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
