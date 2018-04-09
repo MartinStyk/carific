@@ -56,7 +56,6 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             user.set(User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any?>))
                             isUserLoaded.set(true)
 
-
                             if (user.get()?.defaultCar.isNullOrEmpty()) {
                                 loadFirstCar()
                             } else {
@@ -82,13 +81,15 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             if (dataSnapshot.exists()) {
                                 val firstCarData = dataSnapshot.children.first()
 
-                                val loadedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
+                                val nextDisplayedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
+                                val currentlyDisplayedCar = car.get()
 
-                                if (car.get() != null && loadedCar != car.get()) {
+                                car.set(nextDisplayedCar)
+
+                                if (nextDisplayedCar != currentlyDisplayedCar) {
                                     carChange.call()
                                 }
 
-                                car.set(loadedCar)
                                 isCarLoaded.set(true)
                             } else {
                                 noCarExists.call()
@@ -115,7 +116,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
                                 car.set(nextDisplayedCar)
 
-                                if (currentlyDisplayedCar != null && nextDisplayedCar != currentlyDisplayedCar) {
+                                if (nextDisplayedCar != currentlyDisplayedCar) {
                                     carChange.call()
                                 }
 
