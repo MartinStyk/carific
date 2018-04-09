@@ -12,7 +12,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
+import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.data.SingleLiveEvent
+import java.util.*
 
 /**
  * @author Martin Styk
@@ -34,7 +36,7 @@ class FuelListViewModel : ViewModel() {
 
     lateinit var carId: String
 
-    fun init(carId: String, user: User){
+    fun init(carId: String, user: User) {
         this.user = user
 
         this.carId = carId
@@ -67,5 +69,22 @@ class FuelListViewModel : ViewModel() {
                         isError.set(true)
                     }
                 })
+    }
+
+    fun isSection(position: Int): Boolean {
+        val date = Calendar.getInstance()
+        date.time = refuelings[position].date
+
+        val datePrevious = Calendar.getInstance()
+        datePrevious.time = refuelings[position - 1].date
+
+        return date.get(Calendar.MONTH) != datePrevious.get(Calendar.MONTH)
+    }
+
+    fun sectionName(position: Int): String {
+        val date = Calendar.getInstance()
+        date.time = refuelings[position].date
+
+        return DateUtils.localizeMonthDate(date)
     }
 }

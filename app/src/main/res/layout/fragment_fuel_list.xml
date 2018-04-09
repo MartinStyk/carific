@@ -38,15 +38,13 @@
             android:text="@string/fuel_list_empty"
             android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/expense_list"
+        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
+            android:id="@+id/fuel_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fadeScrollbars="true"
-            android:scrollbars="vertical"
             app:refuelings="@{viewModel.refuelings}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_expense"
+            tools:listitem="@layout/list_item_fuel"
             android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"/>
 
     </RelativeLayout>

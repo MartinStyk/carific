@@ -9,17 +9,17 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_expense_list.*
+import kotlinx.android.synthetic.main.fragment_fuel_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentFuelListBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
+import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
+import xyz.sangcomz.stickytimelineview.model.SectionInfo
 
 
 class FuelListFragment : Fragment() {
@@ -44,8 +44,8 @@ class FuelListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        expense_list.adapter = FuelListAdapter(viewModel = viewModel)
-        expense_list.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+
+        setupList()
 
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_fuel, getCar().name)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
@@ -83,6 +83,19 @@ class FuelListFragment : Fragment() {
             startActivity(editIntent)
         })
     }
+
+
+    private fun setupList() {
+        fuel_list.adapter = FuelListAdapter(viewModel = viewModel)
+        fuel_list.addItemDecoration(
+                object : RecyclerSectionItemDecoration.SectionCallback {
+                    override fun isSection(position: Int) = viewModel.isSection(position)
+
+                    override fun getSectionHeader(position: Int): SectionInfo? =
+                            SectionInfo(viewModel.sectionName(position), null)
+                })
+    }
+
 
     private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
             ?: throw IllegalArgumentException("Car argument missing")
