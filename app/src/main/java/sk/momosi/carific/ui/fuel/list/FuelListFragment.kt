@@ -94,8 +94,7 @@ class FuelListFragment : Fragment() {
                 object : RecyclerSectionItemDecoration.SectionCallback {
                     override fun isSection(position: Int) = viewModel.isSection(position)
 
-                    override fun getSectionHeader(position: Int): SectionInfo? =
-                            SectionInfo(viewModel.sectionName(position), null)
+                    override fun getSectionHeader(position: Int) = SectionInfo(viewModel.sectionName(position), null)
                 })
     }
 
