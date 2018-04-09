@@ -110,13 +110,15 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                val loadedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+                                val nextDisplayedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+                                val currentlyDisplayedCar = car.get()
 
-                                if (car.get() != null && loadedCar != car.get()) {
+                                car.set(nextDisplayedCar)
+
+                                if (currentlyDisplayedCar != null && nextDisplayedCar != currentlyDisplayedCar) {
                                     carChange.call()
                                 }
 
-                                car.set(loadedCar)
                                 isCarLoaded.set(true)
                             } else {
                                 loadFirstCar()
