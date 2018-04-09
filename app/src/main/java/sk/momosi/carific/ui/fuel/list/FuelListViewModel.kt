@@ -1,7 +1,5 @@
 package sk.momosi.carific.ui.fuel.list
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
@@ -46,7 +44,7 @@ class FuelListViewModel : ViewModel() {
 
         FirebaseDatabase.getInstance()
                 .getReference("fuel/$carId")
-                .addValueEventListener(object : ValueEventListener {
+                .addListenerForSingleValueEvent(object : ValueEventListener {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val list = mutableListOf<Refueling>()
@@ -58,8 +56,11 @@ class FuelListViewModel : ViewModel() {
                         }
 
                         list.sort()
-                        refuelings.clear()
-                        refuelings.addAll(list)
+
+                        synchronized(this@FuelListViewModel) {
+                            refuelings.clear()
+                            refuelings.addAll(list)
+                        }
 
                         isEmpty.set(list.isEmpty() || !dataSnapshot.exists())
                         isLoading.set(false)
@@ -73,17 +74,22 @@ class FuelListViewModel : ViewModel() {
 
     fun isSection(position: Int): Boolean {
         val date = Calendar.getInstance()
-        date.time = refuelings[position].date
-
         val datePrevious = Calendar.getInstance()
-        datePrevious.time = refuelings[position - 1].date
+
+        synchronized(this@FuelListViewModel) {
+            date.time = refuelings[position].date
+            datePrevious.time = refuelings[position - 1].date
+        }
 
         return date.get(Calendar.MONTH) != datePrevious.get(Calendar.MONTH)
     }
 
     fun sectionName(position: Int): String {
         val date = Calendar.getInstance()
-        date.time = refuelings[position].date
+
+        synchronized(this) {
+            date.time = refuelings[position].date
+        }
 
         return DateUtils.localizeMonthDate(date)
     }

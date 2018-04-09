@@ -51,14 +51,17 @@ class FuelListFragment : Fragment() {
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
 
         viewModel.init(getCar().id, getUser())
-
-        viewModel.loadData(getCar().id)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setupAddButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData(getCar().id)
     }
 
     private fun setupAddButton() {
