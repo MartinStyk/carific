@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="sk.momosi.carific.util.DateUtils"/>
 
         <variable
                 name="user"
@@ -18,7 +21,13 @@
 
     </data>
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
@@ -26,51 +35,50 @@
             android:orientation="vertical"
             android:padding="@dimen/space_basic">
 
-        <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{expense.info}"
-                android:textAppearance="?android:attr/textAppearanceListItem"
-                tools:text="My first expense" />
+            <LinearLayout style="@style/LinearHorizontal">
 
-        <LinearLayout
-                style="@style/LinearHorizontal">
-
-            <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:maxLines="1"
-                    android:text="@{expense.date.toString()}"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="13.03.2018" />
-
-            <LinearLayout style="@style/LinearHorizontal"
-                          android:layout_width="wrap_content">
-
-                <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="@{expense.price}"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/colorAccent"
-                        tools:text="40" />
-
+                    android:text="@string/expense"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    tools:text="Expense" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="@{user.currencySymbol}"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/colorAccent"
-                        tools:text="€" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    app:date="@{expense.date}"
+                    tools:text="13.03.2018" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearHorizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    app:text="@{expense.info}"
+                    tools:text="Service" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    app:value="@{expense.price}"
+                    app:unit="@{user.currencySymbol}"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorAccent"
+                    tools:text="12.5 €" />
 
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </layout>

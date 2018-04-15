@@ -9,8 +9,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +18,8 @@ import sk.momosi.carific.databinding.FragmentExpenseListBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity
+import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
+import xyz.sangcomz.stickytimelineview.model.SectionInfo
 
 
 class ExpenseListFragment : Fragment() {
@@ -44,8 +44,7 @@ class ExpenseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        expense_list.adapter = ExpenseListAdapter(viewModel = viewModel)
-        expense_list.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        setupList()
 
         activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_expense)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
@@ -82,6 +81,18 @@ class ExpenseListFragment : Fragment() {
 
             startActivity(editIntent)
         })
+    }
+
+
+    private fun setupList() {
+        expense_list.adapter = ExpenseListAdapter(viewModel = viewModel)
+        expense_list.addItemDecoration(
+                object : RecyclerSectionItemDecoration.SectionCallback {
+                    override fun isSection(position: Int) = viewModel.isSection(position)
+
+                    override fun getSectionHeader(position: Int): SectionInfo? =
+                            SectionInfo(viewModel.sectionName(position), null)
+                })
     }
 
     private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)

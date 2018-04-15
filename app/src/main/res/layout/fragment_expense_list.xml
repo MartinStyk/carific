@@ -38,12 +38,10 @@
             android:text="@string/expense_list_empty"
             android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"/>
 
-        <android.support.v7.widget.RecyclerView
+        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
             android:id="@+id/expense_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fadeScrollbars="true"
-            android:scrollbars="vertical"
             app:expenses="@{viewModel.expenses}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/list_item_expense"

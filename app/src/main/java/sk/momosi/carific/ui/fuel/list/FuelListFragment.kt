@@ -19,6 +19,7 @@ import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
+import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
 import xyz.sangcomz.stickytimelineview.model.SectionInfo
 
 

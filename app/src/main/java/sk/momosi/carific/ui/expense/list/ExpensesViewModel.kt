@@ -10,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.Expense
 import sk.momosi.carific.model.User
+import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.data.SingleLiveEvent
+import java.util.*
 
 /**
  * @author Martin Styk
@@ -66,5 +68,27 @@ class ExpensesViewModel : ViewModel() {
                         isError.set(true)
                     }
                 })
+    }
+
+    fun isSection(position: Int): Boolean {
+        val date = Calendar.getInstance()
+        val datePrevious = Calendar.getInstance()
+
+        synchronized(this@ExpensesViewModel) {
+            date.time = expenses[position].date
+            datePrevious.time = expenses[position - 1].date
+        }
+
+        return date.get(Calendar.MONTH) != datePrevious.get(Calendar.MONTH)
+    }
+
+    fun sectionName(position: Int): String {
+        val date = Calendar.getInstance()
+
+        synchronized(this) {
+            date.time = expenses[position].date
+        }
+
+        return DateUtils.localizeMonthDate(date)
     }
 }
