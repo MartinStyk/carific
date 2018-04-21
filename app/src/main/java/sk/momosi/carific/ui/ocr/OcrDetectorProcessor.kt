@@ -15,7 +15,10 @@
  */
 package sk.momosi.carific.ui.ocr
 
+import android.util.Log
 import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.text.Element
+import com.google.android.gms.vision.text.Line
 import com.google.android.gms.vision.text.TextBlock
 import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
 
@@ -25,19 +28,24 @@ import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
  */
 class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
 
+    private val numberRegex = Regex("^\\d*.\\d+|\\d+\\.\\d* ")
+
     /**
      * Called by the detector to deliver detection results.
-     * If your application called for it, this could be a place to check for
-     * equivalent detections by tracking TextBlocks that are similar in location and content from
-     * previous frames, or reduce noise by eliminating TextBlocks that have not persisted through
-     * multiple detections.
      */
     override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
         mGraphicOverlay.clear()
-        val items = detections.getDetectedItems()
-        for (i in 0 until items.size()) {
-            val item = items.valueAt(i)
-            val graphic = OcrGraphic(mGraphicOverlay, item)
+
+        val wordsMap = getWords(detections)
+
+        fixCommonErrors(wordsMap)
+
+        val numberMap = getNumbers(wordsMap)
+
+        Log.d(TAG, numberMap.values.toString())
+
+        numberMap.map { entry ->
+            val graphic = OcrGraphic(mGraphicOverlay, entry.key)
             mGraphicOverlay.add(graphic)
         }
     }
@@ -47,5 +55,52 @@ class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: Gra
      */
     override fun release() {
         mGraphicOverlay.clear()
+    }
+
+    private fun getWords(detections: Detector.Detections<TextBlock>): MutableMap<Element, String> {
+        val resultWords = HashMap<Element, String>()
+
+        val items = detections.detectedItems
+
+        for (i in 0 until items.size()) {
+            val textBlock = items.valueAt(i)
+            val sentence: List<Line> = textBlock.components as List<Line>
+
+            sentence.forEach {
+                val words = it.components as List<Element>
+                words.forEach {
+                    resultWords.put(it, it.value)
+                }
+            }
+        }
+
+        return resultWords
+    }
+
+    private fun getNumbers(words: Map<Element, String>): Map<Element, Double> {
+        val resultNumbers = HashMap<Element, Double>()
+
+        words.filter { entry ->
+            numberRegex.matches(entry.value)
+        }.forEach { entry ->
+            try {
+                resultNumbers[entry.key] = entry.value.toDouble()
+            } catch (e: NumberFormatException) {
+                Log.d(TAG, "Can not parse double: ${entry.value} ", e)
+            }
+        }
+
+        return resultNumbers
+    }
+
+    private fun fixCommonErrors(detections: MutableMap<Element, String>) {
+        detections.forEach { element, string ->
+            detections[element] = string.replace("O", "0")
+            detections[element] = string.replace(",", ".")
+        }
+    }
+
+    companion object {
+        private val TAG = OcrDetectorProcessor::class.java.simpleName
     }
 }

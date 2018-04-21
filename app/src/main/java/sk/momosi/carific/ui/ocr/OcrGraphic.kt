@@ -19,14 +19,14 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import com.google.android.gms.vision.text.TextBlock
+import com.google.android.gms.vision.text.Element
 import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
 
 /**
  * Graphic instance for rendering TextBlock position, size, and ID within an associated graphic
  * overlay view.
  */
-class OcrGraphic internal constructor(overlay: GraphicOverlay<OcrGraphic>, val textBlock: TextBlock?) : GraphicOverlay.Graphic(overlay) {
+class OcrGraphic internal constructor(overlay: GraphicOverlay<OcrGraphic>, val word: Element?) : GraphicOverlay.Graphic(overlay) {
 
     var id: Int = 0
 
@@ -51,7 +51,7 @@ class OcrGraphic internal constructor(overlay: GraphicOverlay<OcrGraphic>, val t
      * @return True if the provided point is contained within this graphic's bounding box.
      */
     override fun contains(x: Float, y: Float): Boolean {
-        val text = textBlock ?: return false
+        val text = word ?: return false
         val rect = RectF(text.boundingBox)
         rect.left = translateX(rect.left)
         rect.top = translateY(rect.top)
@@ -64,7 +64,7 @@ class OcrGraphic internal constructor(overlay: GraphicOverlay<OcrGraphic>, val t
      * Draws the text block annotations for position, size, and raw value on the supplied canvas.
      */
     override fun draw(canvas: Canvas) {
-        val text = textBlock ?: return
+        val text = word ?: return
 
         // Draws the bounding box around the TextBlock.
         val rect = RectF(text.boundingBox)
@@ -74,12 +74,9 @@ class OcrGraphic internal constructor(overlay: GraphicOverlay<OcrGraphic>, val t
         rect.bottom = translateY(rect.bottom)
         canvas.drawRect(rect, sRectPaint)
 
-        // Break the text into multiple lines and draw each one according to its own bounding box.
-        text.components.forEach {
-            val left = translateX(it.boundingBox.left.toFloat())
-            val bottom = translateY(it.boundingBox.bottom.toFloat())
-            canvas.drawText(it.value, left, bottom, sTextPaint)
-        }
+        val left = translateX(text.boundingBox.left.toFloat())
+        val bottom = translateY(text.boundingBox.bottom.toFloat())
+        canvas.drawText(text.value, left, bottom, sTextPaint)
     }
 
     companion object {

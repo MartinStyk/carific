@@ -17,6 +17,8 @@ package sk.momosi.carific.ui.ocr
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.Camera
@@ -31,7 +33,6 @@ import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
@@ -40,13 +41,9 @@ import sk.momosi.carific.R
 import sk.momosi.carific.ui.ocr.camera.CameraSource
 import sk.momosi.carific.ui.ocr.camera.CameraSourcePreview
 import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
+import sk.momosi.carific.util.data.SnackbarMessage
 import java.io.IOException
 
-/**
- * Activity for the multi-tracker app.  This app detects text and displays the value with the
- * rear facing camera. During detection overlay graphics are drawn to indicate the position,
- * size, and contents of each TextBlock.
- */
 @RuntimePermissions
 class OcrCaptureActivity : AppCompatActivity() {
 
@@ -58,6 +55,8 @@ class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var gestureDetector: GestureDetector
 
+    private lateinit var viewModel: OcrCaptureViewModel
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -68,18 +67,20 @@ class OcrCaptureActivity : AppCompatActivity() {
         preview = findViewById(R.id.preview)
         graphicOverlay = findViewById(R.id.graphicOverlay)
 
-        // Check for the camera permission before accessing the camera.  If the
-        // permission is not granted yet, request permission.
-        createCameraSourceWithPermissionCheck()
-
+        viewModel = ViewModelProviders.of(this).get(OcrCaptureViewModel::class.java)
 
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
-        Snackbar.make(graphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show()
+        createCameraSourceWithPermissionCheck()
+
+        setupSnackBar()
+
+        setupCompletionListener()
+
+        viewModel.start()
     }
+
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val scaleGesture = scaleGestureDetector.onTouchEvent(e)
@@ -113,6 +114,27 @@ class OcrCaptureActivity : AppCompatActivity() {
         preview.release()
     }
 
+    private fun setupSnackBar() {
+        viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {
+            override fun onNewMessage(snackbarMessageResourceId: Int) {
+                Snackbar.make(findViewById(android.R.id.content), snackbarMessageResourceId, Snackbar.LENGTH_INDEFINITE).show()
+            }
+        })
+    }
+
+    private fun setupCompletionListener() {
+        viewModel.dataReadComplete.observe(this, Observer {
+            val data = Intent().apply {
+                putExtra(OCR_PRICE_TOTAL, it?.first)
+                putExtra(OCR_PRICE_UNIT, it?.second)
+                putExtra(OCR_VOLUME, it?.third)
+
+            }
+            setResult(CommonStatusCodes.SUCCESS, data)
+            finish()
+        })
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
@@ -126,26 +148,12 @@ class OcrCaptureActivity : AppCompatActivity() {
     fun createCameraSource() {
         val context = applicationContext
 
-        // A text recognizer is created to find text.  An associated processor instance
-        // is set to receive the text recognition results and display graphics for each text block
-        // on screen.
         val textRecognizer = TextRecognizer.Builder(context).build()
-        textRecognizer.setProcessor(OcrDetectorProcessor(graphicOverlay))
+                .apply { setProcessor(OcrDetectorProcessor(graphicOverlay)) }
 
-        if (!textRecognizer.isOperational()) {
-            // Note: The first time that an app using a Vision API is installed on a
-            // device, GMS will download a native libraries to the device in order to do detection.
-            // Usually this completes before the app is run for the first time.  But if that
-            // download has not yet completed, then the above call will not detect any text,
-            // barcodes, or faces.
-            //
-            // isOperational() can be used to check if the required native libraries are currently
-            // available.  The detectors will automatically become operational once the library
-            // downloads complete on device.
+        if (!textRecognizer.isOperational) {
             Log.w(TAG, "Detector dependencies are not yet available.")
 
-            // Check for low storage.  If there is low storage, the native library will not be
-            // downloaded, so detection will not become operational.
             val lowstorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
             val hasLowStorage = registerReceiver(null, lowstorageFilter) != null
 
@@ -159,7 +167,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         cameraSource = CameraSource.Builder(applicationContext, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
+                .setRequestedFps(1.0f)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
                 .build()
     }
@@ -167,12 +175,6 @@ class OcrCaptureActivity : AppCompatActivity() {
     @OnPermissionDenied(Manifest.permission.CAMERA)
     fun onCameraPermissionDenied() = finish().apply { setResult(CommonStatusCodes.CANCELED) }
 
-
-    /**
-     * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
-     * (e.g., because onResume was called before the camera source was created), this will be called
-     * again when the camera source is created.
-     */
     @Throws(SecurityException::class)
     private fun startCameraSource() {
         // Check that the device has play services available.
@@ -203,21 +205,18 @@ class OcrCaptureActivity : AppCompatActivity() {
      */
     private fun onTap(rawX: Float, rawY: Float): Boolean {
         val graphic = graphicOverlay.getGraphicAtLocation(rawX, rawY)
-        var text: TextBlock? = null
         if (graphic != null) {
-            text = graphic.textBlock
+            val text = graphic.word
             if (text?.value != null) {
-                val data = Intent()
-                data.putExtra(TEXT_BLOCK_OBJECT, text.value)
-                setResult(CommonStatusCodes.SUCCESS, data)
-                finish()
+                viewModel.setCapturedData(text = text.value)
             } else {
                 Log.d(TAG, "text data is null")
             }
         } else {
             Log.d(TAG, "no text detected")
         }
-        return text != null
+
+        return graphic?.word != null
     }
 
     private inner class CaptureGestureListener : GestureDetector.SimpleOnGestureListener() {
@@ -229,51 +228,10 @@ class OcrCaptureActivity : AppCompatActivity() {
 
     private inner class ScaleListener : ScaleGestureDetector.OnScaleGestureListener {
 
-        /**
-         * Responds to scaling events for a gesture in progress.
-         * Reported by pointer motion.
-         *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
-         * @return Whether or not the detector should consider this event
-         * as handled. If an event was not handled, the detector
-         * will continue to accumulate movement until an event is
-         * handled. This can be useful if an application, for example,
-         * only wants to update scaling factors if the change is
-         * greater than 0.01.
-         */
-        override fun onScale(detector: ScaleGestureDetector): Boolean {
-            return false
-        }
+        override fun onScale(detector: ScaleGestureDetector) = false
 
-        /**
-         * Responds to the beginning of a scaling gesture. Reported by
-         * new pointers going down.
-         *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
-         * @return Whether or not the detector should continue recognizing
-         * this gesture. For example, if a gesture is beginning
-         * with a focal point outside of a region where it makes
-         * sense, onScaleBegin() may return false to ignore the
-         * rest of the gesture.
-         */
-        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-            return true
-        }
+        override fun onScaleBegin(detector: ScaleGestureDetector) = true
 
-        /**
-         * Responds to the end of a scale gesture. Reported by existing
-         * pointers going up.
-         *
-         *
-         * Once a scale has ended, [ScaleGestureDetector.getFocusX]
-         * and [ScaleGestureDetector.getFocusY] will return focal point
-         * of the pointers remaining on the screen.
-         *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
-         */
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             cameraSource?.doZoom(detector.scaleFactor)
         }
@@ -286,6 +244,9 @@ class OcrCaptureActivity : AppCompatActivity() {
         private val RC_HANDLE_GMS = 9001
 
         // Constants used to pass extra data in the intent
-        const val TEXT_BLOCK_OBJECT = "String"
+        const val OCR_PRICE_TOTAL = "ocr_total_price"
+        const val OCR_PRICE_UNIT = "ocr_unit_price"
+        const val OCR_VOLUME = "ocr_volume"
+
     }
 }

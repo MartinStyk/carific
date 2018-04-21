@@ -27,6 +27,7 @@ import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.ocr.OcrCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
+import java.math.BigDecimal
 import java.util.*
 
 class AddEditFuelActivity : AppCompatActivity() {
@@ -94,10 +95,18 @@ class AddEditFuelActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             OCR_FUEL_CAPTURE_RESULT -> {
-                val text = data?.getStringExtra(OcrCaptureActivity.TEXT_BLOCK_OBJECT)
-                if (resultCode == CommonStatusCodes.SUCCESS && !text.isNullOrEmpty()) {
-                    Log.d(TAG, "Text read: $text")
-                    viewModel.ocrCapturedFuel(text.toString())
+                val priceTotal = data?.getSerializableExtra(OcrCaptureActivity.OCR_PRICE_TOTAL)
+                val priceUnit = data?.getSerializableExtra(OcrCaptureActivity.OCR_PRICE_UNIT)
+                val volume = data?.getSerializableExtra(OcrCaptureActivity.OCR_VOLUME)
+
+                if (resultCode == CommonStatusCodes.SUCCESS
+                        && priceTotal != null
+                        && priceUnit != null
+                        && volume != null) {
+
+                    viewModel.ocrCapturedFuel(priceTotal as BigDecimal, priceUnit as BigDecimal,
+                            volume as BigDecimal)
+
                 } else {
                     Log.d(TAG, "No Text captured, intent data is null")
                 }
