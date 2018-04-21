@@ -17,27 +17,25 @@ package sk.momosi.carific.ui.ocr
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.View
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnPermissionDenied
+import permissions.dispatcher.RuntimePermissions
 import sk.momosi.carific.R
 import sk.momosi.carific.ui.ocr.camera.CameraSource
 import sk.momosi.carific.ui.ocr.camera.CameraSourcePreview
@@ -49,6 +47,7 @@ import java.io.IOException
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
+@RuntimePermissions
 class OcrCaptureActivity : AppCompatActivity() {
 
     private var cameraSource: CameraSource? = null
@@ -71,47 +70,14 @@ class OcrCaptureActivity : AppCompatActivity() {
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
-        val rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-        if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource()
-        } else {
-            requestCameraPermission()
-        }
+        createCameraSourceWithPermissionCheck()
+
 
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         Snackbar.make(graphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
-                .show()
-    }
-
-    /**
-     * Handles the requesting of the camera permission.  This includes
-     * showing a "Snackbar" message of why the permission is needed then
-     * sending the request.
-     */
-    private fun requestCameraPermission() {
-        Log.w(TAG, "Camera permission is not granted. Requesting permission")
-
-        val permissions = arrayOf(Manifest.permission.CAMERA)
-
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
-            return
-        }
-
-        val thisActivity = this
-
-        val listener = View.OnClickListener {
-            ActivityCompat.requestPermissions(thisActivity, permissions,
-                    RC_HANDLE_CAMERA_PERM)
-        }
-
-        Snackbar.make(graphicOverlay, R.string.read_text_permission_camera_rationale,
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok, listener)
                 .show()
     }
 
@@ -123,13 +89,41 @@ class OcrCaptureActivity : AppCompatActivity() {
     }
 
     /**
-     * Creates and starts the camera.
-     *
-     * Suppressing InlinedApi since there is a check that the minimum version is met before using
-     * the constant.
+     * Restarts the camera.
      */
+    override fun onResume() {
+        super.onResume()
+        startCameraSource()
+    }
+
+    /**
+     * Stops the camera.
+     */
+    override fun onPause() {
+        super.onPause()
+        preview.stop()
+    }
+
+    /**
+     * Releases the resources associated with the camera source, the associated detectors, and the
+     * rest of the processing pipeline.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        preview.release()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    /**
+     * Creates and starts the camera.
+     */
+    @NeedsPermission(Manifest.permission.CAMERA)
     @SuppressLint("InlinedApi")
-    private fun createCameraSource() {
+    fun createCameraSource() {
         val context = applicationContext
 
         // A text recognizer is created to find text.  An associated processor instance
@@ -170,75 +164,9 @@ class OcrCaptureActivity : AppCompatActivity() {
                 .build()
     }
 
-    /**
-     * Restarts the camera.
-     */
-    override fun onResume() {
-        super.onResume()
-        startCameraSource()
-    }
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    fun onCameraPermissionDenied() = finish().apply { setResult(CommonStatusCodes.CANCELED) }
 
-    /**
-     * Stops the camera.
-     */
-    override fun onPause() {
-        super.onPause()
-        preview.stop()
-    }
-
-    /**
-     * Releases the resources associated with the camera source, the associated detectors, and the
-     * rest of the processing pipeline.
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        preview.release()
-    }
-
-    /**
-     * Callback for the result from requesting permissions. This method
-     * is invoked for every call on [.requestPermissions].
-     *
-     *
-     * **Note:** It is possible that the permissions request interaction
-     * with the user is interrupted. In this case you will receive empty permissions
-     * and results arrays which should be treated as a cancellation.
-     *
-     *
-     * @param requestCode  The request code passed in [.requestPermissions].
-     * @param permissions  The requested permissions. Never null.
-     * @param grantResults The grant results for the corresponding permissions
-     * which is either [PackageManager.PERMISSION_GRANTED]
-     * or [PackageManager.PERMISSION_DENIED]. Never null.
-     * @see .requestPermissions
-     */
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: $requestCode")
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            return
-        }
-
-        if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source")
-            // We have permission, so create the camerasource
-            createCameraSource()
-            return
-        }
-
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.size +
-                " Result code = " + if (grantResults.size > 0) grantResults[0] else "(empty)")
-
-        val listener = DialogInterface.OnClickListener { dialog, id -> finish() }
-
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Ocr detection")
-                .setMessage(R.string.read_text_no_camera_permission)
-                .setPositiveButton(R.string.ok, listener)
-                .show()
-    }
 
     /**
      * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
@@ -356,9 +284,6 @@ class OcrCaptureActivity : AppCompatActivity() {
 
         // Intent request code to handle updating play services if needed.
         private val RC_HANDLE_GMS = 9001
-
-        // Permission request codes need to be < 256
-        private val RC_HANDLE_CAMERA_PERM = 2
 
         // Constants used to pass extra data in the intent
         const val TEXT_BLOCK_OBJECT = "String"
