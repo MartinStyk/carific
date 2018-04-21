@@ -11,14 +11,17 @@ import android.support.annotation.StringRes
  *
  * Note that only one observer is going to be notified of changes.
  */
-class SnackbarMessage : SingleLiveEvent<Int>() {
+class SnackbarMessage : SingleLiveEvent<Any>() {
 
     fun observe(owner: LifecycleOwner, observer: SnackbarObserver) {
         super.observe(owner, Observer { t ->
             if (t == null) {
                 return@Observer
             }
-            observer.onNewMessage(t)
+            when(t){
+                is Int -> observer.onNewMessage(t)
+                is String -> observer.onNewMessage(t)
+            }
         })
     }
 
@@ -28,6 +31,8 @@ class SnackbarMessage : SingleLiveEvent<Int>() {
          * @param snackbarMessageResourceId The new message, non-null.
          */
         fun onNewMessage(@StringRes snackbarMessageResourceId: Int) {}
+
+        fun onNewMessage(text: String) {}
     }
 
 }

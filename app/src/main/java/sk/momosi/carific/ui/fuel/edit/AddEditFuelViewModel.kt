@@ -248,6 +248,10 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         date.notifyChange()
     }
 
+    fun ocrCapturedFuel(text:String){
+        snackbarMessage.value = text
+    }
+
     companion object {
         val TAG = AddEditFuelViewModel::class.java.simpleName
     }
