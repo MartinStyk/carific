@@ -16,7 +16,7 @@ import kotlin.math.absoluteValue
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class OcrCaptureViewModel(application: Application) : AndroidViewModel(application) {
+class BillCaptureViewModel(application: Application) : AndroidViewModel(application) {
 
     private enum class Step { VOLUME, TOTAL_PRICE }
 
@@ -122,7 +122,7 @@ class OcrCaptureViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     companion object {
-        val TAG = OcrCaptureViewModel::class.java.simpleName
+        val TAG = BillCaptureViewModel::class.java.simpleName
     }
 
 }

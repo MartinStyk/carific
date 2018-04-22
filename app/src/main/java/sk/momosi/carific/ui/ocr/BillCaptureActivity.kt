@@ -41,11 +41,12 @@ import sk.momosi.carific.R
 import sk.momosi.carific.ui.ocr.camera.CameraSource
 import sk.momosi.carific.ui.ocr.camera.CameraSourcePreview
 import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
+import sk.momosi.carific.ui.ocr.camera.OcrGraphic
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.io.IOException
 
 @RuntimePermissions
-class OcrCaptureActivity : AppCompatActivity() {
+class BillCaptureActivity : AppCompatActivity() {
 
     private var cameraSource: CameraSource? = null
     private lateinit var preview: CameraSourcePreview
@@ -55,19 +56,19 @@ class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var gestureDetector: GestureDetector
 
-    private lateinit var viewModel: OcrCaptureViewModel
+    private lateinit var viewModel: BillCaptureViewModel
 
     /**
      * Initializes the UI and creates the detector pipeline.
      */
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
-        setContentView(R.layout.activity_ocr_capture)
+        setContentView(R.layout.activity_bill_capture)
 
         preview = findViewById(R.id.preview)
         graphicOverlay = findViewById(R.id.graphicOverlay)
 
-        viewModel = ViewModelProviders.of(this).get(OcrCaptureViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(BillCaptureViewModel::class.java)
 
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
@@ -149,7 +150,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         val context = applicationContext
 
         val textRecognizer = TextRecognizer.Builder(context).build()
-                .apply { setProcessor(OcrDetectorProcessor(graphicOverlay, viewModel)) }
+                .apply { setProcessor(BillDetectorProcessor(graphicOverlay, viewModel)) }
 
         if (!textRecognizer.isOperational) {
             Log.w(TAG, "Detector dependencies are not yet available.")
@@ -238,7 +239,7 @@ class OcrCaptureActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val TAG = OcrCaptureActivity::class.java.simpleName
+        private val TAG = BillCaptureActivity::class.java.simpleName
 
         // Intent request code to handle updating play services if needed.
         private val RC_HANDLE_GMS = 9001

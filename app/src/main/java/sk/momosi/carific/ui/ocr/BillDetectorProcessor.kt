@@ -21,13 +21,14 @@ import com.google.android.gms.vision.text.Element
 import com.google.android.gms.vision.text.Line
 import com.google.android.gms.vision.text.TextBlock
 import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
+import sk.momosi.carific.ui.ocr.camera.OcrGraphic
 
 /**
  * A very simple Processor which receives detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
  */
-class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>,
-                                                private val viewModel: OcrCaptureViewModel) : Detector.Processor<TextBlock> {
+class BillDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>,
+                                                 private val viewModel: BillCaptureViewModel) : Detector.Processor<TextBlock> {
 
     private val numberRegex = Regex("^\\d*.\\d+|\\d+\\.\\d* ")
 
@@ -104,6 +105,6 @@ class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: Gra
     }
 
     companion object {
-        private val TAG = OcrDetectorProcessor::class.java.simpleName
+        private val TAG = BillDetectorProcessor::class.java.simpleName
     }
 }

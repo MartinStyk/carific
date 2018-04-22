@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sk.momosi.carific.ui.ocr
+package sk.momosi.carific.ui.ocr.camera
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import com.google.android.gms.vision.text.Element
-import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
 
 /**
  * Graphic instance for rendering TextBlock position, size, and ID within an associated graphic

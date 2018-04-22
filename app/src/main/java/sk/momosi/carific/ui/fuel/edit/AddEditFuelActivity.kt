@@ -25,7 +25,7 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
-import sk.momosi.carific.ui.ocr.OcrCaptureActivity
+import sk.momosi.carific.ui.ocr.BillCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.math.BigDecimal
 import java.util.*
@@ -76,7 +76,7 @@ class AddEditFuelActivity : AppCompatActivity() {
 
     private fun setupOcrButtons() {
         refueling_add_ocr.setOnClickListener {
-            startActivityForResult(Intent(this, OcrCaptureActivity::class.java), OCR_FUEL_CAPTURE_RESULT)
+            startActivityForResult(Intent(this, BillCaptureActivity::class.java), OCR_FUEL_CAPTURE_RESULT)
         }
     }
 
@@ -95,9 +95,9 @@ class AddEditFuelActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             OCR_FUEL_CAPTURE_RESULT -> {
-                val priceTotal = data?.getSerializableExtra(OcrCaptureActivity.OCR_PRICE_TOTAL)
-                val priceUnit = data?.getSerializableExtra(OcrCaptureActivity.OCR_PRICE_UNIT)
-                val volume = data?.getSerializableExtra(OcrCaptureActivity.OCR_VOLUME)
+                val priceTotal = data?.getSerializableExtra(BillCaptureActivity.OCR_PRICE_TOTAL)
+                val priceUnit = data?.getSerializableExtra(BillCaptureActivity.OCR_PRICE_UNIT)
+                val volume = data?.getSerializableExtra(BillCaptureActivity.OCR_VOLUME)
 
                 if (resultCode == CommonStatusCodes.SUCCESS
                         && priceTotal != null
