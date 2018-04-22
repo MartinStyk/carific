@@ -149,7 +149,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         val context = applicationContext
 
         val textRecognizer = TextRecognizer.Builder(context).build()
-                .apply { setProcessor(OcrDetectorProcessor(graphicOverlay)) }
+                .apply { setProcessor(OcrDetectorProcessor(graphicOverlay, viewModel)) }
 
         if (!textRecognizer.isOperational) {
             Log.w(TAG, "Detector dependencies are not yet available.")

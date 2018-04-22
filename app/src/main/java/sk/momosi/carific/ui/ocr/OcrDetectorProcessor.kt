@@ -26,7 +26,8 @@ import sk.momosi.carific.ui.ocr.camera.GraphicOverlay
  * A very simple Processor which receives detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
  */
-class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
+class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>,
+                                                private val viewModel: OcrCaptureViewModel) : Detector.Processor<TextBlock> {
 
     private val numberRegex = Regex("^\\d*.\\d+|\\d+\\.\\d* ")
 
@@ -48,6 +49,8 @@ class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: Gra
             val graphic = OcrGraphic(mGraphicOverlay, entry.key)
             mGraphicOverlay.add(graphic)
         }
+
+        viewModel.autoOcrHandling(numberMap)
     }
 
     /**
