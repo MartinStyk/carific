@@ -249,7 +249,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun ocrCapturedFuel(priceTotal: BigDecimal, pricePerUnit: BigDecimal, volume: BigDecimal) {
-        snackbarMessage.value = "captured!!"
+        snackbarMessage.value = R.string.bill_capture_finished
         this.priceTotal.set(priceTotal)
         this.pricePerLitre.set(pricePerUnit)
         this.volume.set(volume)

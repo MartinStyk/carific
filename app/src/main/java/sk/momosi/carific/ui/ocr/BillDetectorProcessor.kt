@@ -38,20 +38,20 @@ class BillDetectorProcessor internal constructor(private val mGraphicOverlay: Gr
     override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
         mGraphicOverlay.clear()
 
-        val wordsMap = getWords(detections)
+        val wordsMap = decomposeToWords(detections)
 
         fixCommonErrors(wordsMap)
 
         val numberMap = getNumbers(wordsMap)
 
-        Log.d(TAG, numberMap.values.toString())
-
-        numberMap.map { entry ->
-            val graphic = OcrGraphic(mGraphicOverlay, entry.key)
-            mGraphicOverlay.add(graphic)
+        if (viewModel.currentStep == BillCaptureViewModel.Step.AUTO_DETECT) {
+            viewModel.autoOcrHandling(numberMap)
+        } else {
+            numberMap.map { entry ->
+                val graphic = OcrGraphic(mGraphicOverlay, entry.key)
+                mGraphicOverlay.add(graphic)
+            }
         }
-
-        viewModel.autoOcrHandling(numberMap)
     }
 
     /**
@@ -61,7 +61,7 @@ class BillDetectorProcessor internal constructor(private val mGraphicOverlay: Gr
         mGraphicOverlay.clear()
     }
 
-    private fun getWords(detections: Detector.Detections<TextBlock>): MutableMap<Element, String> {
+    private fun decomposeToWords(detections: Detector.Detections<TextBlock>): MutableMap<Element, String> {
         val resultWords = HashMap<Element, String>()
 
         val items = detections.detectedItems

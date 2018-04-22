@@ -18,23 +18,34 @@ import kotlin.math.absoluteValue
  */
 class BillCaptureViewModel(application: Application) : AndroidViewModel(application) {
 
-    private enum class Step { VOLUME, TOTAL_PRICE }
-
-    private var currentStep: Step = Step.VOLUME
+    enum class Step { AUTO_DETECT, VOLUME, TOTAL_PRICE }
+    var currentStep: Step = Step.AUTO_DETECT
 
     val snackbarMessage = SnackbarMessage()
-    val dataReadComplete = SingleLiveEvent<Triple<BigDecimal, BigDecimal, BigDecimal>>()
+    val autoDetectionSnackbar = SnackbarMessage()
 
+    val dataReadComplete = SingleLiveEvent<Triple<BigDecimal, BigDecimal, BigDecimal>>()
 
     private var priceTotal = BigDecimal.ZERO
     private var pricePerUnit = BigDecimal.ZERO
     private var volume = BigDecimal.ZERO
 
     fun start() {
-        currentStep = Step.VOLUME
-        snackbarMessage.value = R.string.read_text_enter_fuel_volume
+        if (currentStep == Step.AUTO_DETECT) {
+            currentStep = Step.AUTO_DETECT
+            autoDetectionSnackbar.value = R.string.bill_capture_detection_auto
+        }
     }
 
+    fun switchToManualDetection() {
+        currentStep = Step.VOLUME
+        snackbarMessage.value = R.string.bill_capture_enter_fuel_volume
+    }
+
+
+    /**
+     * Called when user selects detected value on manual detection
+     */
     fun setCapturedData(text: String) {
         val fixedText = text.replace("O", "0").replace(",", ".")
 
@@ -50,7 +61,7 @@ class BillCaptureViewModel(application: Application) : AndroidViewModel(applicat
             Step.VOLUME -> {
                 volume = number
                 currentStep = Step.TOTAL_PRICE
-                snackbarMessage.value = R.string.read_text_enter_price_total
+                snackbarMessage.value = R.string.bill_capture_enter_price_total
             }
             Step.TOTAL_PRICE -> {
                 priceTotal = number
@@ -60,6 +71,9 @@ class BillCaptureViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    /**
+     * Called by BillDetectorProcessor during automatic value recognition
+     */
     @WorkerThread
     fun autoOcrHandling(values: Map<Element, Double>) {
         val sortedValues = values.entries.sortedBy { (_, value) -> value }
@@ -72,10 +86,7 @@ class BillCaptureViewModel(application: Application) : AndroidViewModel(applicat
         for (productEntry in sortedValues) {
             for (aEntry in sortedValues) {
                 for (bEntry in sortedValues) {
-                    if (isCorrectDetection(totalPrice = productEntry,
-                                    unitPrice = aEntry,
-                                    volume = bEntry)) {
-
+                    if (isCorrectDetection(totalPrice = productEntry, unitPrice = aEntry, volume = bEntry)) {
                         product = productEntry
                         a = aEntry
                         b = bEntry

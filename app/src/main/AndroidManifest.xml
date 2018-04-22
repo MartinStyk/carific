@@ -51,7 +51,7 @@
             android:label="@string/expense_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.ocr.BillCaptureActivity"
-            android:label="@string/read_text" />
+            android:label="@string/bill_capture" />
     </application>
 
 </manifest>

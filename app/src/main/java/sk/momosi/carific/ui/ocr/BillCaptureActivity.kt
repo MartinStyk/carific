@@ -58,6 +58,8 @@ class BillCaptureActivity : AppCompatActivity() {
 
     private lateinit var viewModel: BillCaptureViewModel
 
+    private var messageSnackbar: Snackbar? = null
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -116,9 +118,26 @@ class BillCaptureActivity : AppCompatActivity() {
     }
 
     private fun setupSnackBar() {
+
         viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {
             override fun onNewMessage(snackbarMessageResourceId: Int) {
-                Snackbar.make(findViewById(android.R.id.content), snackbarMessageResourceId, Snackbar.LENGTH_INDEFINITE).show()
+                messageSnackbar?.dismiss()
+                messageSnackbar = Snackbar
+                        .make(findViewById(android.R.id.content), snackbarMessageResourceId, Snackbar.LENGTH_INDEFINITE)
+                messageSnackbar?.show()
+            }
+        })
+
+        viewModel.autoDetectionSnackbar.observe(this, object : SnackbarMessage.SnackbarObserver {
+            override fun onNewMessage(snackbarMessageResourceId: Int) {
+                messageSnackbar = Snackbar.make(findViewById(android.R.id.content), snackbarMessageResourceId, Snackbar.LENGTH_INDEFINITE)
+
+                messageSnackbar?.setAction(R.string.bill_capture_detection_manual, {
+                    messageSnackbar?.dismiss()
+                    viewModel.switchToManualDetection()
+                })
+
+                messageSnackbar?.show()
             }
         })
     }
@@ -155,12 +174,11 @@ class BillCaptureActivity : AppCompatActivity() {
         if (!textRecognizer.isOperational) {
             Log.w(TAG, "Detector dependencies are not yet available.")
 
-            val lowstorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
-            val hasLowStorage = registerReceiver(null, lowstorageFilter) != null
+            val hasLowStorage = registerReceiver(null, IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)) != null
 
             if (hasLowStorage) {
-                Toast.makeText(this, R.string.read_text_low_storage_error, Toast.LENGTH_LONG).show()
-                Log.w(TAG, getString(R.string.read_text_low_storage_error))
+                Toast.makeText(this, R.string.bill_capture_low_storage_error, Toast.LENGTH_LONG).show()
+                Log.w(TAG, getString(R.string.bill_capture_low_storage_error))
             }
         }
 
