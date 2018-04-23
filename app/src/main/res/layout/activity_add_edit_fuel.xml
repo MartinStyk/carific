@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,7 @@
             type="sk.momosi.carific.ui.fuel.edit.AddEditFuelViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -40,187 +40,212 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.CardView style="@style/BasicCard">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <RelativeLayout
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:animateLayoutChanges="true"
+                    android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
 
-                    <ProgressBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:animateLayoutChanges="true"
-                        android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}"
-                        tools:visibility="gone" />
+                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
-                        android:animateLayoutChanges="true"
-                        android:orientation="vertical"
-                        android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
+                        <LinearLayout style="@style/LinearVertical">
+                            <!-- Distance -->
+                            <LinearLayout style="@style/LinearHorizontal">
 
-                        <!-- Distance -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_distance_from_last_error}"
-                                app:isValid="@{viewmodel.isDistanceFromLastValid}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
                                     android:layout_weight="1"
-                                    android:hint="@string/refueling_create_distance_from_last_hint"
-                                    android:inputType="number"
-                                    android:text="@={viewmodel.distanceFromLast}" />
+                                    app:errorText="@{@string/refueling_create_distance_from_last_error}"
+                                    app:isValid="@{viewmodel.isDistanceFromLastValid}">
 
-                            </android.support.design.widget.TextInputLayout>
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/refueling_create_distance_from_last_hint"
+                                        android:inputType="number"
+                                        android:text="@={viewmodel.distanceFromLast}" />
 
-                            <android.support.v7.widget.AppCompatTextView
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/text_input_unit_top_margin"
+                                    android:text="km" />
+                            </LinearLayout>
+
+                            <!-- Date -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1">
+
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:id="@+id/refueling_add_date_picker"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:focusable="false"
+                                        android:freezesText="true"
+                                        android:hint="@string/create_date_hint"
+                                        android:inputType="date"
+                                        app:date="@{viewmodel.date}" />
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1">
+
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:id="@+id/refueling_add_time_picker"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:focusable="false"
+                                        android:freezesText="true"
+                                        android:hint="@string/create_time_hint"
+                                        android:inputType="date"
+                                        app:time="@{viewmodel.date}" />
+                                </android.support.design.widget.TextInputLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
+
+                        <LinearLayout style="@style/LinearVertical">
+
+                            <!-- Volume, full -->
+                            <LinearLayout style="@style/LinearHorizontal">
+
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    app:errorText="@{@string/refueling_create_fuel_volume_error}"
+                                    app:isValid="@{viewmodel.isVolumeValid()}">
+
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/refueling_create_fuel_volume_hint"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1"
+                                        android:text="@={viewmodel.volume}" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="@dimen/space_basic"
+                                    android:layout_marginTop="@dimen/text_input_unit_top_margin"
+                                    android:text="l" />
+
+                                <!-- Full tank -->
+                                <android.support.v7.widget.SwitchCompat
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/text_input_unit_top_margin"
+                                    android:checked="@={viewmodel.isFull}"
+                                    android:text="@string/refueling_create_full_tank" />
+
+                            </LinearLayout>
+
+
+                            <!-- Price per litre, price total -->
+                            <LinearLayout style="@style/LinearHorizontal">
+
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    app:errorText="@{@string/refueling_create_price_per_unit_error}"
+                                    app:isValid="@{viewmodel.isPricePerLitreValid}">
+
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/refueling_create_price_per_unit_hint"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1"
+                                        android:text="@={viewmodel.pricePerLitre}" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="@dimen/space_basic"
+                                    android:layout_marginTop="@dimen/text_input_unit_top_margin"
+                                    android:text="@{viewmodel.user.currencySymbol}" />
+
+                                <android.support.design.widget.TextInputLayout
+                                    style="@style/TextInputLayoutWithValidations"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    app:errorText="@{@string/refueling_create_price_total_error}"
+                                    app:isValid="@{viewmodel.isPriceTotalValid}">
+
+                                    <android.support.v7.widget.AppCompatEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/refueling_create_price_total_hint"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1"
+                                        android:text="@={viewmodel.priceTotal}" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/text_input_unit_top_margin"
+                                    android:text="@{viewmodel.user.currencySymbol}" />
+                            </LinearLayout>
+
+                            <!-- OCR -->
+                            <Button
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:id="@+id/refueling_add_ocr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="km" />
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="16dp"
+                                android:drawableLeft="@drawable/ic_camera"
+                                android:drawablePadding="6dp"
+                                android:drawableStart="@drawable/ic_camera"
+                                android:text="@string/bill_capture" />
+
                         </LinearLayout>
 
-                        <!-- Volume -->
-                        <LinearLayout style="@style/LinearHorizontal">
+                    </android.support.v7.widget.CardView>
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_fuel_volume_error}"
-                                app:isValid="@{viewmodel.isVolumeValid()}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_fuel_volume_hint"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@={viewmodel.volume}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="l" />
-                        </LinearLayout>
-
-                        <!-- Price per litre -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_price_per_unit_error}"
-                                app:isValid="@{viewmodel.isPricePerLitreValid}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_price_per_unit_hint"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@={viewmodel.pricePerLitre}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="@{viewmodel.user.currencySymbol}" />
-                        </LinearLayout>
-
-                        <!-- Price total -->
-                        <LinearLayout style="@style/LinearHorizontal">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:errorText="@{@string/refueling_create_price_total_error}"
-                                app:isValid="@{viewmodel.isPriceTotalValid}">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/refueling_create_price_total_hint"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@={viewmodel.priceTotal}" />
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="@{viewmodel.user.currencySymbol}" />
-                        </LinearLayout>
-
-                        <!-- Date -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:id="@+id/refueling_add_date_picker"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="false"
-                                    android:focusable="false"
-                                    android:freezesText="true"
-                                    android:hint="@string/create_date_hint"
-                                    android:inputType="date"
-                                    app:date="@{viewmodel.date}"
-                                    />
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/TextInputLayoutWithValidations"
-                                android:layout_width="0dp"
-                                android:layout_weight="1">
-
-                                <android.support.v7.widget.AppCompatEditText
-                                    android:id="@+id/refueling_add_time_picker"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="false"
-                                    android:focusable="false"
-                                    android:freezesText="true"
-                                    android:hint="@string/create_time_hint"
-                                    android:inputType="date"
-                                    app:time="@{viewmodel.date}" />
-                            </android.support.design.widget.TextInputLayout>
-                        </LinearLayout>
-
-                        <!-- Full tank -->
-                        <android.support.v7.widget.AppCompatCheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:checked="@={viewmodel.isFull}"
-                            android:gravity="center"
-                            android:text="@string/refueling_create_full_tank" />
-
+                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
                         <!-- Note -->
                         <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutWithValidations">
 
@@ -232,10 +257,11 @@
                                 android:text="@={viewmodel.note}" />
                         </android.support.design.widget.TextInputLayout>
 
+                    </android.support.v7.widget.CardView>
 
-                    </LinearLayout>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+            </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
 

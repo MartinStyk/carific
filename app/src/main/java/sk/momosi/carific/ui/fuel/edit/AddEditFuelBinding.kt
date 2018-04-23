@@ -45,12 +45,12 @@ object AddEditFuelBinding {
         val displayed = if (tv.text.isNullOrBlank()) {
             null
         } else {
-            val text = tv.text.replace(Regex("[^0-9]"),"")
+            val text = tv.text.toString().replace(",", ".")
             BigDecimal(text)
         }
 
         if (value != null && value != displayed) {
-            tv.setText(value.toString())
+            tv.setText(DecimalFormat.getInstance().format(value))
         }
     }
 
@@ -58,7 +58,7 @@ object AddEditFuelBinding {
     @InverseBindingAdapter(attribute = "android:text")
     fun getBigDecimalFromBinding(view: TextView): BigDecimal? {
         return if (view.text.isNullOrBlank()) null else {
-            val text = view.text.replace(Regex("[^0-9]"),"")
+            val text = view.text.toString().replace(",", ".")
             BigDecimal(text)
         }
     }
@@ -71,7 +71,7 @@ object AddEditFuelBinding {
         val displayed = if (tv.text.isNullOrBlank()) {
             null
         } else {
-            BigDecimal(tv.text.replace(Regex("[^0-9]"),""))
+            BigDecimal(tv.text.replace(Regex("[^0-9]"), ""))
         }
 
         if (value != null && value != displayed) {

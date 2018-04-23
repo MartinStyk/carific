@@ -39,7 +39,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     val priceTotal = ObservableField<BigDecimal>()
     val isPriceTotalValid = ObservableBoolean(false)
 
-    val isFull = ObservableField<Boolean>()
+    val isFull = ObservableField<Boolean>(true)
 
     val date = ObservableField<Calendar>()
 
@@ -246,6 +246,13 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         date.get()?.set(Calendar.HOUR, hour)
         date.get()?.set(Calendar.MINUTE, minute)
         date.notifyChange()
+    }
+
+    fun ocrCapturedFuel(priceTotal: BigDecimal, pricePerUnit: BigDecimal, volume: BigDecimal) {
+        snackbarMessage.value = R.string.bill_capture_finished
+        this.priceTotal.set(priceTotal)
+        this.pricePerLitre.set(pricePerUnit)
+        this.volume.set(volume)
     }
 
     companion object {

@@ -50,6 +50,8 @@
         <activity android:name=".ui.expense.edit.AddEditExpenseActivity"
             android:label="@string/expense_create"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.ocr.BillCaptureActivity"
+            android:label="@string/bill_capture" />
     </application>
 
 </manifest>

@@ -6,23 +6,28 @@ import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import com.google.android.gms.common.api.CommonStatusCodes
 import kotlinx.android.synthetic.main.activity_add_edit_fuel.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
+import sk.momosi.carific.ui.ocr.BillCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
+import java.math.BigDecimal
 import java.util.*
 
 class AddEditFuelActivity : AppCompatActivity() {
@@ -46,6 +51,8 @@ class AddEditFuelActivity : AppCompatActivity() {
 
         setupAddButton()
 
+        setupOcrButtons()
+
         setupDatePicker()
 
         setupTimePicker()
@@ -66,12 +73,47 @@ class AddEditFuelActivity : AppCompatActivity() {
 
     private fun setupAddButton() = refueling_add_save.setOnClickListener { viewModel.saveRefueling() }
 
+
+    private fun setupOcrButtons() {
+        refueling_add_ocr.setOnClickListener {
+            startActivityForResult(Intent(this, BillCaptureActivity::class.java), OCR_FUEL_CAPTURE_RESULT)
+        }
+    }
+
     private fun setupSnackbar() {
         viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {
             override fun onNewMessage(snackbarMessageResourceId: Int) {
                 Snackbar.make(binding.root, snackbarMessageResourceId, Snackbar.LENGTH_SHORT).show()
             }
+
+            override fun onNewMessage(text: String) {
+                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+            }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            OCR_FUEL_CAPTURE_RESULT -> {
+                val priceTotal = data?.getSerializableExtra(BillCaptureActivity.OCR_PRICE_TOTAL)
+                val priceUnit = data?.getSerializableExtra(BillCaptureActivity.OCR_PRICE_UNIT)
+                val volume = data?.getSerializableExtra(BillCaptureActivity.OCR_VOLUME)
+
+                if (resultCode == CommonStatusCodes.SUCCESS
+                        && priceTotal != null
+                        && priceUnit != null
+                        && volume != null) {
+
+                    viewModel.ocrCapturedFuel(priceTotal as BigDecimal, priceUnit as BigDecimal,
+                            volume as BigDecimal)
+
+                } else {
+                    Log.d(TAG, "No Text captured, intent data is null")
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
+
     }
 
     private fun setupDatePicker() {
@@ -140,9 +182,15 @@ class AddEditFuelActivity : AppCompatActivity() {
     private fun getRefueling() = intent?.extras?.getParcelable<Refueling>(ARG_REFUELING)
 
     companion object {
+
+        private val TAG = AddEditFuelActivity::class.java.simpleName
+
         const val ARG_CAR_ID = "car_id_edit"
         const val ARG_REFUELING = "refueling_edit"
         const val ARG_USER = "user"
+
+        const val OCR_FUEL_CAPTURE_RESULT = 123
+
     }
 
 }
