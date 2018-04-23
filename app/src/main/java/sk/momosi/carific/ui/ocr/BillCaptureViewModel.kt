@@ -19,6 +19,7 @@ import kotlin.math.absoluteValue
 class BillCaptureViewModel(application: Application) : AndroidViewModel(application) {
 
     enum class Step { AUTO_DETECT, VOLUME, TOTAL_PRICE }
+
     var currentStep: Step = Step.AUTO_DETECT
 
     val snackbarMessage = SnackbarMessage()
@@ -124,12 +125,13 @@ class BillCaptureViewModel(application: Application) : AndroidViewModel(applicat
 
         // additional checks on common errors
         val isNotOne = totalPrice.value != 1.0 && volume.value != 1.0
+        val isNotZero = totalPrice.value != 0.0 && volume.value != 0.0 && unitPrice.value != 0.0
         val isNotTheSame = totalPrice.value != unitPrice.value && volume.value != unitPrice.value
 
         // volume and unit price should be on one line
         val isOnOneLine = unitPrice.key.boundingBox.centerY() - volume.key.boundingBox.centerY() < 2
 
-        return isNotOne && isNotTheSame && isOnOneLine
+        return isNotOne && isNotZero && isNotTheSame && isOnOneLine
     }
 
     companion object {
