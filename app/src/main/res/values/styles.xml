@@ -52,6 +52,11 @@
         <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
     </style>
 
+    <style name="BasicCardWithContentPadding" parent="BasicCard">
+        <item name="contentPadding">@dimen/space_basic</item>
+    </style>
+
+
     <style name="TextInputLayoutWithValidations" parent="Widget.Design.TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

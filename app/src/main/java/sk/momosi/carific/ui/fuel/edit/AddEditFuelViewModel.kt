@@ -39,7 +39,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     val priceTotal = ObservableField<BigDecimal>()
     val isPriceTotalValid = ObservableBoolean(false)
 
-    val isFull = ObservableField<Boolean>()
+    val isFull = ObservableField<Boolean>(true)
 
     val date = ObservableField<Calendar>()
 

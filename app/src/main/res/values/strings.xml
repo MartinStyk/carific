@@ -56,10 +56,10 @@
     <string name="refueling_create_fuel_volume_error">Fuel volume is incorrect</string>
     <string name="refueling_create_price_total_hint">Total price</string>
     <string name="refueling_create_price_total_error">Total price is incorrect</string>
-    <string name="refueling_create_price_per_unit_hint">Price per volume</string>
+    <string name="refueling_create_price_per_unit_hint">Unit price</string>
     <string name="refueling_create_price_per_unit_error">Price is incorrect</string>
     <string name="refueling_create_note_hint">Note</string>
-    <string name="refueling_create_full_tank">Is tank full?</string>
+    <string name="refueling_create_full_tank">Full tank</string>
 
 
     <string name="refueling_delete_dialog_title">Delete refueling</string>
