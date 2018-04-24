@@ -2,6 +2,7 @@ package sk.momosi.carific.ui.fuel.edit
 
 import android.databinding.BindingAdapter
 import android.databinding.InverseBindingAdapter
+import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.AppCompatEditText
 import android.widget.TextView
 import sk.momosi.carific.util.DateUtils
@@ -15,6 +16,13 @@ import java.util.*
  * @date 30.03.2018.
  */
 object AddEditFuelBinding {
+
+
+    @JvmStatic
+    @BindingAdapter("errorText")
+    fun setErrorMessage(view: TextInputLayout, errorMessage: String) {
+        view.error = errorMessage
+    }
 
     @JvmStatic
     @BindingAdapter("android:text")

@@ -16,6 +16,7 @@ import sk.momosi.carific.model.User
 import sk.momosi.carific.service.fuel.FuelService
 import sk.momosi.carific.util.data.SingleLiveEvent
 import sk.momosi.carific.util.data.SnackbarMessage
+import sk.momosi.carific.util.extensions.isNotNull
 import java.math.BigDecimal
 import java.util.*
 
@@ -28,16 +29,16 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     private val fuelService: FuelService by lazy { FuelService() }
 
     val distanceFromLast = ObservableField<Int>()
-    val isDistanceFromLastValid = ObservableBoolean(false)
+    val isDistanceFromLastValid = ObservableBoolean(true)
 
     val volume = ObservableField<BigDecimal>()
-    val isVolumeValid = ObservableBoolean(false)
+    val isVolumeValid = ObservableBoolean(true)
 
     val pricePerLitre = ObservableField<BigDecimal>()
-    val isPricePerLitreValid = ObservableBoolean(false)
+    val isPricePerLitreValid = ObservableBoolean(true)
 
     val priceTotal = ObservableField<BigDecimal>()
-    val isPriceTotalValid = ObservableBoolean(false)
+    val isPriceTotalValid = ObservableBoolean(true)
 
     val isFull = ObservableField<Boolean>(true)
 
@@ -65,25 +66,25 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     init {
         distanceFromLast.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isDistanceFromLastValid.set(distanceFromLast.get() != null)
+                isDistanceFromLastValid.set(distanceFromLast.isNotNull())
             }
         })
 
         volume.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isVolumeValid.set(volume.get() != null)
+                isVolumeValid.set(volume.isNotNull())
             }
         })
 
         pricePerLitre.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isPricePerLitreValid.set(pricePerLitre.get() != null)
+                isPricePerLitreValid.set(pricePerLitre.isNotNull())
             }
         })
 
         priceTotal.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isPriceTotalValid.set(priceTotal.get() != null)
+                isPriceTotalValid.set(priceTotal.isNotNull())
             }
         })
     }
@@ -131,7 +132,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     // Called when clicking on add button.
     fun saveRefueling() {
 
-        if (!isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get() || !isPricePerLitreValid.get()) {
+        if (isRefuelingValid()) {
             snackbarMessage.value = R.string.create_validation_error
             return
         }
@@ -234,6 +235,17 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
         taskFished.call()
     }
+
+    private fun isRefuelingValid(): Boolean {
+        isDistanceFromLastValid.set(distanceFromLast.isNotNull())
+        isVolumeValid.set(volume.isNotNull())
+        isPriceTotalValid.set(priceTotal.isNotNull())
+        isPricePerLitreValid.set(pricePerLitre.isNotNull())
+
+        return !isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get() || !isPricePerLitreValid.get()
+    }
+
+    private fun isNotNull(observable: ObservableField<out Any>) = observable.get() != null
 
     fun setDate(year: Int, month: Int, day: Int) {
         date.get()?.set(Calendar.YEAR, year)

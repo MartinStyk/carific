@@ -1,8 +1,6 @@
 package sk.momosi.carific.ui.car.edit
 
 import android.databinding.BindingAdapter
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
 import android.support.design.widget.TextInputLayout
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -18,12 +16,13 @@ object AddEditCarBinding {
 
     @JvmStatic
     @BindingAdapter("isValid", "errorText")
-    fun setErrorMessage(view: TextInputLayout, isValid: ObservableBoolean, errorMessage: String) {
-        isValid.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                view.error = if (isValid.get()) null else errorMessage
-            }
-        })
+    fun setErrorMessage(view: TextInputLayout, isValid: Boolean, errorMessage: String) {
+        if (isValid) {
+            view.isErrorEnabled = false
+        } else {
+            view.isErrorEnabled = true
+            view.error = errorMessage
+        }
     }
 
 
