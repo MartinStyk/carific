@@ -32,13 +32,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_a_photo"
+                    android:layout_centerInParent="true"
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> viewmodel.imageClicked()}"
-                    app:vehicle_picture="@{viewmodel.picturePath}"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_add_a_photo"
+                    app:vehicle_picture_config="@{viewmodel.picturePath}" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

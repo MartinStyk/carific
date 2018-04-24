@@ -1,6 +1,7 @@
 package sk.momosi.carific.ui.main
 
 import android.databinding.BindingAdapter
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -28,18 +29,18 @@ object MainBinding {
 
     @JvmStatic
     @BindingAdapter("vehicle_picture", "vehicle_picture_empty")
-    fun setPictureWithErrorPosibility(imageView: ImageView, pathToPicture: String?, @DrawableRes errorPictureRes: Int) {
+    fun setPictureWithErrorPosibility(imageView: ImageView, pathToPicture: String?, @DrawableRes emptyPictureRes: Int) {
         if (pathToPicture != null && File(pathToPicture).exists()) {
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
             Picasso.get()
                     .load(File(pathToPicture))
-                    .error(errorPictureRes)
+                    .error(emptyPictureRes)
                     .into(imageView)
         } else {
             imageView.scaleType = ImageView.ScaleType.CENTER
             Picasso.get()
-                    .load(errorPictureRes)
-                    .error(errorPictureRes)
+                    .load(emptyPictureRes)
+                    .error(emptyPictureRes)
                     .into(imageView)
         }
     }
