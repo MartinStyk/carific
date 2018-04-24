@@ -132,7 +132,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     // Called when clicking on add button.
     fun saveRefueling() {
 
-        if (isRefuelingValid()) {
+        if (!isRefuelingValid()) {
             snackbarMessage.value = R.string.create_validation_error
             return
         }
@@ -242,7 +242,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
         isPriceTotalValid.set(priceTotal.isNotNull())
         isPricePerLitreValid.set(pricePerLitre.isNotNull())
 
-        return !isDistanceFromLastValid.get() || !isVolumeValid.get() || !isPriceTotalValid.get() || !isPricePerLitreValid.get()
+        return isDistanceFromLastValid.get() && isVolumeValid.get() && isPriceTotalValid.get() && isPricePerLitreValid.get()
     }
 
     private fun isNotNull(observable: ObservableField<out Any>) = observable.get() != null

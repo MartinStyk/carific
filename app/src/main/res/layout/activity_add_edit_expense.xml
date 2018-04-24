@@ -71,7 +71,7 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 app:errorText="@{@string/expense_create_price_error}"
-                                app:isValid="@{viewmodel.isPricelValid}">
+                                app:isValid="@{viewmodel.isPriceValid}">
 
                                 <android.support.v7.widget.AppCompatEditText
                                     android:layout_width="match_parent"
