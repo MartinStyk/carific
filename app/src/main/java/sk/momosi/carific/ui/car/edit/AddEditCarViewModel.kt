@@ -16,6 +16,8 @@ import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.VehicleType
 import sk.momosi.carific.util.data.SingleLiveEvent
 import sk.momosi.carific.util.data.SnackbarMessage
+import sk.momosi.carific.util.extensions.isNotNull
+import sk.momosi.carific.util.extensions.isNotNullOrBlank
 import java.io.File
 
 /**
@@ -25,10 +27,10 @@ import java.io.File
 class AddEditCarViewModel(application: Application) : AndroidViewModel(application) {
 
     val name = ObservableField<String>()
-    val isNameValid = ObservableBoolean(false)
+    val isNameValid = ObservableBoolean(true)
 
     val manufacturer = ObservableField<String>()
-    val isManufacturerValid = ObservableBoolean(false)
+    val isManufacturerValid = ObservableBoolean(true)
 
     val type = ObservableField<VehicleType>()
 
@@ -51,13 +53,13 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
     init {
         name.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isNameValid.set(!name.get().isNullOrBlank())
+                isNameValid.set(name.isNotNullOrBlank())
             }
         })
 
         manufacturer.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isManufacturerValid.set(!manufacturer.get().isNullOrBlank())
+                isManufacturerValid.set(manufacturer.isNotNullOrBlank())
             }
         })
     }
@@ -109,7 +111,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     // Called when clicking on add button.
     fun saveCar() {
-        if (!isManufacturerValid.get() || !isNameValid.get()) {
+        if (!isCarDataValid()) {
             snackbarMessage.value = R.string.car_create_validation_error
             return
         }
@@ -149,7 +151,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
         taskFished.value = car
     }
 
-    fun removeCar(){
+    fun removeCar() {
         Log.d(TAG, "Removing car " + carId)
 
         if (isCreateNew.get()) {
@@ -172,6 +174,13 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
                 .removeValue()
 
         taskFished.call()
+    }
+
+    private fun isCarDataValid(): Boolean {
+        isNameValid.set(name.isNotNullOrBlank())
+        isManufacturerValid.set(manufacturer.isNotNullOrBlank())
+
+        return isNameValid.get() && isManufacturerValid.get()
     }
 
     companion object {
