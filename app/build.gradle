@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    kapt 'com.android.databinding:compiler:3.1.1'
+    kapt 'com.android.databinding:compiler:3.1.2'
     kapt "android.arch.lifecycle:compiler:1.1.1"
     kapt 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
 

@@ -10,7 +10,8 @@ import sk.momosi.carific.R
  */
 enum class VolumeUnit() {
     LITRE,
-    GALONS
+    GALLONS_US,
+    GALLONS_UK
 }
 
 

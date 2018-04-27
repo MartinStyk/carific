@@ -3,6 +3,7 @@ package sk.momosi.carific.model
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import sk.momosi.carific.R
 
 /**
  * @author Martin Styk
@@ -15,7 +16,8 @@ data class Car(
         val name: String,
         val manufacturer: String,
         val type: VehicleType,
-        val picturePath: String?
+        val picturePath: String?,
+        val volumeUnit: VolumeUnit= VolumeUnit.LITRE
 //        val mileage: Long?,
 ) : Parcelable {
 
@@ -23,7 +25,9 @@ data class Car(
             Pair("name", name),
             Pair("manufacturer", manufacturer),
             Pair("type", type.name),
-            Pair("picturePath", picturePath ?: "")
+            Pair("picturePath", picturePath ?: ""),
+            Pair("volumeUnit", volumeUnit.name)
+
     )
 
     companion object {
@@ -32,7 +36,8 @@ data class Car(
                 name = map["name"] as String,
                 manufacturer = map["manufacturer"] as String,
                 type = VehicleType.valueOf(map["type"] as String),
-                picturePath = map["picturePath"] as String
+                picturePath = map["picturePath"] as String,
+                volumeUnit = VolumeUnit.valueOf(map["volumeUnit"] as String)
         )
     }
 }
