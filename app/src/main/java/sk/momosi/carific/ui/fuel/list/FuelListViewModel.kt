@@ -88,6 +88,8 @@ class FuelListViewModel : ViewModel() {
         val date = Calendar.getInstance()
 
         synchronized(this) {
+            if (position >= refuelings.size || position < 0)
+                return@synchronized
             date.time = refuelings[position].date
         }
 

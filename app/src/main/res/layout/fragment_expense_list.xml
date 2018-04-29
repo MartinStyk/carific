@@ -38,7 +38,7 @@
             android:text="@string/expense_list_empty"
             android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"/>
 
-        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
+        <sk.momosi.carific.view.recycler.CarificRecyclerView
             android:id="@+id/expense_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

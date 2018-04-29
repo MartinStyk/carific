@@ -32,61 +32,66 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> listener.onItemClick(refueling)}"
-            android:orientation="vertical"
             android:padding="@dimen/space_basic">
 
-            <LinearLayout style="@style/LinearHorizontal">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/refueling"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    tools:text="Refueling" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    app:date="@{refueling.date}"
-                    tools:text="13.03.2018" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                app:unit="@{@string/litres_per_kms}"
-                app:value="@{refueling.consumption == null ? @string/na : refueling.consumption.toString()}"
-                tools:text="5.6 l/100km" />
-
             <LinearLayout
-                style="@style/LinearHorizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/carific_list_item_left_margin"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    app:unit="@{@string/km}"
-                    app:value="@{refueling.distanceFromLast}"
-                    tools:text="120 km" />
+                <LinearLayout style="@style/LinearHorizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/refueling"
+                        android:textAppearance="?android:attr/textAppearanceListItem"
+                        tools:text="Refueling" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        app:date="@{refueling.date}"
+                        tools:text="13.03.2018" />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    app:value="@{refueling.priceTotal}"
-                    app:unit="@{user.currencySymbol}"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorAccent"
-                    tools:text="12.5 €" />
+                    app:unit="@{@string/litres_per_kms}"
+                    app:value="@{refueling.consumption == null ? @string/na : refueling.consumption.toString()}"
+                    tools:text="5.6 l/100km" />
+
+                <LinearLayout style="@style/LinearHorizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        app:unit="@{@string/km}"
+                        app:value="@{refueling.distanceFromLast}"
+                        tools:text="120 km" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorAccent"
+                        app:unit="@{user.currencySymbol}"
+                        app:value="@{refueling.priceTotal}"
+                        tools:text="12.5 €" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </layout>

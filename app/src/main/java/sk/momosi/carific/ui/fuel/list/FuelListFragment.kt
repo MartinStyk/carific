@@ -18,9 +18,10 @@ import sk.momosi.carific.databinding.FragmentFuelListBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
-import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
-import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
-import xyz.sangcomz.stickytimelineview.model.SectionInfo
+import sk.momosi.carific.view.recycler.decorations.ImageItemDecoration
+import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
+import xyz.sangcomz.stickytimelineview.RoadItemDecoration
+import sk.momosi.carific.view.recycler.model.SectionInfo
 
 
 class FuelListFragment : Fragment() {
@@ -91,12 +92,17 @@ class FuelListFragment : Fragment() {
 
     private fun setupList() {
         fuel_list.adapter = FuelListAdapter(viewModel = viewModel)
+
+        fuel_list.addItemDecoration(RoadItemDecoration(requireContext()))
+
         fuel_list.addItemDecoration(
                 object : RecyclerSectionItemDecoration.SectionCallback {
                     override fun isSection(position: Int) = viewModel.isSection(position)
 
                     override fun getSectionHeader(position: Int) = SectionInfo(viewModel.sectionName(position), null)
                 })
+
+        fuel_list.addItemDecoration(ImageItemDecoration(requireContext()))
     }
 
 

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="sk.momosi.carific.util.DateUtils"/>
+        <import type="sk.momosi.carific.util.DateUtils" />
 
         <variable
-                name="user"
-                type="sk.momosi.carific.model.User" />
+            name="user"
+            type="sk.momosi.carific.model.User" />
 
         <variable
-                name="expense"
-                type="sk.momosi.carific.model.Expense"/>
+            name="expense"
+            type="sk.momosi.carific.model.Expense" />
 
         <variable
-                name="listener"
-                type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Expense>"/>
+            name="listener"
+            type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Expense>" />
 
     </data>
 
@@ -32,52 +32,56 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> listener.onItemClick(expense)}"
-            android:orientation="vertical"
             android:padding="@dimen/space_basic">
 
-            <LinearLayout style="@style/LinearHorizontal">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/expense"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    tools:text="Expense" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    app:date="@{expense.date}"
-                    tools:text="13.03.2018" />
-
-            </LinearLayout>
-
             <LinearLayout
-                style="@style/LinearHorizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/carific_list_item_left_margin"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    app:text="@{expense.info}"
-                    tools:text="Service" />
+                <LinearLayout style="@style/LinearHorizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    app:value="@{expense.price}"
-                    app:unit="@{user.currencySymbol}"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorAccent"
-                    tools:text="12.5 €" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/expense"
+                        android:textAppearance="?android:attr/textAppearanceListItem"
+                        tools:text="Expense" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        app:date="@{expense.date}"
+                        tools:text="13.03.2018" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/LinearHorizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        app:text="@{expense.info}"
+                        tools:text="Service" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorAccent"
+                        app:unit="@{user.currencySymbol}"
+                        app:value="@{expense.price}"
+                        tools:text="12.5 €" />
+
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

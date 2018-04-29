@@ -13,13 +13,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_expense_list.*
+import kotlinx.android.synthetic.main.fragment_fuel_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentExpenseListBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity
-import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
-import xyz.sangcomz.stickytimelineview.model.SectionInfo
+import sk.momosi.carific.view.recycler.decorations.ImageItemDecoration
+import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
+import sk.momosi.carific.view.recycler.model.SectionInfo
+import xyz.sangcomz.stickytimelineview.RoadItemDecoration
 
 
 class ExpenseListFragment : Fragment() {
@@ -86,13 +89,16 @@ class ExpenseListFragment : Fragment() {
 
     private fun setupList() {
         expense_list.adapter = ExpenseListAdapter(viewModel = viewModel)
+        expense_list.addItemDecoration(RoadItemDecoration(requireContext()))
+
         expense_list.addItemDecoration(
                 object : RecyclerSectionItemDecoration.SectionCallback {
                     override fun isSection(position: Int) = viewModel.isSection(position)
 
-                    override fun getSectionHeader(position: Int): SectionInfo? =
-                            SectionInfo(viewModel.sectionName(position), null)
+                    override fun getSectionHeader(position: Int) = SectionInfo(viewModel.sectionName(position), null)
                 })
+
+        expense_list.addItemDecoration(ImageItemDecoration(requireContext()))
     }
 
     private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
