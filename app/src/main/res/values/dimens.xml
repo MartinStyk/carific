@@ -22,11 +22,11 @@
 
     <dimen name="text_input_unit_top_margin">20dp</dimen>
 
-
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 
     <!-- Timeline -->
+    <dimen name="timeline_item_height">80dp</dimen>
     <dimen name="header_padding_left">12dp</dimen>
     <dimen name="dot_size">20dp</dimen>
     <dimen name="title_text_size">14sp</dimen>

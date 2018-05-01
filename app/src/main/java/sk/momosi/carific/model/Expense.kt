@@ -2,6 +2,7 @@ package sk.momosi.carific.model
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
 import java.util.*
@@ -15,11 +16,9 @@ import java.util.*
 data class Expense(
         var id: String = "",
         val price: BigDecimal,
-        val date: Date,
+        override val date: Date,
         val info: String = ""
-) : Parcelable, Comparable<Expense> {
-
-    override fun compareTo(other: Expense) = date.compareTo(other.date)
+) : Parcelable, ListItem {
 
     fun toMap(): Map<String, Any> = mapOf(
             Pair("price", price.toString()),
@@ -36,6 +35,8 @@ data class Expense(
         )
     }
 
+    @IgnoredOnParcel
+    override val listItemType = ListItem.EXPENSE
 }
 
 

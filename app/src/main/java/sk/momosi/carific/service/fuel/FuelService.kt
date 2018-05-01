@@ -21,7 +21,7 @@ class FuelService {
      * Insert new refueling with complete logic of consumption recalculation
      *
      * @param refueling insertedRefueling, not added to list so far
-     * @param allRefuelings sorted list of all vehicle refuelings
+     * @param allRefuelings sorted list of all vehicle items
      */
     fun insertFullRefueling(vehicleId: String, refueling: Refueling, allRefuelings: List<Refueling>) {
 

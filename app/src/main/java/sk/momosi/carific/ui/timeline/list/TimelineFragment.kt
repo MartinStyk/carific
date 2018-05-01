@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.expense.list
+package sk.momosi.carific.ui.timeline.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -12,34 +12,34 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_expense_list.*
-import kotlinx.android.synthetic.main.fragment_fuel_list.*
+import kotlinx.android.synthetic.main.fragment_timeline_list.*
 import sk.momosi.carific.R
-import sk.momosi.carific.databinding.FragmentExpenseListBinding
+import sk.momosi.carific.databinding.FragmentTimelineListBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity
+import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 import sk.momosi.carific.view.recycler.decorations.ImageItemDecoration
 import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
-import sk.momosi.carific.view.recycler.model.SectionInfo
 import xyz.sangcomz.stickytimelineview.RoadItemDecoration
+import sk.momosi.carific.view.recycler.model.SectionInfo
 
 
-class ExpenseListFragment : Fragment() {
+class TimelineFragment : Fragment() {
 
-    private lateinit var viewModel: ExpensesViewModel
-    private lateinit var binding: FragmentExpenseListBinding
+    private lateinit var viewModel: TimelineViewModel
+    private lateinit var binding: FragmentTimelineListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ExpensesViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(TimelineViewModel::class.java)
 
         setupListItemClicks()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_expense_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_timeline_list, container, false)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         return binding.root
@@ -47,14 +47,13 @@ class ExpenseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupList()
 
-        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_expense)
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_timeline, getCar().name)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
 
         viewModel.init(getCar().id, getUser())
-
-        viewModel.loadData(getCar().id)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -63,19 +62,33 @@ class ExpenseListFragment : Fragment() {
         setupAddButton()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData()
+    }
+
     private fun setupAddButton() {
         val addBtn = activity?.findViewById<FloatingActionButton>(R.id.fab)
 
         addBtn?.setOnClickListener {
-            val createIntent = Intent(context, AddEditExpenseActivity::class.java)
-            createIntent.putExtra(AddEditExpenseActivity.ARG_CAR_ID, viewModel.carId)
-            createIntent.putExtra(AddEditExpenseActivity.ARG_USER, viewModel.user)
+            val createIntent = Intent(context, AddEditFuelActivity::class.java)
+            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
+            createIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
 
             startActivity(createIntent)
         }
     }
 
     private fun setupListItemClicks() {
+        viewModel.refuelClickEvent.observe(this, Observer { refueling ->
+            val editIntent = Intent(context, AddEditFuelActivity::class.java)
+            editIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
+            editIntent.putExtra(AddEditFuelActivity.ARG_REFUELING, refueling)
+            editIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
+
+            startActivity(editIntent)
+        })
+
         viewModel.expenseClickEvent.observe(this, Observer { expense ->
             val editIntent = Intent(context, AddEditExpenseActivity::class.java)
             editIntent.putExtra(AddEditExpenseActivity.ARG_CAR_ID, viewModel.carId)
@@ -88,18 +101,20 @@ class ExpenseListFragment : Fragment() {
 
 
     private fun setupList() {
-        expense_list.adapter = ExpenseListAdapter(viewModel = viewModel)
-        expense_list.addItemDecoration(RoadItemDecoration(requireContext()))
+        fuel_list.adapter = TimelineListAdapter(viewModel = viewModel)
 
-        expense_list.addItemDecoration(
+        fuel_list.addItemDecoration(RoadItemDecoration(requireContext()))
+
+        fuel_list.addItemDecoration(
                 object : RecyclerSectionItemDecoration.SectionCallback {
                     override fun isSection(position: Int) = viewModel.isSection(position)
 
                     override fun getSectionHeader(position: Int) = SectionInfo(viewModel.sectionName(position), null)
                 })
 
-        expense_list.addItemDecoration(ImageItemDecoration(requireContext()))
+        fuel_list.addItemDecoration(ImageItemDecoration(requireContext()))
     }
+
 
     private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
             ?: throw IllegalArgumentException("Car argument missing")
@@ -112,11 +127,11 @@ class ExpenseListFragment : Fragment() {
 
         private const val ARGUMENT_CAR = "car"
         private const val ARGUMENT_USER = "user"
-        private val TAG = ExpenseListFragment::class.java.simpleName
+        private val TAG = TimelineFragment::class.java.simpleName
 
         @JvmStatic
         fun newInstance(car: Car, user: User) =
-                ExpenseListFragment().apply {
+                TimelineFragment().apply {
                     arguments = Bundle().apply {
                         putParcelable(ARGUMENT_CAR, car)
                         putParcelable(ARGUMENT_USER, user)

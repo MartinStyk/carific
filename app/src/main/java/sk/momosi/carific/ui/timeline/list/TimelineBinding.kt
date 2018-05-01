@@ -1,10 +1,10 @@
-package sk.momosi.carific.ui.fuel.list
+package sk.momosi.carific.ui.timeline.list
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
 import sk.momosi.carific.R
-import sk.momosi.carific.model.Refueling
+import sk.momosi.carific.model.ListItem
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
@@ -12,13 +12,13 @@ import java.text.DecimalFormat
  * @author Martin Styk
  * @date 30.03.2018.
  */
-object FuelListBinding {
+object TimelineBinding {
 
     @JvmStatic
-    @BindingAdapter("refuelings")
-    fun setExpenses(recyclerView: RecyclerView, items: List<Refueling>?) {
+    @BindingAdapter("items")
+    fun setExpenses(recyclerView: RecyclerView, items: List<ListItem>?) {
         val adapter = recyclerView.adapter
-        if (adapter != null && adapter is FuelListAdapter) {
+        if (adapter != null && adapter is TimelineListAdapter) {
             adapter.replaceData(items ?: emptyList())
         }
     }
