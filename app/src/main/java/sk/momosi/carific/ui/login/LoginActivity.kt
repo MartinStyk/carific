@@ -31,12 +31,14 @@ class LoginActivity : AppCompatActivity() {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val googleAuth: GoogleSignInClient by lazy {
-        GoogleSignIn.getClient(this,
+        GoogleSignIn.getClient(
+                this,
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestIdToken(getString(R.string.default_web_client_id))
                         .requestEmail()
                         .requestProfile()
-                        .build())
+                        .build()
+        )
     }
 
     private var progressDialog: ProgressDialog? = null
@@ -44,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         sign_in_button.setOnClickListener { signIn() }
     }
 
@@ -151,6 +152,6 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = LoginActivity::class.java.simpleName
-        private const val REQUEST_CODE_GOOGLE_SIGN_IN = 9001
+        const val REQUEST_CODE_GOOGLE_SIGN_IN = 9001
     }
 }

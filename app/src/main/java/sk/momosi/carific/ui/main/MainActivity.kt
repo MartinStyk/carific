@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             R.id.navigation_statistics -> StatisticsFragment.newInstance(
                     viewModel.car.get()!!,
                     viewModel.user.get()!!)
-            R.id.navigation_achievements -> ProfileFragment.newInstance()
+            R.id.navigation_achievements -> AchievementsFragment.newInstance()
             R.id.navigation_account -> ProfileFragment.newInstance()
             else -> throw IllegalStateException()
         }

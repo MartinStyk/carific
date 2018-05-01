@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">644814183266</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">sk.momosi.carific</string>
+    <!-- event 10 refuelings -->
+    <string name="event_10_refuelings" translatable="false">CgkI4rauj-ISEAIQAA</string>
+</resources>
