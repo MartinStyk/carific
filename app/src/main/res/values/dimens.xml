@@ -7,6 +7,8 @@
     <dimen name="tool_bar_height">40dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_padding_bottom">32dp</dimen>
+
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="space_basic">8dp</dimen>
