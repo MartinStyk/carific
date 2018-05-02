@@ -11,6 +11,6 @@ interface ListItem : Comparable<ListItem> {
     val listItemType: Int
     val date: Date
 
-    override fun compareTo(other: ListItem) = date.compareTo(other.date)
+    override fun compareTo(other: ListItem) = -date.compareTo(other.date)
 
 }
