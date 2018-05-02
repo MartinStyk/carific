@@ -9,6 +9,7 @@ import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
@@ -40,6 +41,8 @@ class AddEditExpenseActivity : AppCompatActivity() {
         binding.viewmodel = viewModel
 
         setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupNavigation()
 
@@ -123,6 +126,10 @@ class AddEditExpenseActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_remove -> {
                 removeExpense()
+                true
+            }
+            android.R.id.home -> {
+                NavUtils.navigateUpFromSameTask(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)
