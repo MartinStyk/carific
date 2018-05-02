@@ -15,8 +15,7 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityMainBinding
 import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific.ui.car.list.CarChoiceListActivity
-import sk.momosi.carific.ui.expense.list.ExpenseListFragment
-import sk.momosi.carific.ui.fuel.list.FuelListFragment
+import sk.momosi.carific.ui.timeline.list.TimelineFragment
 import sk.momosi.carific.ui.profile.ProfileFragment
 import sk.momosi.carific.ui.statistics.StatisticsFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
@@ -63,15 +62,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun setupCarChangeActions() {
         viewModel.carChange.observe(this, Observer {
-            val fuelFragment = FuelListFragment.newInstance(
+            val timelineFragment = TimelineFragment.newInstance(
                     viewModel.car.get()!!,
                     viewModel.user.get()!!
             )
 
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, fuelFragment)
+                    .replace(R.id.main_content, timelineFragment)
                     .commit()
-            main_bottom_navigation.selectedItemId = R.id.navigation_fuel
+            main_bottom_navigation.selectedItemId = R.id.navigation_timeline
         })
     }
 
@@ -89,11 +88,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val fragment = when (item.itemId) {
-            R.id.navigation_fuel -> FuelListFragment.newInstance(
-                    viewModel.car.get()!!,
-                    viewModel.user.get()!!
-            )
-            R.id.navigation_expenses -> ExpenseListFragment.newInstance(
+            R.id.navigation_timeline -> TimelineFragment.newInstance(
                     viewModel.car.get()!!,
                     viewModel.user.get()!!
             )

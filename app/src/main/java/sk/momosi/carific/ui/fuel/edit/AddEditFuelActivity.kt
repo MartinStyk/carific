@@ -10,6 +10,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
@@ -18,13 +19,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.DatePicker
 import android.widget.TimePicker
-import android.widget.Toast
 import com.google.android.gms.common.api.CommonStatusCodes
 import kotlinx.android.synthetic.main.activity_add_edit_fuel.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
+import sk.momosi.carific.ui.main.MainActivity
 import sk.momosi.carific.ui.ocr.BillCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.math.BigDecimal
@@ -47,7 +48,9 @@ class AddEditFuelActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        setupNavigation()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+
+        setupCompletionListener()
 
         setupAddButton()
 
@@ -62,11 +65,8 @@ class AddEditFuelActivity : AppCompatActivity() {
         loadData()
     }
 
-    private fun setupNavigation() = viewModel.taskFished.observe(this, Observer {
-        // TODO remove toast
-        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-        setResult(Activity.RESULT_OK)
-        finish()
+    private fun setupCompletionListener() = viewModel.taskFished.observe(this, Observer {
+        finish().apply { setResult(Activity.RESULT_OK) }
     })
 
     private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())
@@ -167,6 +167,12 @@ class AddEditFuelActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_remove -> {
                 removeRefueling()
+                true
+            }
+
+            android.R.id.home -> {
+//                NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
+                NavUtils.navigateUpFromSameTask(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -2,6 +2,7 @@ package sk.momosi.carific.model
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
 import java.util.*
@@ -19,23 +20,21 @@ data class Refueling(
         val pricePerLitre: BigDecimal,
         val priceTotal: BigDecimal,
         val isFull: Boolean,
-        val date: Date,
+        override val date: Date,
         val note: String = "",
         var consumption: BigDecimal? = null
-) : Parcelable, Comparable<Refueling> {
-
-    override fun compareTo(other: Refueling) = date.compareTo(other.date).inv()
+) : Parcelable, ListItem {
 
     fun toMap(): Map<String, Any?> = mapOf(
-                Pair("distanceFromLast", distanceFromLast),
-                Pair("volume", volume.toString()),
-                Pair("pricePerLitre", pricePerLitre.toString()),
-                Pair("priceTotal", priceTotal.toString()),
-                Pair("isFull", isFull),
-                Pair("date", date.time),
-                Pair("note", if(note.isNullOrBlank()) null else note),
-                Pair("consumption", consumption?.toString())
-        )
+            Pair("distanceFromLast", distanceFromLast),
+            Pair("volume", volume.toString()),
+            Pair("pricePerLitre", pricePerLitre.toString()),
+            Pair("priceTotal", priceTotal.toString()),
+            Pair("isFull", isFull),
+            Pair("date", date.time),
+            Pair("note", if (note.isNullOrBlank()) null else note),
+            Pair("consumption", consumption?.toString())
+    )
 
     companion object {
         fun fromMap(id: String, map: Map<String, Any?>) = Refueling(
@@ -51,6 +50,8 @@ data class Refueling(
         )
     }
 
+    @IgnoredOnParcel
+    override val listItemType = ListItem.REFUELING
 }
 
 

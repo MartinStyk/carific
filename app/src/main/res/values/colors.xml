@@ -4,9 +4,16 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorRefueling">#fb8c00</color>
+    <color name="colorExpense">#e73722</color>
+
+
+    <color name="white">#FFFFFF</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_500">#9E9E9E</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
 
     <color name="black_overlay">#66000000</color>
 

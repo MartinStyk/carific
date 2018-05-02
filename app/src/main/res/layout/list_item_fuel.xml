@@ -24,12 +24,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/timeline_item_height"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="@dimen/card_elevation">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> listener.onItemClick(refueling)}"
             android:padding="@dimen/space_basic">

@@ -7,45 +7,59 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import sk.momosi.carific.R
+import sk.momosi.carific.model.ListItem
 
 class ImageItemDecoration(context: Context) : CarificRecyclerItemDecoration(context) {
 
-    private var decoration: View? = null
+    private lateinit var decorationRefueling: View
+    private lateinit var decorationExpense: View
+
     private var imageWidth: Int = 0
     private var imageHeight: Int = 0
-
-    init {
-        decoration = null // layout holder so we only have to inflate it once
-    }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         super.onDraw(c, parent, state)
 
-        if (decoration == null) {
-            decoration = LayoutInflater.from(parent.context).inflate(R.layout.recycler_image_decoration, parent, false)
-            fixLayoutSize(decoration!!, parent)
+        // go through all the recycler views child
+        for (i in 0 until parent.childCount) {
+            val recyclerViewItem = parent.getChildAt(i)
+
+            val decoration = getImageDecoration(parent, parent.getChildLayoutPosition(recyclerViewItem))
+            c.save()
+
+            val xMove = roadCenter - imageWidth.toFloat() / 2
+            val yMove = recyclerViewItem.top - (recyclerViewItem.top - recyclerViewItem.bottom) / 2 - (imageWidth / 2).toFloat()
+
+            c.translate(xMove, yMove)
+
+            decoration.draw(c)
+
+            c.restore()
         }
-
-        decoration?.let {
-            // go through all the recycler views child
-            for (i in 0 until parent.childCount) {
-                val recyclerViewItem = parent.getChildAt(i)
-
-                c.save()
-
-                val xMove = roadCenter - imageWidth.toFloat() / 2
-                val yMove = recyclerViewItem.top - (recyclerViewItem.top - recyclerViewItem.bottom) / 2 - (imageWidth / 2).toFloat()
-
-
-                c.translate(xMove, yMove)
-
-                it.draw(c)
-
-                c.restore()
-            }
-        }
-
     }
+
+    private fun getImageDecoration(recyclerView: RecyclerView, currentPosition: Int) =
+            when (recyclerView.adapter.getItemViewType(currentPosition)) {
+                ListItem.REFUELING -> {
+                    if (!::decorationRefueling.isInitialized) {
+                        decorationRefueling = LayoutInflater.from(recyclerView.context)
+                                .inflate(R.layout.recycler_image_fuel_decoration, recyclerView, false)
+                        fixLayoutSize(decorationRefueling, recyclerView)
+                    }
+                    decorationRefueling
+                }
+                ListItem.EXPENSE -> {
+                    if (!::decorationExpense.isInitialized) {
+                        decorationExpense = LayoutInflater.from(recyclerView.context)
+                                .inflate(R.layout.recycler_image_expense_decoration, recyclerView, false)
+                        fixLayoutSize(decorationExpense, recyclerView)
+                    }
+                    decorationExpense
+                }
+                else -> throw IllegalStateException("Unsupported view type")
+
+            }
+
 
     private fun fixLayoutSize(view: View, parent: ViewGroup) {
         // Check if the view has a layout parameter and if it does not create one for it

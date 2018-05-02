@@ -12,6 +12,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -47,6 +48,8 @@ class AddEditCarActivity : AppCompatActivity() {
         binding.viewmodel = viewModel
 
         setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupNavigation()
 
@@ -171,6 +174,10 @@ class AddEditCarActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_remove -> {
                 removeCar()
+                true
+            }
+            android.R.id.home -> {
+                NavUtils.navigateUpFromSameTask(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)
