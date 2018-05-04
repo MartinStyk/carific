@@ -25,6 +25,8 @@ import sk.momosi.carific.databinding.ActivityAddEditExpenseBinding
 import sk.momosi.carific.model.Expense
 import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SnackbarMessage
+import sk.momosi.carific.util.extensions.animateError
+import sk.momosi.carific.util.extensions.animateSuccess
 import java.util.*
 
 class AddEditExpenseActivity : AppCompatActivity() {
@@ -64,7 +66,7 @@ class AddEditExpenseActivity : AppCompatActivity() {
 
     private fun setupSuccessListener() = viewModel.taskFinished.observe(this, Observer {
 
-        binding.expenseAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+        binding.expenseAddSave.animateSuccess()
 
         Handler().postDelayed({
             finish().apply { setResult(Activity.RESULT_OK) }
@@ -72,7 +74,7 @@ class AddEditExpenseActivity : AppCompatActivity() {
     })
 
     private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
-        binding.expenseAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
+        binding.expenseAddSave.animateError()
     })
 
     private fun loadData() = viewModel.start(getCarId(), getExpenses(), getUser())

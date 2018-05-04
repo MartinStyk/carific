@@ -29,6 +29,8 @@ import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.ocr.BillCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
+import sk.momosi.carific.util.extensions.animateError
+import sk.momosi.carific.util.extensions.animateSuccess
 import java.math.BigDecimal
 import java.util.*
 
@@ -69,7 +71,7 @@ class AddEditFuelActivity : AppCompatActivity() {
     }
 
     private fun setupSuccessListener() = viewModel.taskFished.observe(this, Observer {
-        binding.refuelingAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+        binding.refuelingAddSave.animateSuccess()
 
         Handler().postDelayed({
             finish().apply { setResult(Activity.RESULT_OK) }
@@ -77,7 +79,7 @@ class AddEditFuelActivity : AppCompatActivity() {
     })
 
     private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
-        binding.refuelingAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
+        binding.refuelingAddSave.animateError()
     })
 
     private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())

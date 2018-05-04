@@ -31,6 +31,8 @@ import sk.momosi.carific.databinding.ActivityAddEditCarBinding
 import sk.momosi.carific.model.VehicleType
 import sk.momosi.carific.ui.car.CarTypeSpinnerAdapter
 import sk.momosi.carific.util.data.SnackbarMessage
+import sk.momosi.carific.util.extensions.animateError
+import sk.momosi.carific.util.extensions.animateSuccess
 import java.io.File
 
 @RuntimePermissions
@@ -55,6 +57,8 @@ class AddEditCarActivity : AppCompatActivity() {
 
         setupSuccessListener()
 
+        setupErrorListener()
+
         setupAddButton()
 
         setupCarTypeSpinner()
@@ -68,7 +72,7 @@ class AddEditCarActivity : AppCompatActivity() {
     }
 
     private fun setupSuccessListener() = viewModel.taskFished.observe(this, Observer {
-        binding.carAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+        binding.carAddSave.animateSuccess()
 
         Handler().postDelayed({
             finish().apply { setResult(Activity.RESULT_OK) }
@@ -76,7 +80,7 @@ class AddEditCarActivity : AppCompatActivity() {
     })
 
     private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
-        binding.carAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
+        binding.carAddSave.animateError()
     })
 
     private fun setupAddButton() = car_add_save.setOnClickListener { viewModel.saveCar() }
