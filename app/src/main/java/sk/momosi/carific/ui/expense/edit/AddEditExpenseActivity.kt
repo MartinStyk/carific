@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AnimationUtils
 import android.widget.DatePicker
 import android.widget.TimePicker
 import kotlinx.android.synthetic.main.activity_add_edit_expense.*
@@ -44,7 +46,9 @@ class AddEditExpenseActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setupNavigation()
+        setupSuccessListener()
+
+        setupErrorListener()
 
         setupAddButton()
 
@@ -58,9 +62,17 @@ class AddEditExpenseActivity : AppCompatActivity() {
 
     }
 
-    private fun setupNavigation() = viewModel.taskFinished.observe(this, Observer {
-        setResult(Activity.RESULT_OK)
-        finish()
+    private fun setupSuccessListener() = viewModel.taskFinished.observe(this, Observer {
+
+        binding.expenseAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+
+        Handler().postDelayed({
+            finish().apply { setResult(Activity.RESULT_OK) }
+        }, 350)
+    })
+
+    private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
+        binding.expenseAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
     })
 
     private fun loadData() = viewModel.start(getCarId(), getExpenses(), getUser())

@@ -52,6 +52,8 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
     val taskFished = SingleLiveEvent<Refueling>()
 
+    val taskError = SingleLiveEvent<Unit>()
+
     val snackbarMessage = SnackbarMessage()
 
     private var isLoaded: Boolean = false
@@ -133,7 +135,7 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
     fun saveRefueling() {
 
         if (!isRefuelingValid()) {
-            snackbarMessage.value = R.string.create_validation_error
+            taskError.call()
             return
         }
 

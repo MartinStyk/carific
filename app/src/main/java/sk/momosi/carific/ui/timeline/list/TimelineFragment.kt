@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.os.Handler
 import android.support.annotation.ColorInt
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
@@ -16,7 +15,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_timeline_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentTimelineListBinding
@@ -24,7 +22,6 @@ import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
-import sk.momosi.carific.util.extensions.hideAnimate
 import sk.momosi.carific.view.floatingactionbutton.FloatingActionButton
 import sk.momosi.carific.view.floatingactionbutton.SpeedDialMenuAdapter
 import sk.momosi.carific.view.floatingactionbutton.SpeedDialMenuItem

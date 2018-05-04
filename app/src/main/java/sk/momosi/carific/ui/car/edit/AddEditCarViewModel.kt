@@ -42,6 +42,8 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
 
     val taskFished = SingleLiveEvent<Car>()
 
+    val taskError = SingleLiveEvent<Unit>()
+
     val selectPicture = SingleLiveEvent<String>()
 
     val snackbarMessage = SnackbarMessage()
@@ -112,7 +114,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
     // Called when clicking on add button.
     fun saveCar() {
         if (!isCarDataValid()) {
-            snackbarMessage.value = R.string.car_create_validation_error
+            taskError.call()
             return
         }
 

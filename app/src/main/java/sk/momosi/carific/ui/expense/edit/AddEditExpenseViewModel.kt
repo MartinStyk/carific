@@ -38,6 +38,8 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
     val taskFinished = SingleLiveEvent<Expense>()
 
+    val taskError = SingleLiveEvent<Unit>()
+
     val snackbarMessage = SnackbarMessage()
 
     private var isLoaded: Boolean = false
@@ -97,7 +99,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
     fun saveExpense() {
 
         if (!isExpenseDataValid()) {
-            snackbarMessage.value = R.string.create_validation_error
+            taskError.call()
             return
         }
 

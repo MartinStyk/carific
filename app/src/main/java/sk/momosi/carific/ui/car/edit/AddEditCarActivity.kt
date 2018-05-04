@@ -11,6 +11,7 @@ import android.databinding.Observable
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
@@ -18,6 +19,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.AdapterView
 import android.widget.Toast
 import com.theartofdev.edmodo.cropper.CropImage
@@ -51,7 +53,7 @@ class AddEditCarActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setupNavigation()
+        setupSuccessListener()
 
         setupAddButton()
 
@@ -65,11 +67,16 @@ class AddEditCarActivity : AppCompatActivity() {
 
     }
 
-    private fun setupNavigation() = viewModel.taskFished.observe(this, Observer {
-        // TODO remove toast
-        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-        setResult(Activity.RESULT_OK)
-        finish()
+    private fun setupSuccessListener() = viewModel.taskFished.observe(this, Observer {
+        binding.carAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+
+        Handler().postDelayed({
+            finish().apply { setResult(Activity.RESULT_OK) }
+        }, 350)
+    })
+
+    private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
+        binding.carAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
     })
 
     private fun setupAddButton() = car_add_save.setOnClickListener { viewModel.saveCar() }

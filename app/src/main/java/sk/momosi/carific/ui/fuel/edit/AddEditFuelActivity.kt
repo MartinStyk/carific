@@ -9,6 +9,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
@@ -17,6 +18,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AnimationUtils
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -25,7 +27,6 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific.model.Refueling
 import sk.momosi.carific.model.User
-import sk.momosi.carific.ui.main.MainActivity
 import sk.momosi.carific.ui.ocr.BillCaptureActivity
 import sk.momosi.carific.util.data.SnackbarMessage
 import java.math.BigDecimal
@@ -50,7 +51,9 @@ class AddEditFuelActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
-        setupCompletionListener()
+        setupSuccessListener()
+
+        setupErrorListener()
 
         setupAddButton()
 
@@ -65,8 +68,16 @@ class AddEditFuelActivity : AppCompatActivity() {
         loadData()
     }
 
-    private fun setupCompletionListener() = viewModel.taskFished.observe(this, Observer {
-        finish().apply { setResult(Activity.RESULT_OK) }
+    private fun setupSuccessListener() = viewModel.taskFished.observe(this, Observer {
+        binding.refuelingAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_180));
+
+        Handler().postDelayed({
+            finish().apply { setResult(Activity.RESULT_OK) }
+        }, 350)
+    })
+
+    private fun setupErrorListener() = viewModel.taskError.observe(this, Observer {
+        binding.refuelingAddSave.startAnimation(AnimationUtils.loadAnimation(this, R.anim.error_bounce))
     })
 
     private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())
