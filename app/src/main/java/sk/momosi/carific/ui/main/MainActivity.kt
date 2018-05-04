@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.ActivityMainBinding
+import sk.momosi.carific.ui.car.achievements.AchievementsFragment
 import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific.ui.car.list.CarChoiceListActivity
 import sk.momosi.carific.ui.timeline.list.TimelineFragment

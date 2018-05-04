@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'uk.co.markormesher:android-fab:2.2.2'
 
     kapt 'com.android.databinding:compiler:3.1.2'
     kapt "android.arch.lifecycle:compiler:1.1.1"

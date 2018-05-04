@@ -2,17 +2,18 @@ package sk.momosi.carific.ui.timeline.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.getbase.floatingactionbutton.FloatingActionButton
-import com.getbase.floatingactionbutton.FloatingActionsMenu
 import kotlinx.android.synthetic.main.fragment_timeline_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentTimelineListBinding
@@ -23,8 +24,10 @@ import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
 import sk.momosi.carific.view.recycler.decorations.ImageItemDecoration
 import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
 import sk.momosi.carific.view.recycler.model.SectionInfo
+import uk.co.markormesher.android_fab.FloatingActionButton
+import uk.co.markormesher.android_fab.SpeedDialMenuAdapter
+import uk.co.markormesher.android_fab.SpeedDialMenuItem
 import xyz.sangcomz.stickytimelineview.RoadItemDecoration
-
 
 class TimelineFragment : Fragment() {
 
@@ -65,26 +68,12 @@ class TimelineFragment : Fragment() {
     }
 
     private fun setupAddButton() {
-        val fabMenu = activity?.findViewById<FloatingActionsMenu>(R.id.fab)
+        val fabMenu = activity?.findViewById<FloatingActionButton>(R.id.fab)
         fabMenu?.let {
-            it.visibility=View.VISIBLE
-            it.collapse()
-        }
-
-        activity?.findViewById<FloatingActionButton>(R.id.fab_fuel)?.setOnClickListener {
-            val createIntent = Intent(context, AddEditFuelActivity::class.java)
-            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
-            createIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
-            startActivity(createIntent)
-            fabMenu?.toggle()
-        }
-
-        activity?.findViewById<FloatingActionButton>(R.id.fab_expense)?.setOnClickListener {
-            val createIntent = Intent(context, AddEditExpenseActivity::class.java)
-            createIntent.putExtra(AddEditExpenseActivity.ARG_CAR_ID, viewModel.carId)
-            createIntent.putExtra(AddEditExpenseActivity.ARG_USER, viewModel.user)
-            startActivity(createIntent)
-            fabMenu?.toggle()
+            it.visibility = View.VISIBLE
+            it.speedDialMenuAdapter = speedDialMenuAdapter
+            it.contentCoverEnabled = true
+            it.bringToFront()
         }
     }
 
@@ -136,6 +125,38 @@ class TimelineFragment : Fragment() {
     private fun getUser() = arguments?.getParcelable<User>(ARGUMENT_USER)
             ?: throw IllegalArgumentException("User argument missing")
 
+    private val speedDialMenuAdapter = object : SpeedDialMenuAdapter() {
+        override fun getCount(): Int = 2
+
+        override fun getMenuItem(context: Context, position: Int): SpeedDialMenuItem = when (position) {
+            0 -> SpeedDialMenuItem(context, R.drawable.ic_expense_white, getString(R.string.expense_create))
+            1 -> SpeedDialMenuItem(context, R.drawable.ic_gas_station_white, getString(R.string.refueling_create))
+            else -> throw IllegalArgumentException("No menu item: $position")
+        }
+
+        override fun onMenuItemClick(position: Int): Boolean {
+            val createIntent = when (position) {
+                0 -> Intent(context, AddEditExpenseActivity::class.java)
+                1 -> Intent(context, AddEditFuelActivity::class.java)
+                else -> throw IllegalArgumentException("No menu item: $position")
+            }
+            createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
+            createIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
+            startActivity(createIntent)
+
+            return true
+        }
+
+        @ColorInt
+        override fun getBackgroundColour(position: Int) =
+                when (position) {
+                    0 -> ContextCompat.getColor(requireContext(), R.color.colorExpense)
+                    1 -> ContextCompat.getColor(requireContext(), R.color.colorRefueling)
+                    else -> throw IllegalArgumentException("No menu item: $position")
+                }
+
+        override fun fabRotationDegrees(): Float = 135F
+    }
 
     companion object {
 

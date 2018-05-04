@@ -75,6 +75,15 @@
             android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <uk.co.markormesher.android_fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/fab_padding_bottom"
+            app:buttonIcon="@drawable/ic_add"
+            app:buttonBackgroundColour="@color/colorAccent"
+            />
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/main_bottom_navigation"
             android:layout_width="match_parent"
@@ -84,59 +93,6 @@
             android:background="?android:attr/windowBackground"
             android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:menu="@menu/activity_main_bottom" />
-
-        <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="top"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:animateLayoutChanges="true"-->
-        <!--android:src="@drawable/ic_add"-->
-        <!--android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"-->
-        <!--app:layout_anchor="@id/main_bottom_navigation"-->
-        <!--app:layout_anchorGravity="top|end"-->
-        <!--app:useCompatPadding="true" />-->
-
-
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_margin="@dimen/fab_margin"
-            android:animateLayoutChanges="true"
-            android:src="@drawable/ic_add"
-            android:visibility="gone"
-            app:layout_anchor="@id/main_bottom_navigation"
-            app:layout_anchorGravity="top|end"
-            app:useCompatPadding="true"
-            fab:fab_addButtonColorNormal="@color/colorAccent"
-            fab:fab_addButtonColorPressed="@color/colorAccent"
-            fab:fab_labelStyle="@style/menu_labels_style">
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_fuel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_gas_station_white"
-                android:paddingBottom="@dimen/space_basic"
-                fab:fab_colorNormal="@color/colorRefueling"
-                fab:fab_colorPressed="@color/colorRefueling"
-                fab:fab_size="mini"
-                fab:fab_title="@string/refueling_create" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_expense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/colorExpense"
-                fab:fab_colorPressed="@color/colorExpense"
-                android:src="@drawable/ic_expense_white"
-                fab:fab_size="mini"
-                fab:fab_title="@string/expense_create" />
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
