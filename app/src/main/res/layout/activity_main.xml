@@ -75,7 +75,7 @@
             android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <uk.co.markormesher.android_fab.FloatingActionButton
+        <sk.momosi.carific.view.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

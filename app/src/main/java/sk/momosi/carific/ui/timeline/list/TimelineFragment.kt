@@ -6,14 +6,17 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.ColorInt
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_timeline_list.*
 import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentTimelineListBinding
@@ -21,18 +24,21 @@ import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity
 import sk.momosi.carific.ui.fuel.edit.AddEditFuelActivity
+import sk.momosi.carific.util.extensions.hideAnimate
+import sk.momosi.carific.view.floatingactionbutton.FloatingActionButton
+import sk.momosi.carific.view.floatingactionbutton.SpeedDialMenuAdapter
+import sk.momosi.carific.view.floatingactionbutton.SpeedDialMenuItem
 import sk.momosi.carific.view.recycler.decorations.ImageItemDecoration
 import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
 import sk.momosi.carific.view.recycler.model.SectionInfo
-import uk.co.markormesher.android_fab.FloatingActionButton
-import uk.co.markormesher.android_fab.SpeedDialMenuAdapter
-import uk.co.markormesher.android_fab.SpeedDialMenuItem
 import xyz.sangcomz.stickytimelineview.RoadItemDecoration
 
 class TimelineFragment : Fragment() {
 
     private lateinit var viewModel: TimelineViewModel
     private lateinit var binding: FragmentTimelineListBinding
+    private var fab: FloatingActionButton? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +74,15 @@ class TimelineFragment : Fragment() {
     }
 
     private fun setupAddButton() {
-        val fabMenu = activity?.findViewById<FloatingActionButton>(R.id.fab)
-        fabMenu?.let {
-            it.visibility = View.VISIBLE
+        fab = activity?.findViewById<FloatingActionButton>(R.id.fab)
+        fab?.let {
             it.speedDialMenuAdapter = speedDialMenuAdapter
             it.contentCoverEnabled = true
+            it.visibility = View.VISIBLE
+            it.show()
             it.bringToFront()
         }
+        internalSetupButton()
     }
 
     private fun setupListItemClicks() {
@@ -99,7 +107,8 @@ class TimelineFragment : Fragment() {
 
 
     override fun onDestroyView() {
-        activity?.findViewById<View>(R.id.fab)?.visibility = View.GONE
+        fab?.hide()
+
         super.onDestroyView()
     }
 
@@ -156,6 +165,20 @@ class TimelineFragment : Fragment() {
                 }
 
         override fun fabRotationDegrees(): Float = 135F
+    }
+
+    fun internalSetupButton() {
+
+        binding.fuelList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    fab?.hide()
+                } else if (dy < 0) {
+                    fab?.show()
+                }
+            }
+        })
     }
 
     companion object {
