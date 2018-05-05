@@ -48,12 +48,12 @@
             android:name=".ui.fuel.edit.AddEditFuelActivity"
             android:label="@string/refueling_create"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.EditRefueling" />
         <activity
             android:name=".ui.expense.edit.AddEditExpenseActivity"
             android:label="@string/expense_create"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.EditExpense" />
         <activity
             android:name=".ui.ocr.BillCaptureActivity"
             android:label="@string/bill_capture" />
