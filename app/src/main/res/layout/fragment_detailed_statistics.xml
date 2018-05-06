@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.statistics.StatisticsViewModel" />
+            type="sk.momosi.carific.ui.statistics.detail.DetailedStatisticsViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_fuel_consumption" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/fuel_consumption"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -47,7 +47,7 @@
                         app:unit="@{UnitsUtil.getConsumptionUnits(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.avgConsumption}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/fuel_consumption_reversed"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -55,7 +55,7 @@
                         app:unit='@{UnitsUtil.isDefaultMpg(viewModel.car,context) ? @string/units_litreper100_distance_units(UnitsUtil.getDistanceUnitsString(viewModel.car,context)) : @string/units_distance_units_per_litre(UnitsUtil.getDistanceUnitsString(viewModel.car,context))}'
                         app:value="@{viewModel.statistics.avgConsumptionReversed}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/fuel_consumption_best"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -63,7 +63,7 @@
                         app:unit="@{UnitsUtil.getConsumptionUnits(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.fuelConsumptionBest}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/fuel_consumption_worst"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_totals" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_total"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -100,7 +100,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.totalCosts}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_total_fuel"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -108,7 +108,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.totalCostsFuel}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_total_expense"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -116,7 +116,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.totalCostsExpenses}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/fill_ups_number_total"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -124,14 +124,14 @@
                         app:value="@{viewModel.statistics.totalNumberFillUps}" />
 
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/expenses_number_total"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_expenses_number_total"
                         app:value="@{viewModel.statistics.totalNumberExpenses}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/volume_total_fuel"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -139,7 +139,7 @@
                         app:unit="@{UnitsUtil.getConsumptionUnits(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.totalFuelVolume}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/distance_driven_total"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_costs_per_distance_header" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_per_distance_total"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -175,7 +175,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.totalCostsPerDistance}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_per_distance_fill_up"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -183,7 +183,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.fuelCostsPerDistance}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/price_per_distance_expense"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -210,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_costs_per_time" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_total_cost_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -218,7 +218,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageTotalCostPerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_total_cost_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -226,7 +226,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageTotalCostPerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_total_cost_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -234,7 +234,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageTotalCostPerYear}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_fuel_cost_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -242,7 +242,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageFuelCostPerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_fuel_cost_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -250,7 +250,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageFuelCostPerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_fuel_cost_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -258,7 +258,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageFuelCostPerYear}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_expense_cost_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -266,7 +266,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageExpenseCostPerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_expense_cost_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -274,7 +274,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageExpenseCostPerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_expense_cost_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -302,7 +302,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_refueling" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/avg_fuel_price_per_fill_up"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -310,7 +310,7 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.averageFuelPricePerFillUp}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/avg_fuel_volume_per_fill_up"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -318,28 +318,28 @@
                         app:unit="@{UnitsUtil.getVolumeUnits(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.averageFuelVolumePerFillUp}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_fill_ups_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_average_number_of_fill_ups_per_week"
                         app:value="@{viewModel.statistics.averageNumberOfFillUpsPerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_fill_ups_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_average_number_of_fill_ups_per_month"
                         app:value="@{viewModel.statistics.averageNumberOfFillUpsPerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_fill_ups_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_average_number_of_fill_ups_per_year"
                         app:value="@{viewModel.statistics.averageNumberOfFillUpsPerYear}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/distance_between_fill_ups_average"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -347,7 +347,7 @@
                         app:unit="@{UnitsUtil.getDistanceUnitsString(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.distanceBetweenFillUpsAverage}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/distance_between_fill_ups_lowest"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -355,7 +355,7 @@
                         app:unit="@{UnitsUtil.getDistanceUnitsString(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.distanceBetweenFillUpsLowest}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/distance_between_fill_ups_highest"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -383,7 +383,7 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/statistics_fuel_unit_price" />-->
 
-            <!--<sk.momosi.carific.ui.statistics.StatisticsDetailItem-->
+            <!--<sk.momosi.carific.view.statistics.StatisticsDetailItem-->
             <!--android:id="@+id/avg_fuel_price_per_litre"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="?android:attr/listPreferredItemHeight"-->
@@ -391,7 +391,7 @@
             <!--app:unit=""-->
             <!--app:value="@{data!= null ? @string/units_distance_units_per_litre(CurrencyUtil.getPricePerLitre(vehicle.getCurrency(), data.fuelUnitPriceAverage)) : @string/na}" />-->
 
-            <!--<sk.momosi.carific.ui.statistics.StatisticsDetailItem-->
+            <!--<sk.momosi.carific.view.statistics.StatisticsDetailItem-->
             <!--android:id="@+id/price_per_litre_best"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="?android:attr/listPreferredItemHeight"-->
@@ -399,7 +399,7 @@
             <!--app:unit=""-->
             <!--app:value="@{data!= null ? @string/units_distance_units_per_litre(CurrencyUtil.getPricePerLitre(vehicle.getCurrency(), data.fuelUnitPriceLowest)) : @string/na}" />-->
 
-            <!--<sk.momosi.carific.ui.statistics.StatisticsDetailItem-->
+            <!--<sk.momosi.carific.view.statistics.StatisticsDetailItem-->
             <!--android:id="@+id/price_per_litre_worst"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="?android:attr/listPreferredItemHeight"-->
@@ -428,7 +428,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_distance_in_time" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_distance_per_day"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -436,7 +436,7 @@
                         app:unit="@{UnitsUtil.getDistanceUnitsString(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.averageDistancePerDay}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_distance_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -444,7 +444,7 @@
                         app:unit="@{UnitsUtil.getDistanceUnitsString(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.averageDistancePerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_distance_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -452,7 +452,7 @@
                         app:unit="@{UnitsUtil.getDistanceUnitsString(viewModel.car,context)}"
                         app:value="@{viewModel.statistics.averageDistancePerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_distance_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -480,21 +480,21 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_expenses" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_expenses_per_week"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_average_number_of_expenses_per_week"
                         app:value="@{viewModel.statistics.averageNumberOfExpensesPerWeek}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_expenses_per_month"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
                         app:name="@string/statistics_average_number_of_expenses_per_month"
                         app:value="@{viewModel.statistics.averageNumberOfExpensesPerMonth}" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/average_number_of_expenses_per_year"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"
@@ -521,7 +521,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/statistics_app_usage" />
 
-                    <sk.momosi.carific.ui.statistics.StatisticsDetailItem
+                    <sk.momosi.carific.view.statistics.StatisticsDetailItem
                         android:id="@+id/tracking_period"
                         android:layout_width="match_parent"
                         android:layout_height="?android:attr/listPreferredItemHeight"

@@ -109,6 +109,9 @@
     <string name="unit_text_placeholder">%1$s %2$s</string>
     <string name="signin_other_error">Error occurred during sign in</string>
 
+
+    <string name="statistics_details">Detailed statistics</string>
+
     <string name="statistics_average_distance_per_day">Average daily driven distance</string>
     <string name="statistics_average_distance_per_week">Average weekly driven distance</string>
     <string name="statistics_average_distance_per_month">Average monthly driven distance</string>
@@ -177,8 +180,5 @@
     <string name="units_litre" translatable="false">\u2113</string>
     <string name="units_gallon" translatable="false">gal</string>
     <string name="days" translatable="false">days</string>
-
-    days
-
 
 </resources>

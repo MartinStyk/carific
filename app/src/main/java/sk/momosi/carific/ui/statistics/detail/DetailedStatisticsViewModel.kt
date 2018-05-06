@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.statistics
+package sk.momosi.carific.ui.statistics.detail
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
@@ -21,7 +21,7 @@ import sk.momosi.carific.util.firebase.db.toRefuelingList
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class StatisticsViewModel : ViewModel() {
+class DetailedStatisticsViewModel : ViewModel() {
 
     val isLoading = ObservableBoolean(true)
     val isError = ObservableBoolean(false)

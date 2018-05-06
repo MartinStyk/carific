@@ -1,4 +1,4 @@
-package sk.momosi.carific.ui.statistics
+package sk.momosi.carific.view.statistics
 
 import android.content.Context
 import android.util.AttributeSet

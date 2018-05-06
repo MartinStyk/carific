@@ -57,11 +57,17 @@
         <activity
             android:name=".ui.ocr.BillCaptureActivity"
             android:label="@string/bill_capture" />
-
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
+        <activity
+            android:name=".ui.statistics.detail.DetailedStatisticsActivity"
+            android:label="@string/statistics_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
-        <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

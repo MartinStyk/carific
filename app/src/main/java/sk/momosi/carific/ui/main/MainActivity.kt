@@ -18,7 +18,8 @@ import sk.momosi.carific.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific.ui.car.list.CarChoiceListActivity
 import sk.momosi.carific.ui.timeline.list.TimelineFragment
 import sk.momosi.carific.ui.profile.ProfileFragment
-import sk.momosi.carific.ui.statistics.StatisticsFragment
+import sk.momosi.carific.ui.statistics.chart.ChartStatisticsFragment
+import sk.momosi.carific.ui.statistics.detail.DetailedStatisticsFragment
 import sk.momosi.carific.util.extensions.disableShiftMode
 import sk.momosi.carific.util.extensions.requestLogin
 
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     viewModel.car.get()!!,
                     viewModel.user.get()!!
             )
-            R.id.navigation_statistics -> StatisticsFragment.newInstance(
+            R.id.navigation_statistics -> ChartStatisticsFragment.newInstance(
                     viewModel.car.get()!!,
                     viewModel.user.get()!!)
             R.id.navigation_achievements -> AchievementsFragment.newInstance()
