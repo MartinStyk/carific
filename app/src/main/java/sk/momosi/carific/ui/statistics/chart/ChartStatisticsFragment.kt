@@ -13,11 +13,9 @@ import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import com.borax12.materialdaterangepicker.date.DatePickerDialog
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -37,19 +35,25 @@ import sk.momosi.carific.databinding.FragmentChartStatisticsBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.statistics.detail.DetailedStatisticsActivity
+import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.chart.ChartDateAxisFormatter
-import java.util.ArrayList
+import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 
-class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener, OnChartGestureListener {
+class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
 
     lateinit var binding: FragmentChartStatisticsBinding
     lateinit var viewModel: ChartStatisticsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true);
+
         viewModel = ViewModelProviders.of(this).get(ChartStatisticsViewModel::class.java)
-        viewModel.load(getCar(), getUser())
+        viewModel.init(getCar(), getUser())
     }
 
 
@@ -69,67 +73,62 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener, OnChar
 
         setupConsumptionChart()
 
-        setupDetailButton()
+        setupRangeSelection()
 
         observeConsumptionData()
+
+        viewModel.load()
     }
 
-    private fun setupActionBar(){
-        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_statistics)
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main_statistics, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_detail_statistics -> {
+            startActivity(Intent(context, DetailedStatisticsActivity::class.java).apply {
+                putExtra(ARGUMENT_CAR, getCar())
+                putExtra(ARGUMENT_USER, getUser())
+            })
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+
+    }
+
+    private fun setupActionBar() {
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.statistics_fuel_consumption)
         activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
 
-//        statistics_scroller.isNestedScrollingEnabled = false
+        statistics_scroller.isNestedScrollingEnabled = false
     }
 
     private fun setupConsumptionChart() {
-        chart_consumption.setOnChartGestureListener(this)
-        chart_consumption.setOnChartValueSelectedListener(this)
-        chart_consumption.setDrawGridBackground(false)
-        // enable touch gestures
-        chart_consumption.setTouchEnabled(true)
-
-        // enable scaling and dragging
-        chart_consumption.isDragEnabled = true
-//        chart_consumption.setScaleEnabled(true)
-        chart_consumption.isScaleXEnabled = true;
-        chart_consumption.isScaleYEnabled = false;
-
-
-        // no description text
-        chart_consumption.description.apply {
-            isEnabled = true
-            text = getString(R.string.statistics_fuel_consumption)
+        chart_consumption.apply {
+            setOnChartValueSelectedListener(this@ChartStatisticsFragment)
+            setDrawGridBackground(false)
+            isDragEnabled = true
+            isScaleXEnabled = true
+            isScaleYEnabled = false
         }
 
+        chart_consumption.description.apply {
+            isEnabled = false
+        }
 
-
-        // if disabled, scaling can be done on x- and y-axis separately
-//        chart_consumption.setPinchZoom(true)
-
-        // set an alternative background color
-        // chart_consumption.setBackgroundColor(Color.GRAY);
-
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-//        // to use for it
-//        val mv = MyMarkerView(this, R.layout.custom_marker_view)
-//        mv.setChartView(chart_consumption) // For bounds control
-//        chart_consumption.setMarker(mv) // Set the marker to the chart
-
-        // x axis values
         chart_consumption.xAxis.apply {
             enableGridDashedLine(10f, 10f, 0f)
-//        chart_consumption.xAxis.position = XAxis.XAxisPosition.BOTTOM
             isGranularityEnabled = true
             labelRotationAngle = 90f
             position = XAxis.XAxisPosition.BOTTOM
         }
-//        chart_consumption.axisLeft.setAxisMinimum(-50f)
-//        chart_consumption.axisLeft.setYOffset(20f);
+
         chart_consumption.axisLeft.apply {
             enableGridDashedLine(10f, 1f, 0f)
             setDrawZeroLine(false)
             setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-            // limit lines are drawn behind data (and not on top)
             setDrawLimitLinesBehindData(true)
         }
 
@@ -137,23 +136,9 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener, OnChar
             setEnabled(false)
         }
 
-        //chart_consumption.getViewPortHandler().setMaximumScaleY(2f);
-        //chart_consumption.getViewPortHandler().setMaximumScaleX(2f);
-
-//        chart_consumption.setVisibleXRange(0f,5f);
-//        chart_consumption.setVisibleYRange(20f, AxisDependency.LEFT);
-//        chart_consumption.centerViewTo(20, 50, AxisDependency.LEFT);
-
-        chart_consumption.animateY(1500)
-        //chart_consumption.invalidate();
-
-        chart_consumption.legend.apply{
+        chart_consumption.legend.apply {
             form = Legend.LegendForm.LINE
         }
-
-
-        // // dont forget to refresh the drawing
-        // chart_consumption.invalidate();
 
         val lineData = LineDataSet(listOf(Entry(1f, 1f)), getString(R.string.statistics_fuel_consumption_average)).apply {
             setDrawIcons(false)
@@ -182,15 +167,24 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener, OnChar
             }
         }
 
+        chart_consumption.data = LineData(ArrayList<ILineDataSet>().apply { add(lineData) })
 
-        val dataSets = ArrayList<ILineDataSet>()
-        dataSets.add(lineData) // add the datasets
+    }
 
-        // create a data object with the datasets
-        val data = LineData(dataSets)
-
-        // set data
-        chart_consumption.setData(data)
+    private fun setupRangeSelection() {
+        statistics_chart_range.setOnClickListener {
+            val dpd = DatePickerDialog.newInstance(
+                    viewModel,
+                    viewModel.selectedRangeStart.get()?.get(Calendar.YEAR) ?: 0,
+                    viewModel.selectedRangeStart.get()?.get(Calendar.MONTH) ?: 0,
+                    viewModel.selectedRangeStart.get()?.get(Calendar.DAY_OF_MONTH) ?: 0,
+                    viewModel.selectedRangeEnd.get()?.get(Calendar.YEAR) ?: 0,
+                    viewModel.selectedRangeEnd.get()?.get(Calendar.MONTH) ?: 0,
+                    viewModel.selectedRangeEnd.get()?.get(Calendar.DAY_OF_MONTH) ?: 0
+            );
+            dpd.isAutoHighlight = true
+            dpd.show(activity?.fragmentManager, DatePickerDialog::class.java.name)
+        }
 
     }
 
@@ -213,82 +207,45 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener, OnChar
 
             Handler().postDelayed({
                 chart_consumption?.axisLeft?.limitLines?.add(
-                        LimitLine(it?.averageConsumption ?: 0f, "All time average").apply {
-                            lineWidth = 2f
-                        }
+                        LimitLine(it?.averageAllTimeConsumption
+                                ?: 0f, getString(R.string.statistics_fuel_consumption_all_time_average))
+                                .apply {
+                                    lineWidth = 2f
+                                    enableDashedLine(10f, 10f, 0f)
+                                    labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+                                }
                 )
                 chart_consumption?.invalidate()
             }, 2000)
 
 
-//            chart_consumption.setVisibleXRange(0f, min(5f, it?.consumptionChartData?.size?.toFloat() ?: 1f))
+            chart_consumption.axisLeft
+            chart_consumption.axisLeft.apply {
+                resetAxisMinimum()
+                resetAxisMaximum()
+
+                calculate(viewModel.consumptionMin(), viewModel.consumptionMax())
+
+                axisMinimum = min(axisMinimum, it?.averageAllTimeConsumption ?: Float.MAX_VALUE)
+                axisMaximum = max(axisMaximum, it?.averageAllTimeConsumption ?: Float.MIN_VALUE)
+            }
+
 
             chart_consumption.invalidate()
-            chart_consumption.fitScreen()
-            chart_consumption.zoom(1f,1f,1f,1f,YAxis.AxisDependency.LEFT)
+            chart_consumption.animateY(1500)
+            chart_consumption.zoom(1f, 1f, 1f, 1f, YAxis.AxisDependency.LEFT)
             chart_consumption.resetZoom()
 
         })
     }
 
     override fun onValueSelected(e: Entry, h: Highlight) {
-        Toast.makeText(context, "Entry selected" + e.toString(), Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "Entry selected" + e.toString(), Toast.LENGTH_SHORT).show()
         Log.i("LOWHIGH", "low: " + chart_consumption.getLowestVisibleX() + ", high: " + chart_consumption.getHighestVisibleX())
         Log.i("MIN MAX", "xmin: " + chart_consumption.getXChartMin() + ", xmax: " + chart_consumption.getXChartMax() + ", ymin: " + chart_consumption.getYChartMin() + ", ymax: " + chart_consumption.getYChartMax())
     }
 
-    override fun onNothingSelected() {
-        Toast.makeText(context, "Nothing selected", Toast.LENGTH_SHORT).show()
-    }
-
-
-    override fun onChartGestureStart(me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture) {
-        Log.i("Gesture", "START, x: " + me.x + ", y: " + me.y)
-    }
-
-    override fun onChartGestureEnd(me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture) {
-        Log.i("Gesture", "END, lastGesture: $lastPerformedGesture")
-
-        // un-highlight values after the gesture is finished and no single-tap
-        if (lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP)
-            chart_consumption.highlightValues(null) // or highlightTouch(null) for callback to onNothingSelected(...)
-    }
-
-    override fun onChartLongPressed(me: MotionEvent) {
-        Log.i("LongPress", "Chart longpressed.")
-    }
-
-    override fun onChartDoubleTapped(me: MotionEvent) {
-        Log.i("DoubleTap", "Chart double-tapped.")
-    }
-
-    override fun onChartSingleTapped(me: MotionEvent) {
-        Log.i("SingleTap", "Chart single-tapped.")
-    }
-
-    override fun onChartFling(me1: MotionEvent, me2: MotionEvent, velocityX: Float, velocityY: Float) {
-        Log.i("Fling", "Chart flinged. VeloX: $velocityX, VeloY: $velocityY")
-    }
-
-    override fun onChartScale(me: MotionEvent, scaleX: Float, scaleY: Float) {
-        Log.i("Scale / Zoom", "ScaleX: $scaleX, ScaleY: $scaleY")
-    }
-
-    override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {
-        Log.i("Translate / Move", "dX: $dX, dY: $dY")
-    }
-
-
-    private fun setupDetailButton() {
-        statistics_chart_button_detail.setOnClickListener {
-
-            val intent = Intent(context, DetailedStatisticsActivity::class.java)
-            intent.putExtra(ARGUMENT_CAR, getCar())
-            intent.putExtra(ARGUMENT_USER, getUser())
-
-            startActivity(intent)
-        }
-    }
+    override fun onNothingSelected() {}
 
     private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
             ?: throw IllegalArgumentException("Car argument missing")

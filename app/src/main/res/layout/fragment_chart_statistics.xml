@@ -3,7 +3,9 @@
 
     <data>
 
-        <import type="sk.momosi.carific.util.UnitsUtil" />
+        <import type="android.view.View" />
+
+        <import type="sk.momosi.carific.util.DateUtils" />
 
         <variable
             name="viewModel"
@@ -11,9 +13,9 @@
     </data>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/statistics_scroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/statistics_scroller"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -26,34 +28,45 @@
             <android.support.v7.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="wrap_content">
 
-                <LinearLayout style="@style/LinearVertical">
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chart_consumption"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:minHeight="400dp" />
-
-                </LinearLayout>
+                <Button
+                    android:id="@+id/statistics_chart_range"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:freezesText="true"
+                    android:text="@{@string/statistics_chart_date_range(DateUtils.localizeDate(viewModel.selectedRangeStart.time, context),DateUtils.localizeDate(viewModel.selectedRangeEnd.time, context))}" />
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/statistics_chart_button_detail"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/statistics_details" />
+                <LinearLayout style="@style/LinearVertical"
+                    android:layout_height="match_parent">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart_consumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:minHeight="500dp"
+                        android:visibility="@{viewModel.isEmpty ? View.GONE: View.VISIBLE}" />
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/timeline_list_empty"
+                android:visibility="@{viewModel.isEmpty ? View.VISIBLE: View.GONE}" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

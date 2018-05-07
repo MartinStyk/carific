@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="sk.momosi.carific.ui.main.MainActivity">
+
+    <item
+        android:id="@+id/action_detail_statistics"
+        android:icon="@drawable/ic_more_white"
+        android:title="@string/statistics_details"
+        app:showAsAction="ifRoom" />
+</menu>

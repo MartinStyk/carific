@@ -2,6 +2,7 @@
     <string name="app_name">Carific</string>
 
     <string name="dismiss">Dismiss</string>
+    <string name="done">Done</string>
     <string name="ok">OK</string>
     <string name="delete">Delete</string>
     <string name="create_validation_error">Enter all required attributes</string>
@@ -164,11 +165,14 @@
     <string name="statistics_expense_price_alert">Expense price: %s </string>
     <string name="statistics_fuel_consumption">Fuel consumption</string>
     <string name="statistics_fuel_consumption_per_month">Monthly consumption</string>
+    <string name="statistics_fuel_consumption_all_time_average">All time average</string>
     <string name="statistics_fuel_price">Fuel price</string>
     <string name="statistics_fuel_price_alert">Fuel price: %s </string>
     <string name="statistics_fuel_unit_price">Fuel unit price</string>
     <string name="statistics_refueling">Refueling</string>
     <string name="statistics_totals">Totals</string>
+
+    <string name="statistics_chart_date_range">Range: %s to %s</string>
 
 
     <string name="units_mi" translatable="false">mi</string>
