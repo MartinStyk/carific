@@ -182,10 +182,8 @@ class AddEditFuelActivity : AppCompatActivity() {
                 removeRefueling()
                 true
             }
-
             android.R.id.home -> {
-//                NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
-                NavUtils.navigateUpFromSameTask(this)
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

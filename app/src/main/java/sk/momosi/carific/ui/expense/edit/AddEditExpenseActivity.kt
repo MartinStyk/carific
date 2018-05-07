@@ -143,7 +143,7 @@ class AddEditExpenseActivity : AppCompatActivity() {
                 true
             }
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
