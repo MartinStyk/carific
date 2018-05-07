@@ -1,6 +1,7 @@
 package sk.momosi.carific
 
 import android.app.Application
+import android.content.Context
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.leakcanary.LeakCanary
 
@@ -12,6 +13,7 @@ class Carific: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -22,5 +24,13 @@ class Carific: Application() {
         LeakCanary.install(this)
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+    }
+
+    companion object {
+
+        private lateinit var instance: Carific
+
+        val context: Context
+            get() = instance.applicationContext
     }
 }

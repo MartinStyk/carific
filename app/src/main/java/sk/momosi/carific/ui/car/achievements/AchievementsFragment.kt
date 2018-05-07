@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -60,7 +61,7 @@ class AchievementsFragment : Fragment() {
             if (result.isSuccess) {
                 // The signed in account is stored in the result.
                 val signedInAccount = result.signInAccount!!
-                Log.d(TAG, signedInAccount.displayName.toString())
+                Toast.makeText(context,signedInAccount.toJson(), Toast.LENGTH_SHORT).show()
             } else {
                 var message = result.status.statusMessage
                 if (message == null || message.isEmpty()) {

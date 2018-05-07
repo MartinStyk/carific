@@ -99,14 +99,7 @@ class StatisticsService(
 
     private val averageConsumption: BigDecimal
         get() {
-            val distanceSum = refuelings.filter { it.consumption != null }.fold(0, { acc, refueling -> acc + refueling.distanceFromLast })
-            val fuelSum = refuelings.filter { it.consumption != null }.fold(BigDecimal.ZERO, { acc, refueling -> acc + refueling.volume })
-
-            return if (distanceSum != 0 && fuelSum != BigDecimal.ZERO) {
-                (BigDecimal(100) * fuelSum).divide(BigDecimal(distanceSum), 2, RoundingMode.HALF_EVEN)
-            } else {
-                BigDecimal.ZERO
-            }
+            return getAverageConsumption(refuelings)
         }
 
     private val averageConsumptionReversed: BigDecimal
@@ -233,6 +226,18 @@ class StatisticsService(
 
     companion object {
         private val HUNDRED = BigDecimal.valueOf(100)
+
+        fun getAverageConsumption(refuelings: List<Refueling>) : BigDecimal{
+            val distanceSum = refuelings.filter { it.consumption != null }.fold(0, { acc, refueling -> acc + refueling.distanceFromLast })
+            val fuelSum = refuelings.filter { it.consumption != null }.fold(BigDecimal.ZERO, { acc, refueling -> acc + refueling.volume })
+
+            return if (distanceSum != 0 && fuelSum != BigDecimal.ZERO) {
+                (BigDecimal(100) * fuelSum).divide(BigDecimal(distanceSum), 2, RoundingMode.HALF_EVEN)
+            } else {
+                BigDecimal.ZERO
+            }
+        }
+
     }
 
 }
