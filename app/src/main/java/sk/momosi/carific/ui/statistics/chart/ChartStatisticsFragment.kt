@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import com.borax12.materialdaterangepicker.date.DatePickerDialog
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
@@ -25,8 +24,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.listener.ChartTouchListener
-import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.fragment_chart_statistics.*
@@ -35,7 +32,6 @@ import sk.momosi.carific.databinding.FragmentChartStatisticsBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.statistics.detail.DetailedStatisticsActivity
-import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.chart.ChartDateAxisFormatter
 import java.util.*
 import kotlin.math.max
@@ -160,7 +156,7 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
 
             if (Utils.getSDKInt() >= 18) {
                 // fill drawable only supported on api level 18 and above
-                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.fade_red)
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.fade_accent)
                 fillDrawable = drawable
             } else {
                 fillColor = Color.BLACK
