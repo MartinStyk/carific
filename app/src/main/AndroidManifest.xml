@@ -32,7 +32,8 @@
             android:name=".ui.car.edit.AddEditCarActivity"
             android:label="@string/car_create"
             android:parentActivityName=".ui.car.list.CarListActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -48,12 +49,14 @@
             android:name=".ui.fuel.edit.AddEditFuelActivity"
             android:label="@string/refueling_create"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.EditRefueling" />
+            android:theme="@style/AppTheme.EditRefueling"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.expense.edit.AddEditExpenseActivity"
             android:label="@string/expense_create"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.EditExpense" />
+            android:theme="@style/AppTheme.EditExpense"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.ocr.BillCaptureActivity"
             android:label="@string/bill_capture" />
@@ -61,6 +64,7 @@
             android:name=".ui.statistics.detail.DetailedStatisticsActivity"
             android:label="@string/statistics_details"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
