@@ -63,6 +63,7 @@
     <string name="expense_create">Create expense</string>
     <string name="expense_edit">Edit expense</string>
     <string name="expense_create_info_hint">Info</string>
+    <string name="expense_create_info_error">Enter expense info</string>
     <string name="expense_create_price_error">Price is incorrect</string>
     <string name="expense_create_price_hint">Price</string>
     <string name="expense">Expense</string>

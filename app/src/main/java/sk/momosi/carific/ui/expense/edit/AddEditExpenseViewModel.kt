@@ -16,6 +16,7 @@ import sk.momosi.carific.model.User
 import sk.momosi.carific.util.data.SingleLiveEvent
 import sk.momosi.carific.util.data.SnackbarMessage
 import sk.momosi.carific.util.extensions.isNotNull
+import sk.momosi.carific.util.extensions.isNotNullOrBlank
 import java.math.BigDecimal
 import java.util.*
 
@@ -31,6 +32,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
     val date = ObservableField<Calendar>()
 
     val info = ObservableField<String>()
+    val isInfoValid = ObservableBoolean(true)
 
     val isLoading = ObservableBoolean(false)
 
@@ -55,6 +57,12 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
         price.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 isPriceValid.set(price.isNotNull())
+            }
+        })
+
+        info.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                isInfoValid.set(info.isNotNullOrBlank())
             }
         })
     }
@@ -119,8 +127,9 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
     private fun isExpenseDataValid():Boolean {
         isPriceValid.set(price.isNotNull())
+        isInfoValid.set(info.isNotNullOrBlank())
 
-        return isPriceValid.get()
+        return isPriceValid.get() && isInfoValid.get()
     }
 
     private fun createExpense(newExpense: Expense) {

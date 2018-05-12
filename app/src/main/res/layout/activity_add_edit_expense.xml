@@ -63,6 +63,21 @@
                         android:animateLayoutChanges="true"
                         android:orientation="vertical"
                         android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
+
+                        <!-- Note -->
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutWithValidations"
+                            app:errorText="@{@string/expense_create_info_error}"
+                            app:isValid="@{viewmodel.isInfoValid}">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/expense_create_info_hint"
+                                android:inputType="text"
+                                android:text="@={viewmodel.info}" />
+                        </android.support.design.widget.TextInputLayout>
+
                         <!-- Price total -->
                         <LinearLayout style="@style/LinearHorizontal">
 
@@ -130,18 +145,6 @@
                                     app:time="@{viewmodel.date}" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-
-                        <!-- Note -->
-                        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutWithValidations">
-
-                            <android.support.v7.widget.AppCompatEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/expense_create_info_hint"
-                                android:inputType="text"
-                                android:text="@={viewmodel.info}" />
-                        </android.support.design.widget.TextInputLayout>
-
 
                     </LinearLayout>
                 </RelativeLayout>
