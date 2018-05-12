@@ -29,11 +29,14 @@
 
     <!-- Timeline -->
     <dimen name="timeline_item_height">80dp</dimen>
-    <dimen name="header_padding_left">12dp</dimen>
+    <dimen name="header_padding_left">28dp</dimen>
     <dimen name="dot_size">20dp</dimen>
     <dimen name="title_text_size">14sp</dimen>
     <dimen name="sub_title_text_size">12sp</dimen>
-    <dimen name="carific_list_item_left_margin">56dp</dimen>
+    <dimen name="carific_list_item_left_margin">80dp</dimen>
+    <dimen name="carific_list_item_icon_padding_fuel">12dp</dimen>
+    <dimen name="carific_list_item_icon_padding_expense">10dp</dimen>
+    <dimen name="carific_list_item_image_size">50dp</dimen>
 
 
     <!-- Fab -->

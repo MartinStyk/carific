@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import sk.momosi.carific.Carific.Companion.context
 import sk.momosi.carific.R
 import sk.momosi.carific.view.recycler.model.RecyclerViewAttr
 import sk.momosi.carific.view.recycler.model.SectionInfo
@@ -112,9 +114,9 @@ class RecyclerSectionItemDecoration(
             val dot: ImageView = headerView.findViewById(R.id.dot)
             dot.background = getOvalDrawable()
             recyclerViewAttr.let { attrs ->
-                headerBackground?.apply {
-                    setBackgroundColor(attrs.sectionBackgroundColor)
-                }
+//                headerBackground?.apply {
+//                    setBackgroundColor(attrs.sectionBackgroundColor)
+//                }
                 headerTitle?.apply {
                     setPadding(defaultOffset / 2, 0, defaultOffset / 2, 0)
                     setTextColor(attrs.sectionTitleTextColor)

@@ -11,8 +11,8 @@
         </shape>
     </item>
     <item android:drawable="@drawable/ic_gas_station_white"
-        android:top="8dp"
-        android:bottom="8dp"
-        android:left="8dp"
-        android:right="8dp"/>
+        android:top="@dimen/carific_list_item_icon_padding_fuel"
+        android:bottom="@dimen/carific_list_item_icon_padding_fuel"
+        android:left="@dimen/carific_list_item_icon_padding_fuel"
+        android:right="@dimen/carific_list_item_icon_padding_fuel"/>
 </layer-list>

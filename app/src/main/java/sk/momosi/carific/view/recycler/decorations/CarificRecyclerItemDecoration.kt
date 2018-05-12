@@ -12,7 +12,7 @@ abstract class CarificRecyclerItemDecoration(context: Context) : RecyclerView.It
 
     val roadWidth = 16.DP(context).toInt()
 
-    val roadCenter = defaultOffset * 3
+    val roadCenter = defaultOffset * 5
     val roadStart = roadCenter - roadWidth / 2
     val roadEnd = roadCenter + roadWidth / 2
 
