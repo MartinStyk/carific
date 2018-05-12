@@ -20,6 +20,7 @@ import sk.momosi.carific.model.*
 import sk.momosi.carific.service.statistics.StatisticsService
 import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.data.SingleLiveEvent
+import sk.momosi.carific.util.firebase.db.TasksRepository
 import sk.momosi.carific.util.firebase.db.toRefuelingList
 import java.util.*
 
@@ -50,7 +51,7 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
 
     fun load() {
 
-        val refuelingTask = fetchRefuelings(car.get()!!)
+        val refuelingTask = TasksRepository.fetchRefuelings(car.get()!!.id)
 
         Tasks.whenAll(refuelingTask)
                 .addOnSuccessListener {
@@ -68,7 +69,6 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
                             )
 
                     isEmpty.set(data.value?.consumptionChartData?.isEmpty() ?: false)
-
                 }
     }
 
@@ -106,21 +106,6 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
             DateUtils.localizeDate(refueling.date, Carific.context)
         }
 
-    }
-
-    private fun fetchRefuelings(car: Car): Task<List<Refueling>> {
-        val refuelingSource = TaskCompletionSource<List<Refueling>>()
-
-        FirebaseDatabase.getInstance()
-                .getReference("fuel/${car.id}")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) =
-                            refuelingSource.setResult(dataSnapshot.toRefuelingList())
-
-                    override fun onCancelled(databaseError: DatabaseError) {}
-                })
-
-        return refuelingSource.task
     }
 
     class ChartData(

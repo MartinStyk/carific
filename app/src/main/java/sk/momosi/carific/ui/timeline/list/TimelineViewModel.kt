@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific.model.*
 import sk.momosi.carific.util.DateUtils
 import sk.momosi.carific.util.data.SingleLiveEvent
+import sk.momosi.carific.util.firebase.db.TasksRepository
 import sk.momosi.carific.util.firebase.db.toExpenseList
 import sk.momosi.carific.util.firebase.db.toRefuelingList
 import java.util.*
@@ -47,11 +48,16 @@ class TimelineViewModel : ViewModel() {
     }
 
     fun loadData() {
-        val refuelingTask = fetchRefuelings(carId)
-        val expenseTask = fetchExpenses(carId)
+        val refuelingTask = TasksRepository.fetchRefuelings(carId)
+        val expenseTask = TasksRepository.fetchExpenses(carId)
 
         Tasks.whenAll(refuelingTask, expenseTask)
                 .addOnSuccessListener {
+                    if (expenseTask.exception != null && refuelingTask.exception != null) {
+                        isError.set(true)
+                        return@addOnSuccessListener
+                    }
+
                     val list = mutableListOf<ListItem>()
                     list.addAll(refuelingTask.result)
                     list.addAll(expenseTask.result)
@@ -69,38 +75,6 @@ class TimelineViewModel : ViewModel() {
                 .addOnFailureListener {
                     isError.set(true)
                 }
-    }
-
-    private fun fetchRefuelings(carId: String): Task<List<Refueling>> {
-        val refuelingSource = TaskCompletionSource<List<Refueling>>()
-
-        FirebaseDatabase.getInstance()
-                .getReference("fuel/${carId}")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) =
-                            refuelingSource.setResult(dataSnapshot.toRefuelingList())
-
-                    override fun onCancelled(databaseError: DatabaseError) =
-                            isError.set(true)
-                })
-
-        return refuelingSource.task
-    }
-
-    private fun fetchExpenses(carId: String): Task<List<Expense>> {
-        val expenseSource = TaskCompletionSource<List<Expense>>()
-
-        FirebaseDatabase.getInstance()
-                .getReference("expense/${carId}")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) =
-                            expenseSource.setResult(dataSnapshot.toExpenseList())
-
-                    override fun onCancelled(databaseError: DatabaseError) =
-                            isError.set(true)
-                })
-
-        return expenseSource.task
     }
 
     fun isSection(position: Int): Boolean {
