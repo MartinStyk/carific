@@ -13,9 +13,10 @@ import sk.momosi.carific.R
 import sk.momosi.carific.databinding.FragmentDetailedStatisticsBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
+import sk.momosi.carific.ui.timeline.list.CarificBaseFragment
 
 
-class DetailedStatisticsFragment : Fragment() {
+class DetailedStatisticsFragment : CarificBaseFragment() {
 
     lateinit var binding: FragmentDetailedStatisticsBinding
     lateinit var viewModel: DetailedStatisticsViewModel
@@ -23,7 +24,7 @@ class DetailedStatisticsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DetailedStatisticsViewModel::class.java)
-        viewModel.load(getCar(), getUser())
+        viewModel.load(car, user)
     }
 
 
@@ -44,15 +45,7 @@ class DetailedStatisticsFragment : Fragment() {
     }
 
 
-    private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
-            ?: throw IllegalArgumentException("Car argument missing")
-
-    private fun getUser() = arguments?.getParcelable<User>(ARGUMENT_USER)
-            ?: throw IllegalArgumentException("User argument missing")
-
     companion object {
-        const val ARGUMENT_CAR = "car"
-        const val ARGUMENT_USER = "user"
 
         val TAG = DetailedStatisticsFragment::class.java.simpleName
 

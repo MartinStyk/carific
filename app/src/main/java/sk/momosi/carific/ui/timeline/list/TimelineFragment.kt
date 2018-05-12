@@ -30,7 +30,7 @@ import sk.momosi.carific.view.recycler.decorations.RecyclerSectionItemDecoration
 import sk.momosi.carific.view.recycler.model.SectionInfo
 import xyz.sangcomz.stickytimelineview.RoadItemDecoration
 
-class TimelineFragment : Fragment() {
+class TimelineFragment : CarificBaseFragment() {
 
     private lateinit var viewModel: TimelineViewModel
     private lateinit var binding: FragmentTimelineListBinding
@@ -40,6 +40,7 @@ class TimelineFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(TimelineViewModel::class.java)
+        viewModel.init(car.id, user)
 
         setupListItemClicks()
     }
@@ -49,6 +50,7 @@ class TimelineFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_timeline_list, container, false)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
+
         return binding.root
     }
 
@@ -57,12 +59,10 @@ class TimelineFragment : Fragment() {
 
         setupList()
 
+        setupToolbar()
+
         setupAddButton()
 
-        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_timeline, getCar().name)
-        activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
-
-        viewModel.init(getCar().id, getUser())
     }
 
     override fun onResume() {
@@ -70,8 +70,15 @@ class TimelineFragment : Fragment() {
         viewModel.loadData()
     }
 
+    override fun onDestroyView() {
+        fab?.hide()
+
+        super.onDestroyView()
+    }
+
+
     private fun setupAddButton() {
-        fab = activity?.findViewById<FloatingActionButton>(R.id.fab)
+        fab = activity?.findViewById(R.id.fab)
         fab?.let {
             it.speedDialMenuAdapter = speedDialMenuAdapter
             it.contentCoverEnabled = true
@@ -79,7 +86,18 @@ class TimelineFragment : Fragment() {
             it.show()
             it.bringToFront()
         }
-        internalSetupButton()
+
+        // hide/show on list scroll
+        binding.fuelList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    fab?.hide()
+                } else if (dy < 0) {
+                    fab?.show()
+                }
+            }
+        })
     }
 
     private fun setupListItemClicks() {
@@ -102,13 +120,6 @@ class TimelineFragment : Fragment() {
         })
     }
 
-
-    override fun onDestroyView() {
-        fab?.hide()
-
-        super.onDestroyView()
-    }
-
     private fun setupList() {
         fuel_list.adapter = TimelineListAdapter(viewModel = viewModel)
 
@@ -123,13 +134,6 @@ class TimelineFragment : Fragment() {
 
         fuel_list.addItemDecoration(ImageItemDecoration(requireContext()))
     }
-
-
-    private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
-            ?: throw IllegalArgumentException("Car argument missing")
-
-    private fun getUser() = arguments?.getParcelable<User>(ARGUMENT_USER)
-            ?: throw IllegalArgumentException("User argument missing")
 
     private val speedDialMenuAdapter = object : SpeedDialMenuAdapter() {
         override fun getCount(): Int = 2
@@ -164,24 +168,13 @@ class TimelineFragment : Fragment() {
         override fun fabRotationDegrees(): Float = 135F
     }
 
-    fun internalSetupButton() {
-
-        binding.fuelList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    fab?.hide()
-                } else if (dy < 0) {
-                    fab?.show()
-                }
-            }
-        })
+    fun setupToolbar() {
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.title_timeline, car.name)
+        activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true, true)
     }
 
     companion object {
 
-        private const val ARGUMENT_CAR = "car"
-        private const val ARGUMENT_USER = "user"
         private val TAG = TimelineFragment::class.java.simpleName
 
         @JvmStatic

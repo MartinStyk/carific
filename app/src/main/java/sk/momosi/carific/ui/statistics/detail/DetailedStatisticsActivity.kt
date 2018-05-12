@@ -7,6 +7,8 @@ import android.view.MenuItem
 import sk.momosi.carific.R
 
 import kotlinx.android.synthetic.main.activity_detailed_statistics.*
+import sk.momosi.carific.ui.timeline.list.CarificBaseFragment.Companion.ARGUMENT_CAR
+import sk.momosi.carific.ui.timeline.list.CarificBaseFragment.Companion.ARGUMENT_USER
 
 class DetailedStatisticsActivity : AppCompatActivity() {
 
@@ -20,8 +22,8 @@ class DetailedStatisticsActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentByTag(DetailedStatisticsFragment.TAG)
                 ?: intent?.let {
                     DetailedStatisticsFragment.newInstance(
-                            it.getParcelableExtra(DetailedStatisticsFragment.ARGUMENT_CAR),
-                            it.getParcelableExtra(DetailedStatisticsFragment.ARGUMENT_USER)
+                            it.getParcelableExtra(ARGUMENT_CAR),
+                            it.getParcelableExtra(ARGUMENT_USER)
                     )
                 }
 

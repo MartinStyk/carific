@@ -32,13 +32,14 @@ import sk.momosi.carific.databinding.FragmentChartStatisticsBinding
 import sk.momosi.carific.model.Car
 import sk.momosi.carific.model.User
 import sk.momosi.carific.ui.statistics.detail.DetailedStatisticsActivity
+import sk.momosi.carific.ui.timeline.list.CarificBaseFragment
 import sk.momosi.carific.util.chart.ChartDateAxisFormatter
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
 
-class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
+class ChartStatisticsFragment : CarificBaseFragment(), OnChartValueSelectedListener {
 
     lateinit var binding: FragmentChartStatisticsBinding
     lateinit var viewModel: ChartStatisticsViewModel
@@ -49,7 +50,7 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
         setHasOptionsMenu(true);
 
         viewModel = ViewModelProviders.of(this).get(ChartStatisticsViewModel::class.java)
-        viewModel.init(getCar(), getUser())
+        viewModel.init(car, user)
     }
 
 
@@ -85,8 +86,8 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_detail_statistics -> {
             startActivity(Intent(context, DetailedStatisticsActivity::class.java).apply {
-                putExtra(ARGUMENT_CAR, getCar())
-                putExtra(ARGUMENT_USER, getUser())
+                putExtra(ARGUMENT_CAR, car)
+                putExtra(ARGUMENT_USER, user)
             })
             true
         }
@@ -243,15 +244,7 @@ class ChartStatisticsFragment : Fragment(), OnChartValueSelectedListener {
 
     override fun onNothingSelected() {}
 
-    private fun getCar() = arguments?.getParcelable<Car>(ARGUMENT_CAR)
-            ?: throw IllegalArgumentException("Car argument missing")
-
-    private fun getUser() = arguments?.getParcelable<User>(ARGUMENT_USER)
-            ?: throw IllegalArgumentException("User argument missing")
-
     companion object {
-        const val ARGUMENT_CAR = "car"
-        const val ARGUMENT_USER = "user"
 
         val TAG = ChartStatisticsFragment::class.java.simpleName
 
