@@ -21,8 +21,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/space_basic"
-            android:layout_marginRight="@dimen/space_basic"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
@@ -35,10 +33,14 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_date_range"
                     android:clickable="false"
                     android:focusable="false"
                     android:freezesText="true"
-                    android:text="@{@string/statistics_chart_date_range(DateUtils.localizeDate(viewModel.selectedRangeStart.time, context),DateUtils.localizeDate(viewModel.selectedRangeEnd.time, context))}" />
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@{@string/statistics_chart_date_range(DateUtils.localizeDate(viewModel.selectedRangeStart.time, context),DateUtils.localizeDate(viewModel.selectedRangeEnd.time, context))}"
+                    android:drawableStart="@drawable/ic_date_range" />
 
             </android.support.v7.widget.CardView>
 
