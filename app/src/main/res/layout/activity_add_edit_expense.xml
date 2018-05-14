@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="sk.momosi.carific.ui.expense.edit.AddEditExpenseViewModel" />
+            type="sk.momosi.carific13.ui.expense.edit.AddEditExpenseViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="sk.momosi.carific.ui.expense.edit.AddEditExpenseActivity">
+        tools:context="sk.momosi.carific13.ui.expense.edit.AddEditExpenseActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"

@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <sk.momosi.carific.ui.ocr.camera.CameraSourcePreview
+    <sk.momosi.carific13.ui.ocr.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <sk.momosi.carific.ui.ocr.camera.GraphicOverlay
+        <sk.momosi.carific13.ui.ocr.camera.GraphicOverlay
             android:id="@+id/graphicOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </sk.momosi.carific.ui.ocr.camera.CameraSourcePreview>
+    </sk.momosi.carific13.ui.ocr.camera.CameraSourcePreview>
 
 </LinearLayout>

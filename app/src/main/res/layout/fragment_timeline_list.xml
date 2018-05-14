@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.timeline.list.TimelineViewModel" />
+            type="sk.momosi.carific13.ui.timeline.list.TimelineViewModel" />
     </data>
 
     <RelativeLayout
@@ -38,7 +38,7 @@
             android:text="@string/timeline_list_empty"
             android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"/>
 
-        <sk.momosi.carific.view.recycler.CarificRecyclerView
+        <sk.momosi.carific13.view.recycler.CarificRecyclerView
             android:id="@+id/fuel_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

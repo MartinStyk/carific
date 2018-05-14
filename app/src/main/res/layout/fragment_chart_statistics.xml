@@ -5,11 +5,11 @@
 
         <import type="android.view.View" />
 
-        <import type="sk.momosi.carific.util.DateUtils" />
+        <import type="sk.momosi.carific13.util.DateUtils" />
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.statistics.chart.ChartStatisticsViewModel" />
+            type="sk.momosi.carific13.ui.statistics.chart.ChartStatisticsViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView

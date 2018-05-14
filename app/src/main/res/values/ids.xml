@@ -5,9 +5,9 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
     <!-- app_id -->
-    <string name="app_id" translatable="false">644814183266</string>
+    <string name="app_id" translatable="false">444889319170</string>
     <!-- package_name -->
-    <string name="package_name" translatable="false">sk.momosi.carific</string>
+    <string name="package_name" translatable="false">sk.momosi.carific13</string>
     <!-- event 10 refuelings -->
-    <string name="event_10_refuelings" translatable="false">CgkI4rauj-ISEAIQAA</string>
+    <string name="event_10_refuelings" translatable="false">CgkIgo7hq_kMEAIQAQ</string>
 </resources>

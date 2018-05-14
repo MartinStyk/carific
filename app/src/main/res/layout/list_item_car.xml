@@ -7,11 +7,11 @@
 
         <variable
             name="car"
-            type="sk.momosi.carific.model.Car" />
+            type="sk.momosi.carific13.model.Car" />
 
         <variable
             name="listener"
-            type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Car>" />
+            type="sk.momosi.carific13.ui.ListItemUserInteractionListener&lt;sk.momosi.carific13.model.Car>" />
 
     </data>
 

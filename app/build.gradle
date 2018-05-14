@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "sk.momosi.carific"
+        applicationId "sk.momosi.carific13"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -38,11 +38,11 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation "android.arch.lifecycle:extensions:1.1.1"
 
-    implementation 'com.google.android.gms:play-services-auth:15.0.0'
-    implementation 'com.google.android.gms:play-services-games:15.0.0'
-    implementation 'com.google.android.gms:play-services-vision:15.0.0'
-    implementation 'com.google.firebase:firebase-auth:15.0.0'
-    implementation 'com.google.firebase:firebase-database:15.0.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-games:15.0.1'
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+    implementation 'com.google.firebase:firebase-auth:15.1.0'
+    implementation 'com.google.firebase:firebase-database:15.0.1'
 
     implementation 'com.borax12.materialdaterangepicker:library:1.9'
     implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'

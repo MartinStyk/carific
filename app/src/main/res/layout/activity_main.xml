@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="sk.momosi.carific.ui.main.MainActivityViewModel" />
+            type="sk.momosi.carific13.ui.main.MainActivityViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="sk.momosi.carific.ui.main.MainActivity">
+        tools:context="sk.momosi.carific13.ui.main.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -75,7 +75,7 @@
             android:visibility="@{viewmodel.isCarLoaded() &amp;&amp; viewmodel.isUserLoaded() ? View.VISIBLE : View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <sk.momosi.carific.view.floatingactionbutton.FloatingActionButton
+        <sk.momosi.carific13.view.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

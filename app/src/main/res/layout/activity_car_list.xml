@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="sk.momosi.carific.ui.car.list.CarListViewModel" />
+            type="sk.momosi.carific13.ui.car.list.CarListViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"

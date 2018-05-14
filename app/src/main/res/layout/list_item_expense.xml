@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="sk.momosi.carific.util.DateUtils" />
+        <import type="sk.momosi.carific13.util.DateUtils" />
 
         <variable
             name="user"
-            type="sk.momosi.carific.model.User" />
+            type="sk.momosi.carific13.model.User" />
 
         <variable
             name="expense"
-            type="sk.momosi.carific.model.Expense" />
+            type="sk.momosi.carific13.model.Expense" />
 
         <variable
             name="listener"
-            type="sk.momosi.carific.ui.ListItemUserInteractionListener&lt;sk.momosi.carific.model.Expense>" />
+            type="sk.momosi.carific13.ui.ListItemUserInteractionListener&lt;sk.momosi.carific13.model.Expense>" />
 
     </data>
 
