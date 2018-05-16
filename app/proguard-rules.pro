@@ -22,6 +22,9 @@
 -dontwarn okhttp3.**
 -dontnote okhttp3.**
 
+-dontobfuscate
+-dontoptimize
+
 -keep public class android.support.design.internal.BottomNavigationMenuView
 
 -keepclassmembers public class android.support.design.internal.BottomNavigationMenuView {
