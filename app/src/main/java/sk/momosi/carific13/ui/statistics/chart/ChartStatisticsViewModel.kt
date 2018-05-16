@@ -78,7 +78,7 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
         })
 
         selectedRangeEnd.set(Calendar.getInstance().apply {
-            set(yearEnd, monthOfYearEnd, dayOfMonthEnd, 0, 0)
+            set(yearEnd, monthOfYearEnd, dayOfMonthEnd, 23, 59)
         })
 
         load()
