@@ -61,7 +61,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.ocr.BillCaptureActivity"
-            android:label="@string/bill_capture" />
+            android:label="@string/bill_capture"
+            android:theme="@style/AppTheme.BillCapture" />
         <activity
             android:name=".ui.statistics.detail.DetailedStatisticsActivity"
             android:label="@string/statistics_details"

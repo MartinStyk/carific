@@ -14,19 +14,26 @@
     </style>
 
     <style name="AppTheme.EditExpense" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/colorExpense</item>
         <item name="colorPrimary">@color/colorExpense</item>
+        <item name="colorPrimaryDark">@color/colorExpenseDark</item>
+        <item name="colorAccent">@color/colorExpense</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
 
     <style name="AppTheme.EditRefueling" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/colorRefueling</item>
         <item name="colorPrimary">@color/colorRefueling</item>
+        <item name="colorPrimaryDark">@color/colorRefuelingDark</item>
+        <item name="colorAccent">@color/colorRefueling</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.BillCapture" parent="AppTheme">
+        <item name="colorAccent">@color/colorRefueling</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

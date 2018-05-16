@@ -5,8 +5,18 @@
     <color name="colorAccent">#c62828</color>
 
     <color name="colorRefueling">#005662</color>
+    <color name="colorRefuelingDark">#005662</color>
     <color name="colorExpense">#4fb3bf</color>
+    <color name="colorExpenseDark">#4fb3bf</color>
 
+    <!--<color name="colorPrimary">#37474F</color>-->
+    <!--<color name="colorPrimaryDark">#263238</color>-->
+    <!--<color name="colorAccent">#263238</color>-->
+
+    <!--<color name="colorRefueling">#F57C00</color>-->
+    <!--<color name="colorRefuelingDark">#EF6C00</color>-->
+    <!--<color name="colorExpense">#e53935</color>-->
+    <!--<color name="colorExpenseDark">#d32f2f</color>-->
 
     <color name="white">#FFFFFF</color>
     <color name="grey_100">#F5F5F5</color>

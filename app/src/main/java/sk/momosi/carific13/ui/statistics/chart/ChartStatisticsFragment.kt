@@ -210,6 +210,7 @@ class ChartStatisticsFragment : CarificBaseFragment(), OnChartValueSelectedListe
                                     lineWidth = 2f
                                     enableDashedLine(10f, 10f, 0f)
                                     labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+                                    lineColor = ContextCompat.getColor(requireContext(), R.color.colorRefueling)
                                 }
                 )
                 chart_consumption?.invalidate()
