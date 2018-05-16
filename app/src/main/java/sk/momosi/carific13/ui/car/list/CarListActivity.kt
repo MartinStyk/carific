@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_car_list.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityCarListBinding
@@ -28,6 +29,8 @@ open class CarListActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupAddButton()
 
@@ -58,6 +61,17 @@ open class CarListActivity : AppCompatActivity() {
                 startActivity(editIntent)
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 
