@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                                                                             ?: "",
                                                                     currencyCode = Currency.getInstance(Locale.getDefault()).currencyCode,
                                                                     currencySymbol = Currency.getInstance(Locale.getDefault()).symbol
-                                                            ))
+                                                            ).toMap())
                                                     .addOnSuccessListener {
                                                         startMainActivity()
                                                     }
