@@ -27,6 +27,7 @@ import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityAddEditFuelBinding
 import sk.momosi.carific13.model.Refueling
 import sk.momosi.carific13.model.User
+import sk.momosi.carific13.ui.car.achievements.BaseAchievementActivity
 import sk.momosi.carific13.ui.ocr.BillCaptureActivity
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.animateError
@@ -34,7 +35,7 @@ import sk.momosi.carific13.util.extensions.animateSuccess
 import java.math.BigDecimal
 import java.util.*
 
-class AddEditFuelActivity : AppCompatActivity() {
+class AddEditFuelActivity : BaseAchievementActivity() {
 
     lateinit var viewModel: AddEditFuelViewModel
 
@@ -84,7 +85,11 @@ class AddEditFuelActivity : AppCompatActivity() {
 
     private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())
 
-    private fun setupAddButton() = refueling_add_save.setOnClickListener { viewModel.saveRefueling() }
+    private fun setupAddButton() = refueling_add_save.setOnClickListener {
+        viewModel.saveRefueling()
+        incrementRefuelings()
+        incrementLitres(viewModel.volume.get()!!.intValueExact())
+    }
 
 
     private fun setupOcrButtons() {

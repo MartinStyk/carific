@@ -24,12 +24,13 @@ import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityAddEditExpenseBinding
 import sk.momosi.carific13.model.Expense
 import sk.momosi.carific13.model.User
+import sk.momosi.carific13.ui.car.achievements.BaseAchievementActivity
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.animateError
 import sk.momosi.carific13.util.extensions.animateSuccess
 import java.util.*
 
-class AddEditExpenseActivity : AppCompatActivity() {
+class AddEditExpenseActivity : BaseAchievementActivity() {
 
     lateinit var viewModel: AddEditExpenseViewModel
 
@@ -79,7 +80,10 @@ class AddEditExpenseActivity : AppCompatActivity() {
 
     private fun loadData() = viewModel.start(getCarId(), getExpenses(), getUser())
 
-    private fun setupAddButton() = expense_add_save.setOnClickListener { viewModel.saveExpense() }
+    private fun setupAddButton() = expense_add_save.setOnClickListener {
+        viewModel.saveExpense()
+        incrementExpenses()
+    }
 
     private fun setupSnackbar() {
         viewModel.snackbarMessage.observe(this, object : SnackbarMessage.SnackbarObserver {

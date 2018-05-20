@@ -12,14 +12,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.games.Games
 import kotlinx.android.synthetic.main.fragment_achievements.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.FragmentAchievementsBinding
-import com.google.android.gms.tasks.OnSuccessListener
-
-
 
 class AchievementsFragment : Fragment() {
 
@@ -53,24 +51,26 @@ class AchievementsFragment : Fragment() {
         }
 
         btn.setOnClickListener {
-//            Games.getAchievementsClient(activity!!, GoogleSignIn.getLastSignedInAccount(requireContext())!!)
-//                    .unlock(getString(R.string.event_10_refuelings))
-//
-//            val a  = 10
-
-            Games.getAchievementsClient(requireActivity(), GoogleSignIn.getLastSignedInAccount(requireContext())!!)
+            Games.getAchievementsClient(
+                    activity!!, GoogleSignIn.getLastSignedInAccount(activity!!)
+                    ?: return@setOnClickListener
+            )
                     .achievementsIntent
                     .addOnSuccessListener { intent -> startActivityForResult(intent, 9003) }
-
         }
     }
 
+    private val googleSignInClient: GoogleSignInClient?
+        get() {
+            return GoogleSignIn.getClient(
+                    activity!!,
+                    GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
+            )
+        }
+
     private fun startSignInIntent() {
-        val signInClient = GoogleSignIn.getClient(
-                activity!!,
-                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
-        )
-        val intent = signInClient.signInIntent
+        val signInClient = googleSignInClient
+        val intent = signInClient!!.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
@@ -81,7 +81,7 @@ class AchievementsFragment : Fragment() {
             if (result.isSuccess) {
                 // The signed in account is stored in the result.
                 val signedInAccount = result.signInAccount!!
-                Toast.makeText(context,signedInAccount.toJson(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, signedInAccount.toJson(), Toast.LENGTH_SHORT).show()
             } else {
                 var message = result.status.statusMessage
                 if (message == null || message.isEmpty()) {
@@ -98,11 +98,7 @@ class AchievementsFragment : Fragment() {
     }
 
     private fun signInSilently() {
-        val signInClient = GoogleSignIn.getClient(
-                activity!!,
-                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
-        )
-        signInClient.silentSignIn().addOnCompleteListener(activity!!, { task ->
+        googleSignInClient!!.silentSignIn().addOnCompleteListener(activity!!, { task ->
             if (task.isSuccessful) {
                 // The signed in account is stored in the task's result.
                 val account = task.result
@@ -127,6 +123,8 @@ class AchievementsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        signInSilently()
+        if (googleSignInClient != null) {
+            signInSilently()
+        }
     }
 }
