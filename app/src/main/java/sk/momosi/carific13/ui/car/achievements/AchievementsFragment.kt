@@ -4,12 +4,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,6 +25,7 @@ class AchievementsFragment : Fragment() {
     companion object {
         private val TAG = AchievementsFragment::class.java.simpleName
         private const val RC_SIGN_IN = 9001
+        private const val RC_ACHIEVEMENT_UI = 9003
 
         @JvmStatic
         fun newInstance() = AchievementsFragment()
@@ -42,21 +44,48 @@ class AchievementsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = getString(R.string.navigation_achievements)
+        activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false, true)
+
+        signInSilently()
         btn_play_games_services_sign_in.setOnClickListener({ _ ->
             startSignInIntent()
         })
 
-        sign_out.setOnClickListener {
-            signOut()
+        btn_show_achievements.setOnClickListener {
+            showAchievements()
         }
 
-        btn.setOnClickListener {
-            Games.getAchievementsClient(
-                    activity!!, GoogleSignIn.getLastSignedInAccount(activity!!)
-                    ?: return@setOnClickListener
-            )
-                    .achievementsIntent
-                    .addOnSuccessListener { intent -> startActivityForResult(intent, 9003) }
+        showAchievements()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        signInSilently()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result.isSuccess) {
+                // The signed in account is stored in the result.
+                val signedInAccount = result.signInAccount!!
+                Log.d(TAG, "GooglePlayServices SignedIn Account: ${signedInAccount.toJson()}")
+                showAchievements()
+            } else {
+                var message = result.status.statusMessage
+                if (message == null || message.isEmpty()) {
+                    message = getString(R.string.signin_other_error)
+                }
+
+                AlertDialog.Builder(activity!!)
+                        .setMessage(message)
+                        .setNeutralButton(android.R.string.ok, null)
+                        .show()
+                Log.d(TAG, "Error status code: ${result.status.statusCode}")
+            }
+            signInSilently()
         }
     }
 
@@ -74,57 +103,30 @@ class AchievementsFragment : Fragment() {
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
-                // The signed in account is stored in the result.
-                val signedInAccount = result.signInAccount!!
-                Toast.makeText(context, signedInAccount.toJson(), Toast.LENGTH_SHORT).show()
-            } else {
-                var message = result.status.statusMessage
-                if (message == null || message.isEmpty()) {
-                    message = getString(R.string.signin_other_error)
-                }
-
-                AlertDialog.Builder(activity!!)
-                        .setMessage(message)
-                        .setNeutralButton(android.R.string.ok, null)
-                        .show()
-                Log.d(TAG, "Error status code: ${result.status.statusCode}")
-            }
-        }
-    }
-
     private fun signInSilently() {
         googleSignInClient!!.silentSignIn().addOnCompleteListener(activity!!, { task ->
             if (task.isSuccessful) {
                 // The signed in account is stored in the task's result.
                 val account = task.result
                 Log.d(TAG, account.displayName.toString())
+                btn_play_games_services_sign_in.visibility = View.GONE
+                btn_show_achievements.visibility = View.VISIBLE
             } else {
                 // Player will need to sign-in explicitly using via UI
+                btn_play_games_services_sign_in.visibility = View.VISIBLE
+                btn_show_achievements.visibility = View.GONE
                 Log.d(TAG, "signInSilently(): failure", task.exception)
             }
         })
     }
 
-    private fun signOut() {
-        val signInClient = GoogleSignIn.getClient(
-                activity!!,
-                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
+    private fun showAchievements() {
+        Games.getAchievementsClient(
+                activity!!, GoogleSignIn.getLastSignedInAccount(activity!!) ?: return
         )
-        signInClient.signOut().addOnCompleteListener(
-                activity!!, {
-            // at this point, the user is signed out.
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (googleSignInClient != null) {
-            signInSilently()
-        }
+                .achievementsIntent
+                .addOnSuccessListener { intent ->
+                    startActivityForResult(intent, RC_ACHIEVEMENT_UI)
+                }
     }
 }

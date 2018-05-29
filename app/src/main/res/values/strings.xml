@@ -185,5 +185,6 @@
     <string name="units_litre" translatable="false">\u2113</string>
     <string name="units_gallon" translatable="false">gal</string>
     <string name="days" translatable="false">days</string>
+    <string name="show_achievements">Show achievements</string>
 
 </resources>
