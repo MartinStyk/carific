@@ -5,9 +5,9 @@
     <color name="colorAccent">#c62828</color>
 
     <color name="colorRefueling">#005662</color>
-    <color name="colorRefuelingDark">#005662</color>
+    <color name="colorRefuelingDark">#00444d</color>
     <color name="colorExpense">#4fb3bf</color>
-    <color name="colorExpenseDark">#4fb3bf</color>
+    <color name="colorExpenseDark">#3e8c95</color>
 
     <!--<color name="colorPrimary">#37474F</color>-->
     <!--<color name="colorPrimaryDark">#263238</color>-->
