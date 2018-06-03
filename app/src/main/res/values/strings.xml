@@ -46,7 +46,7 @@
 
 
     <string name="refueling_create_distance_from_last_hint">Distance from last refueling</string>
-    <string name="refueling_create_distance_from_last_error">Distance needs to be positive number</string>
+    <string name="refueling_create_distance_from_last_error">Distance is not set</string>
     <string name="refueling_create_fuel_volume_hint">Fuel volume</string>
     <string name="refueling_create_fuel_volume_error">Fuel volume is incorrect</string>
     <string name="refueling_create_price_total_hint">Total price</string>
