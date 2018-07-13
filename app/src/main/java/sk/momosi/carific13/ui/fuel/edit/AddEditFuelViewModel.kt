@@ -168,13 +168,13 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
+                                list.add(Refueling.fromMap(it.key!!, it.getValue() as Map<String, Any?>))
                             }
                         }
                         fuelService.insertRefueling(carId, newRefueling, list)
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) = Unit
+                    override fun onCancelled(p0: DatabaseError) = Unit
                 })
 
         taskFished.value = newRefueling
@@ -195,14 +195,14 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
+                                list.add(Refueling.fromMap(it.key!!, it.getValue() as Map<String, Any?>))
                             }
                         }
                         fuelService.deleteFillUpInTransaction(carId, refueling, list)
                         fuelService.insertRefueling(carId, refueling, list)
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) = Unit
+                    override fun onCancelled(p0: DatabaseError) = Unit
                 })
 
         taskFished.value = refueling
@@ -225,13 +225,13 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
                             if (dataSnapshot.exists()) {
                                 dataSnapshot.children.forEach {
-                                    list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
+                                    list.add(Refueling.fromMap(it.key!!, it.getValue() as Map<String, Any?>))
                                 }
                             }
                             fuelService.deleteFillUpInTransaction(carId, it, list)
                         }
 
-                        override fun onCancelled(p0: DatabaseError?) = Unit
+                        override fun onCancelled(p0: DatabaseError) = Unit
                     })
         }
 

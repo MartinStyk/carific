@@ -12,7 +12,7 @@ fun DataSnapshot.toRefuelingList(): List<Refueling> {
 
     if (exists()) {
         children.forEach {
-            list.add(Refueling.fromMap(it.key, it.getValue() as Map<String, Any?>))
+            list.add(Refueling.fromMap(it.key!!, it.value as Map<String, Any?>))
         }
     }
 
@@ -28,7 +28,7 @@ fun DataSnapshot.toExpenseList(): List<Expense> {
 
     if (exists()) {
         children.forEach {
-            list.add(Expense.fromMap(it.key, it.getValue() as Map<String, Any?>))
+            list.add(Expense.fromMap(it.key!!, it.value as Map<String, Any?>))
         }
     }
 

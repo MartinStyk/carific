@@ -40,7 +40,7 @@ class CarListViewModel : ViewModel() {
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                cars.add(Car.fromMap(it.key, it.value as Map<String, Any>))
+                                cars.add(Car.fromMap(it.key!!, it.value as Map<String, Any>))
                             }
                         }
 
@@ -48,7 +48,7 @@ class CarListViewModel : ViewModel() {
                         isLoading.set(false)
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
                         isError.set(true)
                     }
                 })

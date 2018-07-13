@@ -143,7 +143,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Expense.fromMap(it.key, it.value as Map<String, Any?>))
+                                list.add(Expense.fromMap(it.key!!, it.value as Map<String, Any?>))
                             }
                         }
                         FirebaseDatabase.getInstance()
@@ -152,7 +152,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
                                 .setValue(newExpense.toMap())
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) = Unit
+                    override fun onCancelled(p0: DatabaseError) = Unit
                 })
 
         taskFinished.value = newExpense
@@ -173,7 +173,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
                         if (dataSnapshot.exists()) {
                             dataSnapshot.children.forEach {
-                                list.add(Expense.fromMap(it.key, it.value as Map<String, Any?>))
+                                list.add(Expense.fromMap(it.key!!, it.value as Map<String, Any?>))
                             }
                         }
                         FirebaseDatabase.getInstance()
@@ -185,7 +185,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
                                 .setValue(expense.toMap())
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) = Unit
+                    override fun onCancelled(p0: DatabaseError) = Unit
                 })
 
         taskFinished.value = expense
@@ -208,7 +208,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
                             if (dataSnapshot.exists()) {
                                 dataSnapshot.children.forEach {
-                                    list.add(Expense.fromMap(it.key, it.value as Map<String, Any?>))
+                                    list.add(Expense.fromMap(it.key!!, it.value as Map<String, Any?>))
                                 }
                             }
                             FirebaseDatabase.getInstance()
@@ -216,7 +216,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
                                     .removeValue()
                         }
 
-                        override fun onCancelled(p0: DatabaseError?) = Unit
+                        override fun onCancelled(p0: DatabaseError) = Unit
                     })
         }
 

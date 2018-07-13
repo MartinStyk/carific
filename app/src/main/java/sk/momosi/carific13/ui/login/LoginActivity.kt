@@ -91,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
                                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                                         if (!dataSnapshot.exists()) {
                                             FirebaseDatabase.getInstance().getReference("user")
-                                                    .child(firebaseAuth.currentUser?.uid)
+                                                    .child(firebaseAuth.currentUser?.uid ?: "error")
                                                     .setValue(
                                                             User(
                                                                     id = firebaseAuth.currentUser?.uid
@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
                                         }
                                     }
 
-                                    override fun onCancelled(p0: DatabaseError?) = Unit
+                                    override fun onCancelled(p0: DatabaseError) = Unit
                                 }
                                 )
                     } else {

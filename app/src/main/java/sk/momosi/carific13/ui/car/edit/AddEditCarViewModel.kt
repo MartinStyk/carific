@@ -94,7 +94,7 @@ class AddEditCarViewModel(application: Application) : AndroidViewModel(applicati
                         }
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) = Unit
+                    override fun onCancelled(p0: DatabaseError) = Unit
                 })
     }
 

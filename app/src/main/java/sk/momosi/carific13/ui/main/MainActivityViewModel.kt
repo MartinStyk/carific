@@ -53,7 +53,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            user.set(User.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any?>))
+                            user.set(User.fromMap(dataSnapshot.key!!, dataSnapshot.getValue() as Map<String, Any?>))
                             isUserLoaded.set(true)
 
                             if (user.get()?.defaultCar.isNullOrEmpty()) {
@@ -64,7 +64,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                         }
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
                     }
                 })
     }
@@ -81,7 +81,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             if (dataSnapshot.exists()) {
                                 val firstCarData = dataSnapshot.children.first()
 
-                                val nextDisplayedCar = Car.fromMap(firstCarData.key, firstCarData.getValue() as Map<String, Any>)
+                                val nextDisplayedCar = Car.fromMap(firstCarData.key!!, firstCarData.getValue() as Map<String, Any>)
                                 val currentlyDisplayedCar = car.get()
 
                                 car.set(nextDisplayedCar)
@@ -96,7 +96,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             }
                         }
 
-                        override fun onCancelled(p0: DatabaseError?) {
+                        override fun onCancelled(p0: DatabaseError) {
                         }
                     })
         }
@@ -111,7 +111,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                val nextDisplayedCar = Car.fromMap(dataSnapshot.key, dataSnapshot.getValue() as Map<String, Any>)
+                                val nextDisplayedCar = Car.fromMap(dataSnapshot.key!!, dataSnapshot.getValue() as Map<String, Any>)
                                 val currentlyDisplayedCar = car.get()
 
                                 car.set(nextDisplayedCar)
@@ -126,7 +126,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             }
                         }
 
-                        override fun onCancelled(p0: DatabaseError?) {
+                        override fun onCancelled(p0: DatabaseError) {
                         }
                     })
         }
