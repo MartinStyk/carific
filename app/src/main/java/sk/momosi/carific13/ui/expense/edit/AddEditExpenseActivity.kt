@@ -82,7 +82,6 @@ class AddEditExpenseActivity : BaseAchievementActivity() {
 
     private fun setupAddButton() = expense_add_save.setOnClickListener {
         viewModel.saveExpense()
-        incrementExpenses()
     }
 
     private fun setupSnackbar() {

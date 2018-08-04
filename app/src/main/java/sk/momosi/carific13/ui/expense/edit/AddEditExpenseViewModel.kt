@@ -1,7 +1,6 @@
 package sk.momosi.carific13.ui.expense.edit
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.databinding.Observable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
@@ -10,9 +9,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import sk.momosi.carific13.R
 import sk.momosi.carific13.model.Expense
 import sk.momosi.carific13.model.User
+import sk.momosi.carific13.ui.car.achievements.BaseAchievementViewModel
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.isNotNull
@@ -24,7 +23,7 @@ import java.util.*
  * @author Lenka Heldová
  * @date 02.04.2018.
  */
-class AddEditExpenseViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditExpenseViewModel(application: Application) : BaseAchievementViewModel(application) {
 
     val price = ObservableField<BigDecimal>()
     val isPriceValid = ObservableBoolean(true)
@@ -120,6 +119,7 @@ class AddEditExpenseViewModel(application: Application) : AndroidViewModel(appli
 
         if (isCreateNew.get() || editedExpense == null) {
             createExpense(expense)
+            incrementExpenses()
         } else {
             updateExpense(expense)
         }

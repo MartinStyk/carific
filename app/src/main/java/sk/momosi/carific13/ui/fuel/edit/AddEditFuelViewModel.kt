@@ -1,7 +1,6 @@
 package sk.momosi.carific13.ui.fuel.edit
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.databinding.Observable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
@@ -14,6 +13,7 @@ import sk.momosi.carific13.R
 import sk.momosi.carific13.model.Refueling
 import sk.momosi.carific13.model.User
 import sk.momosi.carific13.service.fuel.FuelService
+import sk.momosi.carific13.ui.car.achievements.BaseAchievementViewModel
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.isNotNull
@@ -24,7 +24,7 @@ import java.util.*
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class AddEditFuelViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditFuelViewModel(application: Application) : BaseAchievementViewModel(application) {
 
     private val fuelService: FuelService by lazy { FuelService() }
 
@@ -152,6 +152,8 @@ class AddEditFuelViewModel(application: Application) : AndroidViewModel(applicat
 
         if (isCreateNew.get() || editedRefueling == null) {
             createRefueling(refueling)
+            incrementRefuelings()
+            incrementLitres(volume.get()!!.toInt())
         } else {
             updateRefueling(refueling)
         }

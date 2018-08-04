@@ -87,8 +87,6 @@ class AddEditFuelActivity : BaseAchievementActivity() {
 
     private fun setupAddButton() = refueling_add_save.setOnClickListener {
         viewModel.saveRefueling()
-        incrementRefuelings()
-        incrementLitres(viewModel.volume.get()!!.toInt())
     }
 
 
