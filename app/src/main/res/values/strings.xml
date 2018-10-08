@@ -105,7 +105,6 @@
     <string name="title_activity_car_choice_list">Select car</string>
 
     <string name="na">-</string>
-    <string name="litres_per_kms">l/100km</string>
     <string name="km">km</string>
 
     <string name="unit_text_placeholder">%1$s %2$s</string>
@@ -178,7 +177,7 @@
 
     <string name="units_mi" translatable="false">mi</string>
     <string name="units_km" translatable="false">km</string>
-    <string name="units_litreper100km" translatable="false">\u2113/100km</string>
+    <string name="units_litrePer100km" translatable="false">\u2113/100km</string>
     <string name="units_mpg" translatable="false">mpg</string>
     <string name="units_litreper100_distance_units" translatable="false">\u2113/100 %s</string>
     <string name="units_distance_units_per_litre" translatable="false">%s/\u2113</string>

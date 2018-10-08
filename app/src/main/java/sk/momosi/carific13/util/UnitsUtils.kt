@@ -31,7 +31,7 @@ object UnitsUtil {
         else if (this.getDistanceUnits(car) === sk.momosi.carific13.model.DistanceUnit.MI) {
             context.getString(R.string.units_mpg)
         } else {
-            context.getString(R.string.units_litreper100km)
+            context.getString(R.string.units_litrePer100km)
         }
     }
 
