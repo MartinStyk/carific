@@ -4,19 +4,11 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableList
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific13.model.*
 import sk.momosi.carific13.util.DateUtils
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.firebase.db.TasksRepository
-import sk.momosi.carific13.util.firebase.db.toExpenseList
-import sk.momosi.carific13.util.firebase.db.toRefuelingList
 import java.util.*
 
 /**
@@ -59,8 +51,8 @@ class TimelineViewModel : ViewModel() {
                     }
 
                     val list = mutableListOf<ListItem>()
-                    list.addAll(refuelingTask.result)
-                    list.addAll(expenseTask.result)
+                    list.addAll(refuelingTask.result ?: emptyList())
+                    list.addAll(expenseTask.result ?: emptyList())
 
                     list.sort()
 

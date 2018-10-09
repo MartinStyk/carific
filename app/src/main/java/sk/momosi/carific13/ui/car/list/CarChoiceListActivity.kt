@@ -5,13 +5,12 @@ import android.arch.lifecycle.Observer
 class CarChoiceListActivity : CarListActivity() {
 
     override fun setupListItemClicks() {
-        super.viewModel.carClickEvent.observe(this, Observer {
+        super.viewModel.carClickEvent.observe(this, Observer { it ->
             it?.let {
-                viewModel.setDefaultCar(it)
+                viewModel.setDefaultCar(it, this)
                 finish()
             }
         })
     }
-
 
 }

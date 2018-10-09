@@ -43,7 +43,7 @@ open class CarListActivity : AppCompatActivity() {
     }
 
     private fun setupAddButton() {
-        car_list_add.setOnClickListener { view ->
+        car_list_add.setOnClickListener {
             startActivity(Intent(this, AddEditCarActivity::class.java))
         }
     }

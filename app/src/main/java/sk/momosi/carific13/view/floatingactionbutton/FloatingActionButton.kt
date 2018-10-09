@@ -18,7 +18,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -483,7 +482,6 @@ class FloatingActionButton : RelativeLayout {
             } else {
                 0f
             }
-            val animation: Animation
 
             v.animate()
                     .translationY(translation)

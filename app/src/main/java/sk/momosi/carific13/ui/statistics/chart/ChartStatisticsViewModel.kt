@@ -54,9 +54,9 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
         val refuelingTask = TasksRepository.fetchRefuelings(car.get()!!.id)
 
         Tasks.whenAll(refuelingTask)
-                .addOnSuccessListener {
+                .addOnSuccessListener { it ->
                     allRefuelings = refuelingTask.result
-                            .filter { it.consumption != null }
+                            ?.filter { it.consumption != null } ?: emptyList()
 
                     timeFilteredRefuelings = allRefuelings
                             .filter { it.date.time in selectedRangeStart.get()!!.time.time..selectedRangeEnd.get()!!.time.time }
