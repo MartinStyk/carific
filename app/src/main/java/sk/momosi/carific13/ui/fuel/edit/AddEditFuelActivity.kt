@@ -83,7 +83,7 @@ class AddEditFuelActivity : BaseAchievementActivity() {
         binding.refuelingAddSave.animateError()
     })
 
-    private fun loadData() = viewModel.start(getCarId(), getRefueling(), getUser())
+    private fun loadData() = viewModel.start(getCarId(), getRefueling(), getCurrency())
 
     private fun setupAddButton() = refueling_add_save.setOnClickListener {
         viewModel.saveRefueling()
@@ -160,11 +160,11 @@ class AddEditFuelActivity : BaseAchievementActivity() {
                 .setTitle(R.string.refueling_delete_dialog_title)
                 .setMessage(R.string.refueling_delete_dialog_message)
                 .setIcon(R.drawable.ic_delete_black)
-                .setPositiveButton(R.string.car_delete, { _: DialogInterface, _: Int ->
+                .setPositiveButton(R.string.car_delete) { _: DialogInterface, _: Int ->
                     viewModel.removeRefueling()
-                })
-                .setNegativeButton(R.string.dismiss, { _: DialogInterface, _: Int ->
-                })
+                }
+                .setNegativeButton(R.string.dismiss) { _: DialogInterface, _: Int ->
+                }
                 .create()
                 .show()
     }
@@ -196,8 +196,8 @@ class AddEditFuelActivity : BaseAchievementActivity() {
     private fun getCarId() = intent?.extras?.getString(ARG_CAR_ID)
             ?: throw IllegalArgumentException("Car id passed to AddEditFuelActivity is null")
 
-    private fun getUser() = intent?.extras?.getParcelable<User>(ARG_USER)
-            ?: throw IllegalArgumentException("User passed to AddEditFuelActivity is null")
+    private fun getCurrency() = intent?.extras?.getString(ARG_CURRENCY)
+            ?: throw IllegalArgumentException("Currency of user passed to AddEditFuelActivity is null")
 
     private fun getRefueling() = intent?.extras?.getParcelable<Refueling>(ARG_REFUELING)
 
@@ -207,7 +207,7 @@ class AddEditFuelActivity : BaseAchievementActivity() {
 
         const val ARG_CAR_ID = "car_id_edit"
         const val ARG_REFUELING = "refueling_edit"
-        const val ARG_USER = "user"
+        const val ARG_CURRENCY = "user_currency"
 
         const val OCR_FUEL_CAPTURE_RESULT = 123
 

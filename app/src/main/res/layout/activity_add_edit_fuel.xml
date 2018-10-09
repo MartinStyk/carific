@@ -202,7 +202,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="@dimen/space_basic"
                                     android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                    android:text="@{viewmodel.user.currencySymbol}" />
+                                    android:text="@{viewmodel.currency}" />
 
                                 <android.support.design.widget.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
@@ -225,7 +225,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                    android:text="@{viewmodel.user.currencySymbol}" />
+                                    android:text="@{viewmodel.currency}" />
                             </LinearLayout>
 
                             <!-- OCR -->

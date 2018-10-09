@@ -105,7 +105,7 @@ class TimelineFragment : CarificBaseFragment() {
             val editIntent = Intent(context, AddEditFuelActivity::class.java)
             editIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
             editIntent.putExtra(AddEditFuelActivity.ARG_REFUELING, refueling)
-            editIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
+            editIntent.putExtra(AddEditFuelActivity.ARG_CURRENCY, viewModel.user.currencySymbol)
 
             startActivity(editIntent)
         })
@@ -114,7 +114,7 @@ class TimelineFragment : CarificBaseFragment() {
             val editIntent = Intent(context, AddEditExpenseActivity::class.java)
             editIntent.putExtra(AddEditExpenseActivity.ARG_CAR_ID, viewModel.carId)
             editIntent.putExtra(AddEditExpenseActivity.ARG_EXPENSE, expense)
-            editIntent.putExtra(AddEditExpenseActivity.ARG_USER, viewModel.user)
+            editIntent.putExtra(AddEditExpenseActivity.ARG_CURRENCY, viewModel.user.currencySymbol)
 
             startActivity(editIntent)
         })
@@ -151,7 +151,7 @@ class TimelineFragment : CarificBaseFragment() {
                 else -> throw IllegalArgumentException("No menu item: $position")
             }
             createIntent.putExtra(AddEditFuelActivity.ARG_CAR_ID, viewModel.carId)
-            createIntent.putExtra(AddEditFuelActivity.ARG_USER, viewModel.user)
+            createIntent.putExtra(AddEditFuelActivity.ARG_CURRENCY, viewModel.user.currencySymbol)
             startActivity(createIntent)
 
             return true

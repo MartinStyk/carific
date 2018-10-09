@@ -60,7 +60,7 @@ class AddEditFuelViewModel(application: Application) : BaseAchievementViewModel(
 
     lateinit var carId: String
 
-    lateinit var user: User
+    lateinit var currency: String
 
     private var editedRefueling: Refueling? = null
 
@@ -91,9 +91,9 @@ class AddEditFuelViewModel(application: Application) : BaseAchievementViewModel(
         })
     }
 
-    fun start(carId: String, refueling: Refueling? = null, user: User) {
+    fun start(carId: String, refueling: Refueling? = null, currency: String) {
         this.carId = carId
-        this.user = user
+        this.currency = currency
 
         if (isLoaded) {
             return
@@ -248,8 +248,6 @@ class AddEditFuelViewModel(application: Application) : BaseAchievementViewModel(
 
         return isDistanceFromLastValid.get() && isVolumeValid.get() && isPriceTotalValid.get() && isPricePerLitreValid.get()
     }
-
-    private fun isNotNull(observable: ObservableField<out Any>) = observable.get() != null
 
     fun setDate(year: Int, month: Int, day: Int) {
         date.get()?.set(Calendar.YEAR, year)

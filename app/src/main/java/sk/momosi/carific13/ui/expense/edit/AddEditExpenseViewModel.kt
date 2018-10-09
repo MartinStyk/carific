@@ -10,7 +10,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific13.model.Expense
-import sk.momosi.carific13.model.User
 import sk.momosi.carific13.ui.car.achievements.BaseAchievementViewModel
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.data.SnackbarMessage
@@ -47,7 +46,7 @@ class AddEditExpenseViewModel(application: Application) : BaseAchievementViewMod
 
     lateinit var carId: String
 
-    lateinit var user: User
+    lateinit var currency: String
 
     private var editedExpense: Expense? = null
 
@@ -66,9 +65,9 @@ class AddEditExpenseViewModel(application: Application) : BaseAchievementViewMod
         })
     }
 
-    fun start(carId: String, expense: Expense? = null, user: User) {
+    fun start(carId: String, expense: Expense? = null, currency: String) {
         this.carId = carId
-        this.user = user
+        this.currency = currency
 
         if (isLoaded) {
             return

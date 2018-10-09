@@ -78,7 +78,7 @@ class AddEditExpenseActivity : BaseAchievementActivity() {
         binding.expenseAddSave.animateError()
     })
 
-    private fun loadData() = viewModel.start(getCarId(), getExpenses(), getUser())
+    private fun loadData() = viewModel.start(getCarId(), getExpenses(), getCurrency())
 
     private fun setupAddButton() = expense_add_save.setOnClickListener {
         viewModel.saveExpense()
@@ -120,11 +120,11 @@ class AddEditExpenseActivity : BaseAchievementActivity() {
                 .setTitle(R.string.expense_delete_dialog_title)
                 .setMessage(R.string.expense_delete_dialog_message)
                 .setIcon(R.drawable.ic_delete_black)
-                .setPositiveButton(R.string.car_delete, { _: DialogInterface, _: Int ->
+                .setPositiveButton(R.string.car_delete) { _: DialogInterface, _: Int ->
                     viewModel.removeExpense()
-                })
-                .setNegativeButton(R.string.dismiss, { _: DialogInterface, _: Int ->
-                })
+                }
+                .setNegativeButton(R.string.dismiss) { _: DialogInterface, _: Int ->
+                }
                 .create()
                 .show()
     }
@@ -156,14 +156,14 @@ class AddEditExpenseActivity : BaseAchievementActivity() {
     private fun getCarId() = intent?.extras?.getString(ARG_CAR_ID)
             ?: throw IllegalArgumentException("Car id passed to AddEditExpenseActivity is null")
 
-    private fun getUser() = intent?.extras?.getParcelable<User>(ARG_USER)
-            ?: throw IllegalArgumentException("User passed to AddEditExpenseActivity is null")
+    private fun getCurrency() = intent?.extras?.getString(ARG_CURRENCY)
+            ?: throw IllegalArgumentException("Currency of ser passed to AddEditExpenseActivity is null")
 
     private fun getExpenses() = intent?.extras?.getParcelable<Expense>(ARG_EXPENSE)
 
     companion object {
         const val ARG_CAR_ID = "car_id_edit"
         const val ARG_EXPENSE = "expense_edit"
-        const val ARG_USER = "user"
+        const val ARG_CURRENCY = "user_currency"
     }
 }

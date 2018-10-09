@@ -71,7 +71,7 @@ class AchievementsFragment : Fragment() {
             if (result.isSuccess) {
                 // The signed in account is stored in the result.
                 val signedInAccount = result.signInAccount!!
-                Log.d(TAG, "GooglePlayServices SignedIn Account: ${signedInAccount.toJson()}")
+                Log.d(TAG, "GooglePlayServices SignedIn Account: $signedInAccount")
                 showAchievements()
             } else {
                 var message = result.status.statusMessage
@@ -104,11 +104,11 @@ class AchievementsFragment : Fragment() {
     }
 
     private fun signInSilently() {
-        googleSignInClient!!.silentSignIn().addOnCompleteListener(activity!!, { task ->
+        googleSignInClient!!.silentSignIn().addOnCompleteListener(activity!!) { task ->
             if (task.isSuccessful) {
                 // The signed in account is stored in the task's result.
                 val account = task.result
-                Log.d(TAG, account.displayName.toString())
+                Log.d(TAG, account?.displayName.toString())
                 btn_play_games_services_sign_in.visibility = View.GONE
                 btn_show_achievements.visibility = View.VISIBLE
             } else {
@@ -117,7 +117,7 @@ class AchievementsFragment : Fragment() {
                 btn_show_achievements.visibility = View.GONE
                 Log.d(TAG, "signInSilently(): failure", task.exception)
             }
-        })
+        }
     }
 
     private fun showAchievements() {

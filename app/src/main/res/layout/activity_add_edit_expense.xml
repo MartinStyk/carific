@@ -102,7 +102,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/text_input_unit_top_margin"
-                                android:text="@{viewmodel.user.currencySymbol}" />
+                                android:text="@{viewmodel.currency}" />
                         </LinearLayout>
 
                         <!-- Date -->
