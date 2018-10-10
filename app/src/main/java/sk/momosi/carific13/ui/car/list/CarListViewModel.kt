@@ -74,8 +74,7 @@ class CarListViewModel : ViewModel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val fetchUser = TasksRepository.fetchUser()
             Tasks.whenAll(fetchUser).addOnSuccessListener {
-                // TODO activities back stack does not work
-                val int1 = Intent(Intent.ACTION_MAIN)
+                val int1 = Intent(Intent.ACTION_MAIN, null, context, MainActivity::class.java)
                 val int2 = Intent(Intent.ACTION_VIEW, null, context, AddEditFuelActivity::class.java)
                 int2.putExtra(AddEditFuelActivity.ARG_CAR_ID, car.id)
                 int2.putExtra(AddEditFuelActivity.ARG_CURRENCY, fetchUser.result?.currencySymbol)
