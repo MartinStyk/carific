@@ -10,6 +10,7 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableList
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.support.annotation.RequiresApi
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -72,26 +73,42 @@ class CarListViewModel : ViewModel() {
                 .setValue(car.id)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            val fetchUser = TasksRepository.fetchUser()
-            Tasks.whenAll(fetchUser).addOnSuccessListener {
-                val int1 = Intent(Intent.ACTION_MAIN, null, context, MainActivity::class.java)
-                val int2 = Intent(Intent.ACTION_VIEW, null, context, AddEditFuelActivity::class.java)
-                int2.putExtra(AddEditFuelActivity.ARG_CAR_ID, car.id)
-                int2.putExtra(AddEditFuelActivity.ARG_CURRENCY, fetchUser.result?.currencySymbol)
-
-                // TODO translations
-                val shortcut = ShortcutInfo.Builder(context, "add_fill_up_shortcut")
-                        .setShortLabel("Pridaj ${car.name}")
-                        .setLongLabel("Pridaj tankovanie pre ${car.name}")
-                        .setIcon(Icon.createWithResource(context, R.drawable.ic_gas_station))
-                        .setIntents(arrayOf(int1, int2))
-                        .build()
-
-                val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
-                shortcutManager.dynamicShortcuts = asList(shortcut)
-
-            }
+            setShortcuts(context, car)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
+    private fun setShortcuts(context: Context, car: Car) {
+        val fetchUser = TasksRepository.fetchUser()
+        Tasks.whenAll(fetchUser).addOnSuccessListener {
+            val intentMain = Intent(Intent.ACTION_MAIN, null, context, MainActivity::class.java)
+            intentMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+            val intentAddFuel = Intent(Intent.ACTION_VIEW, null, context, AddEditFuelActivity::class.java)
+            intentAddFuel.putExtra(AddEditFuelActivity.ARG_CAR_ID, car.id)
+            intentAddFuel.putExtra(AddEditFuelActivity.ARG_CURRENCY, fetchUser.result?.currencySymbol)
+
+            val intentAddFuelCamera = Intent(Intent.ACTION_VIEW, null, context, AddEditFuelActivity::class.java)
+            intentAddFuelCamera.putExtra(AddEditFuelActivity.ARG_CAR_ID, car.id)
+            intentAddFuelCamera.putExtra(AddEditFuelActivity.ARG_CURRENCY, fetchUser.result?.currencySymbol)
+            intentAddFuelCamera.putExtra(AddEditFuelActivity.ARG_OPEN_OCR, true)
+
+            val addFillup = ShortcutInfo.Builder(context, "shortcut_add_fillup")
+                    .setShortLabel(context.getString(R.string.shortcut_add_fuel_short))
+                    .setLongLabel(context.getString(R.string.shortcut_add_fuel_long, car.name))
+                    .setIcon(Icon.createWithResource(context, R.drawable.ic_gas_station))
+                    .setIntents(arrayOf(intentMain, intentAddFuel))
+                    .build()
+
+            val scanBill = ShortcutInfo.Builder(context, "shortcut_scan_fillup")
+                    .setShortLabel(context.getString(R.string.shortcut_scan_bill_short))
+                    .setLongLabel(context.getString(R.string.shortcut_scan_bill_long, car.name))
+                    .setIcon(Icon.createWithResource(context, R.drawable.ic_camera))
+                    .setIntents(arrayOf(intentMain, intentAddFuelCamera))
+                    .build()
+
+            val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
+            shortcutManager.dynamicShortcuts = asList(addFillup, scanBill)
+        }
+    }
 }

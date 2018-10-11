@@ -11,14 +11,11 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
-import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.AnimationUtils
 import android.widget.DatePicker
 import android.widget.TimePicker
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -69,6 +66,10 @@ class AddEditFuelActivity : BaseAchievementActivity() {
         setupSnackbar()
 
         loadData()
+
+        if (isEnabledShortcutToOcr()) {
+            startActivityForResult(Intent(this, BillCaptureActivity::class.java), OCR_FUEL_CAPTURE_RESULT)
+        }
     }
 
     private fun setupSuccessListener() = viewModel.taskFished.observe(this, Observer {
@@ -201,6 +202,8 @@ class AddEditFuelActivity : BaseAchievementActivity() {
 
     private fun getRefueling() = intent?.extras?.getParcelable<Refueling>(ARG_REFUELING)
 
+    private fun isEnabledShortcutToOcr() = intent?.extras?.getBoolean(ARG_OPEN_OCR) ?: false
+
     companion object {
 
         private val TAG = AddEditFuelActivity::class.java.simpleName
@@ -208,6 +211,7 @@ class AddEditFuelActivity : BaseAchievementActivity() {
         const val ARG_CAR_ID = "car_id_edit"
         const val ARG_REFUELING = "refueling_edit"
         const val ARG_CURRENCY = "user_currency"
+        const val ARG_OPEN_OCR = "open_ocr_camera"
 
         const val OCR_FUEL_CAPTURE_RESULT = 123
 

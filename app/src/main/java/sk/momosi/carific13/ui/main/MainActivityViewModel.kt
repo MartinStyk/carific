@@ -81,7 +81,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             if (dataSnapshot.exists()) {
                                 val firstCarData = dataSnapshot.children.first()
 
-                                val nextDisplayedCar = Car.fromMap(firstCarData.key!!, firstCarData.getValue() as Map<String, Any>)
+                                val nextDisplayedCar = Car.fromMap(firstCarData.key!!, firstCarData.value as Map<String, Any>)
                                 val currentlyDisplayedCar = car.get()
 
                                 car.set(nextDisplayedCar)

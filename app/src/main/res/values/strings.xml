@@ -111,6 +111,11 @@
     <string name="signin_other_error">Error occurred during sign in</string>
 
 
+    <string name="shortcut_add_fuel_short">Add refueling</string>
+    <string name="shortcut_add_fuel_long">Add refueling for %s</string>
+    <string name="shortcut_scan_bill_short">Scan bill</string>
+    <string name="shortcut_scan_bill_long">Scan bill for %s</string>
+
     <string name="statistics_details">Detailed statistics</string>
 
     <string name="statistics_average_distance_per_day">Average daily driven distance</string>
