@@ -16,34 +16,40 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_add_edit_fuel.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityAddEditFuelBinding
+import sk.momosi.carific13.dependencyinjection.utils.ViewModelFactory
 import sk.momosi.carific13.model.Refueling
 import sk.momosi.carific13.ui.car.achievements.BaseAchievementActivity
 import sk.momosi.carific13.ui.ocr.BillCaptureActivity
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.animateError
 import sk.momosi.carific13.util.extensions.animateSuccess
+import sk.momosi.carific13.util.extensions.provideViewModel
 import java.math.BigDecimal
 import java.util.*
+import javax.inject.Inject
 
 class AddEditFuelActivity : BaseAchievementActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var viewModel: AddEditFuelViewModel
 
     lateinit var binding: ActivityAddEditFuelBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
+        viewModel = provideViewModel(viewModelFactory)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit_fuel)
-
-        viewModel = ViewModelProviders.of(this).get(AddEditFuelViewModel::class.java)
-
         binding.viewmodel = viewModel
 
         setSupportActionBar(toolbar)

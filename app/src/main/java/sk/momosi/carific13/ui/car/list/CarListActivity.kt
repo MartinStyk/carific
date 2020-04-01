@@ -6,21 +6,28 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_car_list.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityCarListBinding
+import sk.momosi.carific13.dependencyinjection.utils.ViewModelFactory
 import sk.momosi.carific13.ui.car.edit.AddEditCarActivity
+import sk.momosi.carific13.util.extensions.provideViewModel
+import javax.inject.Inject
 
 open class CarListActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var binding: ActivityCarListBinding
     lateinit var viewModel: CarListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CarListViewModel::class.java)
+        viewModel = provideViewModel(viewModelFactory)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_car_list)
         binding.setLifecycleOwner(this)

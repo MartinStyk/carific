@@ -7,12 +7,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityMainBinding
+import sk.momosi.carific13.dependencyinjection.utils.ViewModelFactory
 import sk.momosi.carific13.ui.car.achievements.AchievementsFragment
 import sk.momosi.carific13.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific13.ui.car.list.CarChoiceListActivity
@@ -20,21 +21,28 @@ import sk.momosi.carific13.ui.profile.ProfileFragment
 import sk.momosi.carific13.ui.statistics.chart.ChartStatisticsFragment
 import sk.momosi.carific13.ui.timeline.list.TimelineFragment
 import sk.momosi.carific13.util.extensions.disableShiftMode
+import sk.momosi.carific13.util.extensions.provideViewModel
 import sk.momosi.carific13.util.extensions.requestLogin
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var viewModel: MainActivityViewModel
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+        viewModel = provideViewModel(viewModelFactory)
 
         binding.viewmodel = viewModel
         binding.setLifecycleOwner(this)

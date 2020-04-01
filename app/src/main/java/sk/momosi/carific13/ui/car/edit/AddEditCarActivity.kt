@@ -17,34 +17,42 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_add_edit_car.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.ActivityAddEditCarBinding
+import sk.momosi.carific13.dependencyinjection.utils.ViewModelFactory
 import sk.momosi.carific13.model.VehicleType
 import sk.momosi.carific13.ui.car.CarTypeSpinnerAdapter
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.animateError
 import sk.momosi.carific13.util.extensions.animateSuccess
+import sk.momosi.carific13.util.extensions.provideViewModel
 import java.io.File
+import javax.inject.Inject
 
 @RuntimePermissions
 class AddEditCarActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var viewModel: AddEditCarViewModel
 
     lateinit var binding: ActivityAddEditCarBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit_car)
 
-        viewModel = ViewModelProviders.of(this).get(AddEditCarViewModel::class.java)
+        viewModel = provideViewModel(viewModelFactory)
 
         binding.viewmodel = viewModel
 

@@ -1,6 +1,5 @@
 package sk.momosi.carific13.ui.fuel.edit
 
-import android.app.Application
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
@@ -18,12 +17,13 @@ import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.isNotNull
 import java.math.BigDecimal
 import java.util.*
+import javax.inject.Inject
 
 /**
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class AddEditFuelViewModel(application: Application) : BaseAchievementViewModel(application) {
+class AddEditFuelViewModel @Inject constructor() : BaseAchievementViewModel() {
 
     private val fuelService: FuelService by lazy { FuelService() }
 

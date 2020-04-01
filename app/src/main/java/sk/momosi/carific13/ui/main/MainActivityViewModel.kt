@@ -1,23 +1,25 @@
 package sk.momosi.carific13.ui.main
 
-import android.app.Application
+import android.content.Context
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableParcelable
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import sk.momosi.carific13.dependencyinjection.utils.ForApplication
 import sk.momosi.carific13.model.Car
 import sk.momosi.carific13.model.User
 import sk.momosi.carific13.util.data.SingleLiveEvent
+import javax.inject.Inject
 
 /**
  * @author Martin Styk
  * @date 31.03.2018.
  */
-class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
+class MainActivityViewModel @Inject constructor(@ForApplication context: Context) : ViewModel() {
 
     val user: ObservableParcelable<User> = ObservableParcelable()
 

@@ -24,12 +24,13 @@ import sk.momosi.carific13.ui.main.MainActivity
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.firebase.db.TasksRepository
 import java.util.Arrays.asList
+import javax.inject.Inject
 
 /**
  * @author Martin Styk
  * @date 01.04.2018.
  */
-class CarListViewModel : ViewModel() {
+class CarListViewModel @Inject constructor() : ViewModel() {
 
     val cars: ObservableList<Car> = ObservableArrayList()
 

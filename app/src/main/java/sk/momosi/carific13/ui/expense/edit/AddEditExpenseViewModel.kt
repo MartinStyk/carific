@@ -1,6 +1,5 @@
 package sk.momosi.carific13.ui.expense.edit
 
-import android.app.Application
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
@@ -17,12 +16,13 @@ import sk.momosi.carific13.util.extensions.isNotNull
 import sk.momosi.carific13.util.extensions.isNotNullOrBlank
 import java.math.BigDecimal
 import java.util.*
+import javax.inject.Inject
 
 /**
  * @author Lenka Heldová
  * @date 02.04.2018.
  */
-class AddEditExpenseViewModel(application: Application) : BaseAchievementViewModel(application) {
+class AddEditExpenseViewModel @Inject constructor() : BaseAchievementViewModel() {
 
     val price = ObservableField<BigDecimal>()
     val isPriceValid = ObservableBoolean(true)

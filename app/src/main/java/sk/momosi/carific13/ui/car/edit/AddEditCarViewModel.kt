@@ -1,11 +1,10 @@
 package sk.momosi.carific13.ui.car.edit
 
-import android.app.Application
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,12 +16,13 @@ import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.data.SnackbarMessage
 import sk.momosi.carific13.util.extensions.isNotNullOrBlank
 import java.io.File
+import javax.inject.Inject
 
 /**
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class AddEditCarViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditCarViewModel @Inject constructor() : ViewModel() {
 
     val name = ObservableField<String>()
     val isNameValid = ObservableBoolean(true)
