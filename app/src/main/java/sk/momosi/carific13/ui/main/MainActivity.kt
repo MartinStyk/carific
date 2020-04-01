@@ -1,14 +1,14 @@
 package sk.momosi.carific13.ui.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import sk.momosi.carific13.R
@@ -16,10 +16,9 @@ import sk.momosi.carific13.databinding.ActivityMainBinding
 import sk.momosi.carific13.ui.car.achievements.AchievementsFragment
 import sk.momosi.carific13.ui.car.edit.AddEditCarActivity
 import sk.momosi.carific13.ui.car.list.CarChoiceListActivity
-import sk.momosi.carific13.ui.timeline.list.TimelineFragment
 import sk.momosi.carific13.ui.profile.ProfileFragment
 import sk.momosi.carific13.ui.statistics.chart.ChartStatisticsFragment
-import sk.momosi.carific13.ui.statistics.detail.DetailedStatisticsFragment
+import sk.momosi.carific13.ui.timeline.list.TimelineFragment
 import sk.momosi.carific13.util.extensions.disableShiftMode
 import sk.momosi.carific13.util.extensions.requestLogin
 

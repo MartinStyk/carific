@@ -2,7 +2,7 @@ package sk.momosi.carific13.util
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.support.annotation.AnyThread
+import androidx.annotation.AnyThread
 
 object ConnectivityUtils {
 

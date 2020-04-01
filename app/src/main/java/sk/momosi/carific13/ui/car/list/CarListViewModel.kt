@@ -1,16 +1,16 @@
 package sk.momosi.carific13.ui.car.list
 
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableList
 import android.graphics.drawable.Icon
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableList
+import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

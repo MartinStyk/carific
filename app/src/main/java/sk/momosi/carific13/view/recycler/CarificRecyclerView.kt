@@ -1,9 +1,9 @@
 package sk.momosi.carific13.view.recycler
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.R
 import sk.momosi.carific13.view.recycler.decorations.RecyclerSectionItemDecoration
 import sk.momosi.carific13.view.recycler.model.RecyclerViewAttr

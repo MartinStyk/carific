@@ -1,22 +1,20 @@
 package sk.momosi.carific13.ui.car.edit
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.util.Log
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import sk.momosi.carific13.R
 import sk.momosi.carific13.model.Car
 import sk.momosi.carific13.model.VehicleType
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.data.SnackbarMessage
-import sk.momosi.carific13.util.extensions.isNotNull
 import sk.momosi.carific13.util.extensions.isNotNullOrBlank
 import java.io.File
 

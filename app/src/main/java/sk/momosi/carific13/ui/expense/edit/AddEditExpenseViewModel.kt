@@ -1,10 +1,10 @@
 package sk.momosi.carific13.ui.expense.edit
 
 import android.app.Application
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.util.Log
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase

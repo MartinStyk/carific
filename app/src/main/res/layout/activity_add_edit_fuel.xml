@@ -12,13 +12,13 @@
             type="sk.momosi.carific13.ui.fuel.edit.AddEditFuelViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="sk.momosi.carific13.ui.fuel.edit.AddEditfuelActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,16 +26,16 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="@{viewmodel.isCreateNew ? @string/refueling_create :  @string/refueling_edit }" />
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -61,20 +61,20 @@
                     android:orientation="vertical"
                     android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
 
-                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
+                    <androidx.cardview.widget.CardView style="@style/BasicCardWithContentPadding">
 
                         <LinearLayout style="@style/LinearVertical">
                             <!-- Distance -->
                             <LinearLayout style="@style/LinearHorizontal">
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     app:errorText="@{@string/refueling_create_distance_from_last_error}"
                                     app:isValid="@{viewmodel.isDistanceFromLastValid}">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -82,9 +82,9 @@
                                         android:inputType="number"
                                         android:text="@={viewmodel.distanceFromLast}" />
 
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
 
-                                <android.support.v7.widget.AppCompatTextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/text_input_unit_top_margin"
@@ -96,12 +96,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/refueling_add_date_picker"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -111,14 +111,14 @@
                                         android:hint="@string/create_date_hint"
                                         android:inputType="date"
                                         app:date="@{viewmodel.date}" />
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/refueling_add_time_picker"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -128,27 +128,27 @@
                                         android:hint="@string/create_time_hint"
                                         android:inputType="date"
                                         app:time="@{viewmodel.date}" />
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                         </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
-                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
+                    <androidx.cardview.widget.CardView style="@style/BasicCardWithContentPadding">
 
                         <LinearLayout style="@style/LinearVertical">
 
                             <!-- Volume, full -->
                             <LinearLayout style="@style/LinearHorizontal">
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     app:errorText="@{@string/refueling_create_fuel_volume_error}"
                                     app:isValid="@{viewmodel.isVolumeValid()}">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/refueling_create_fuel_volume_hint"
@@ -156,9 +156,9 @@
                                         android:maxLines="1"
                                         android:text="@={viewmodel.volume}" />
 
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
 
-                                <android.support.v7.widget.AppCompatTextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="@dimen/space_basic"
@@ -166,7 +166,7 @@
                                     android:text="l" />
 
                                 <!-- Full tank -->
-                                <android.support.v7.widget.SwitchCompat
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     android:layout_height="wrap_content"
@@ -180,14 +180,14 @@
                             <!-- Price per litre, price total -->
                             <LinearLayout style="@style/LinearHorizontal">
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     app:errorText="@{@string/refueling_create_price_per_unit_error}"
                                     app:isValid="@{viewmodel.isPricePerLitreValid}">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/refueling_create_price_per_unit_hint"
@@ -195,23 +195,23 @@
                                         android:maxLines="1"
                                         android:text="@={viewmodel.pricePerLitre}" />
 
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
 
-                                <android.support.v7.widget.AppCompatTextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="@dimen/space_basic"
                                     android:layout_marginTop="@dimen/text_input_unit_top_margin"
                                     android:text="@{viewmodel.currency}" />
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     style="@style/TextInputLayoutWithValidations"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     app:errorText="@{@string/refueling_create_price_total_error}"
                                     app:isValid="@{viewmodel.isPriceTotalValid}">
 
-                                    <android.support.v7.widget.AppCompatEditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/refueling_create_price_total_hint"
@@ -219,9 +219,9 @@
                                         android:maxLines="1"
                                         android:text="@={viewmodel.priceTotal}" />
 
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
 
-                                <android.support.v7.widget.AppCompatTextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/text_input_unit_top_margin"
@@ -243,30 +243,30 @@
 
                         </LinearLayout>
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
-                    <android.support.v7.widget.CardView style="@style/BasicCardWithContentPadding">
+                    <androidx.cardview.widget.CardView style="@style/BasicCardWithContentPadding">
                         <!-- Note -->
-                        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutWithValidations">
+                        <com.google.android.material.textfield.TextInputLayout style="@style/TextInputLayoutWithValidations">
 
-                            <android.support.v7.widget.AppCompatEditText
+                            <androidx.appcompat.widget.AppCompatEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/refueling_create_note_hint"
                                 android:inputType="text"
                                 android:text="@={viewmodel.note}" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
 
                 </LinearLayout>
             </RelativeLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/refueling_add_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -274,5 +274,5 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_done" />
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

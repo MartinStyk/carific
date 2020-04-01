@@ -1,7 +1,7 @@
 package sk.momosi.carific13.view.recycler.decorations
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.util.extensions.DP
 
 abstract class CarificRecyclerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {

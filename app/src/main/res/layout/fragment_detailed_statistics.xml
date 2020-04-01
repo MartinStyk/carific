@@ -10,7 +10,7 @@
             type="sk.momosi.carific13.ui.statistics.detail.DetailedStatisticsViewModel" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <!--Fuel consumption -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -73,10 +73,10 @@
 
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--Totals-->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -148,10 +148,10 @@
                         app:value="@{viewModel.statistics.totalDrivenDistance}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--Costs/distance -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -191,10 +191,10 @@
                         app:unit="@{viewModel.user.currencySymbol}"
                         app:value="@{viewModel.statistics.expenseCostsPerDistance}" />
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--Costs/time -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -283,10 +283,10 @@
                         app:value="@{viewModel.statistics.averageExpenseCostPerYear}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--Refueling statistics -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -364,7 +364,7 @@
                         app:value="@{viewModel.statistics.distanceBetweenFillUpsHighest}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--&lt;!&ndash;Fuel unit price &ndash;&gt;-->
             <!--<android.support.v7.widget.CardView-->
@@ -412,7 +412,7 @@
             <!--</android.support.v7.widget.CardView>-->
 
             <!--Distance/time -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -461,10 +461,10 @@
                         app:value="@{viewModel.statistics.averageDistancePerYear}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--Expenses statistics -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -502,10 +502,10 @@
                         app:value="@{viewModel.statistics.averageNumberOfExpensesPerYear}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!--FuelUp usage -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/BasicCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -530,8 +530,8 @@
                         app:value="@{viewModel.statistics.trackingDays}" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

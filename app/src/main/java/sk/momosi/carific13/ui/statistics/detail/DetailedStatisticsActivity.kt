@@ -1,12 +1,10 @@
 package sk.momosi.carific13.ui.statistics.detail
 
 import android.os.Bundle
-import android.support.v4.app.NavUtils
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import sk.momosi.carific13.R
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_detailed_statistics.*
+import sk.momosi.carific13.R
 import sk.momosi.carific13.ui.timeline.list.CarificBaseFragment.Companion.ARGUMENT_CAR
 import sk.momosi.carific13.ui.timeline.list.CarificBaseFragment.Companion.ARGUMENT_USER
 
@@ -20,10 +18,10 @@ class DetailedStatisticsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val fragment = supportFragmentManager.findFragmentByTag(DetailedStatisticsFragment.TAG)
-                ?: intent?.let {
+                ?: intent!!.let {
                     DetailedStatisticsFragment.newInstance(
-                            it.getParcelableExtra(ARGUMENT_CAR),
-                            it.getParcelableExtra(ARGUMENT_USER)
+                            car = it.getParcelableExtra(ARGUMENT_CAR)!!,
+                            user = it.getParcelableExtra(ARGUMENT_USER)!!
                     )
                 }
 

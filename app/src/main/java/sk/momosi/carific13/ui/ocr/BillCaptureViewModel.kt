@@ -1,9 +1,9 @@
 package sk.momosi.carific13.ui.ocr
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.support.annotation.WorkerThread
 import android.util.Log
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.AndroidViewModel
 import com.google.android.gms.vision.text.Element
 import sk.momosi.carific13.R
 import sk.momosi.carific13.util.data.SingleLiveEvent

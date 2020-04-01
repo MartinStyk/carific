@@ -1,6 +1,6 @@
 package sk.momosi.carific13.util.extensions
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 
 /**
  * @author Martin Styk

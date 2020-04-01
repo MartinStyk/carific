@@ -2,7 +2,7 @@ package xyz.sangcomz.stickytimelineview
 
 import android.content.Context
 import android.graphics.*
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.R
 import sk.momosi.carific13.view.recycler.decorations.CarificRecyclerItemDecoration
 
@@ -12,7 +12,7 @@ class RoadItemDecoration(
 
     private var roadBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.road)
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
         drawRoad(c, parent)
     }

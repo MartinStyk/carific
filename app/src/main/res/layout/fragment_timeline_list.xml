@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:items="@{viewModel.items}"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/list_item_fuel"
             app:timeLineCircleColor="@color/grey_800"
             app:sectionTitleTextColor="@color/grey_800"

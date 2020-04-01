@@ -1,9 +1,9 @@
 package sk.momosi.carific13.ui.timeline.list
 
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.databinding.ListItemExpenseBinding
 import sk.momosi.carific13.databinding.ListItemFuelBinding
 import sk.momosi.carific13.model.Expense

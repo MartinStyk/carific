@@ -1,8 +1,8 @@
 package sk.momosi.carific13.ui.car.list
 
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.model.Car
 import sk.momosi.carific13.model.VehicleType
 

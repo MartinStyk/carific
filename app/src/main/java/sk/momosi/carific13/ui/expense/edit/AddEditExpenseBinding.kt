@@ -1,9 +1,9 @@
 package sk.momosi.carific13.ui.expense.edit
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.support.v7.widget.AppCompatEditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
 import sk.momosi.carific13.util.DateUtils
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -45,7 +45,7 @@ object AddEditExpenseBinding {
         val displayed = if (tv.text.isNullOrBlank()) {
             null
         } else {
-            val text = tv.text.replace(Regex("[^0-9]"),"")
+            val text = tv.text?.replace(Regex("[^0-9]"), "")
             BigDecimal(text)
         }
 

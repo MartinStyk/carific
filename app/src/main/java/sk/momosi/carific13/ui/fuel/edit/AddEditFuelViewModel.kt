@@ -1,17 +1,16 @@
 package sk.momosi.carific13.ui.fuel.edit
 
 import android.app.Application
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.util.Log
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import sk.momosi.carific13.R
 import sk.momosi.carific13.model.Refueling
-import sk.momosi.carific13.model.User
 import sk.momosi.carific13.service.fuel.FuelService
 import sk.momosi.carific13.ui.car.achievements.BaseAchievementViewModel
 import sk.momosi.carific13.util.data.SingleLiveEvent

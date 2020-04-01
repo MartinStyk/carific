@@ -1,27 +1,20 @@
 package sk.momosi.carific13.ui.statistics.chart
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.databinding.*
-
-import android.util.Log
-import android.widget.DatePicker
+import android.app.Application
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableParcelable
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.borax12.materialdaterangepicker.date.DatePickerDialog
 import com.github.mikephil.charting.data.Entry
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import sk.momosi.carific13.Carific
-import sk.momosi.carific13.model.*
+import sk.momosi.carific13.model.Car
+import sk.momosi.carific13.model.Refueling
+import sk.momosi.carific13.model.User
 import sk.momosi.carific13.service.statistics.StatisticsService
 import sk.momosi.carific13.util.DateUtils
-import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.firebase.db.TasksRepository
-import sk.momosi.carific13.util.firebase.db.toRefuelingList
 import java.util.*
 
 
@@ -29,7 +22,7 @@ import java.util.*
  * @author Martin Styk
  * @date 29.03.2018.
  */
-class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener {
+class ChartStatisticsViewModel(app: Application) : AndroidViewModel(app), DatePickerDialog.OnDateSetListener {
 
     val isEmpty = ObservableBoolean(false)
 
@@ -103,7 +96,7 @@ class ChartStatisticsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener
 
     private fun prepareDates(): List<String> {
         return timeFilteredRefuelings.mapTo(ArrayList(timeFilteredRefuelings.size)) { refueling ->
-            DateUtils.localizeDate(refueling.date, Carific.context)
+            DateUtils.localizeDate(refueling.date, getApplication())
         }
 
     }

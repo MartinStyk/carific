@@ -1,9 +1,9 @@
 package sk.momosi.carific13.ui.main
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableParcelable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableParcelable
+import androidx.lifecycle.AndroidViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

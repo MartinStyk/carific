@@ -1,8 +1,8 @@
 package sk.momosi.carific13.ui.car.edit
 
-import android.databinding.BindingAdapter
-import android.support.design.widget.TextInputLayout
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import sk.momosi.carific13.R
 import java.io.File

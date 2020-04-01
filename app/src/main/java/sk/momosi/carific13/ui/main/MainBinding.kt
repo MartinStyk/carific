@@ -1,9 +1,8 @@
 package sk.momosi.carific13.ui.main
 
-import android.databinding.BindingAdapter
-import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import java.io.File
 

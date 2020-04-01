@@ -10,7 +10,7 @@
             type="sk.momosi.carific13.ui.car.edit.AddEditCarViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:fitsSystemWindows="true"
         tools:context="sk.momosi.carific13.ui.car.edit.AddEditCarActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
@@ -40,7 +40,7 @@
                     android:src="@drawable/ic_add_a_photo"
                     app:vehicle_picture_config="@{viewmodel.picturePath}" />
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -48,14 +48,14 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:title="@{viewmodel.isCreateNew ? @string/car_create :  @string/car_edit }" />
             </RelativeLayout>
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.CardView style="@style/BasicCard">
+            <androidx.cardview.widget.CardView style="@style/BasicCard">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                         android:visibility="@{viewmodel.isLoading ? View.INVISIBLE : View.VISIBLE}">
 
                         <!-- Name-->
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutWithValidations"
                             app:errorText="@{@string/car_create_name_error}"
                             app:isValid="@{viewmodel.isNameValid}">
@@ -93,10 +93,10 @@
                                 android:inputType="textCapWords"
                                 android:maxLines="1"
                                 android:text="@={viewmodel.name}" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <!-- Manufacturer-->
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutWithValidations"
                             app:errorText="@{@string/car_create_manufacturer_error}"
                             app:isValid="@{viewmodel.isManufacturerValid}">
@@ -109,7 +109,7 @@
                                 android:inputType="textCapWords"
                                 android:maxLines="1"
                                 android:text="@={viewmodel.manufacturer}" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <!-- Type-->
                         <LinearLayout
@@ -134,12 +134,12 @@
 
                     </LinearLayout>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/car_add_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,5 +147,5 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_done" />
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

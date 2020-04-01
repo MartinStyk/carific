@@ -5,15 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import sk.momosi.carific13.Carific.Companion.context
+import androidx.recyclerview.widget.RecyclerView
 import sk.momosi.carific13.R
 import sk.momosi.carific13.view.recycler.model.RecyclerViewAttr
 import sk.momosi.carific13.view.recycler.model.SectionInfo
@@ -33,8 +31,7 @@ class RecyclerSectionItemDecoration(
      * Get the offset for each Item.
      * There is a difference in top offset between sections and not sections.
      */
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?
-    ) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
         val pos = parent.getChildAdapterPosition(view)
@@ -55,15 +52,14 @@ class RecyclerSectionItemDecoration(
      * @param parent RecyclerView this ItemDecoration is drawing into
      * @param state The current state of RecyclerView.
      */
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
-
 
         var previousHeader = SectionInfo("", "")
         if (headerView == null) getHeaderView(parent)
 
         val childInContact = getChildInContact(parent, headerOffset * 2)
-        val contractPosition = parent.getChildAdapterPosition(childInContact)
+        val contractPosition = childInContact?.let { parent.getChildAdapterPosition(it) } ?: -1
 
         if (getIsSection(contractPosition) && recyclerViewAttr.isSticky) {
             childInContact?.let {

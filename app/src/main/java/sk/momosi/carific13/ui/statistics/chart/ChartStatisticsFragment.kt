@@ -1,19 +1,16 @@
 package sk.momosi.carific13.ui.statistics.chart
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.borax12.materialdaterangepicker.date.DatePickerDialog
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
@@ -26,6 +23,8 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.Utils
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_chart_statistics.*
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.FragmentChartStatisticsBinding

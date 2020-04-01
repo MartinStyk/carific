@@ -2,10 +2,10 @@ package sk.momosi.carific13.view.floatingactionbutton
 
 import android.content.Context
 import android.graphics.Color
-import android.support.annotation.ColorInt
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
 
 abstract class SpeedDialMenuAdapter {
 

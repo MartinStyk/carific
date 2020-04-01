@@ -1,11 +1,13 @@
 package sk.momosi.carific13.ui.statistics.detail
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableParcelable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableParcelable
+import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Tasks
 import sk.momosi.carific13.Statistics
-import sk.momosi.carific13.model.*
+import sk.momosi.carific13.model.Car
+import sk.momosi.carific13.model.User
+import sk.momosi.carific13.model.VolumeUnit
 import sk.momosi.carific13.service.statistics.StatisticsService
 import sk.momosi.carific13.util.firebase.db.TasksRepository
 

@@ -1,10 +1,10 @@
 package sk.momosi.carific13.ui.fuel.edit
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.AppCompatEditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 import sk.momosi.carific13.util.DateUtils
 import java.math.BigDecimal
 import java.text.DecimalFormat

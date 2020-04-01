@@ -1,7 +1,7 @@
 package sk.momosi.carific13.ui.car.achievements
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.games.Games
 import sk.momosi.carific13.Carific

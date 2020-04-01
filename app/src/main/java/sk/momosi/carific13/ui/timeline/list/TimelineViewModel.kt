@@ -1,11 +1,14 @@
 package sk.momosi.carific13.ui.timeline.list
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableList
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableList
+import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Tasks
-import sk.momosi.carific13.model.*
+import sk.momosi.carific13.model.Expense
+import sk.momosi.carific13.model.ListItem
+import sk.momosi.carific13.model.Refueling
+import sk.momosi.carific13.model.User
 import sk.momosi.carific13.util.DateUtils
 import sk.momosi.carific13.util.data.SingleLiveEvent
 import sk.momosi.carific13.util.firebase.db.TasksRepository

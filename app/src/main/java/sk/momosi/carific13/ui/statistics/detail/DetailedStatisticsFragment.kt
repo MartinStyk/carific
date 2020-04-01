@@ -1,14 +1,13 @@
 package sk.momosi.carific13.ui.statistics.detail
 
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import sk.momosi.carific13.R
 import sk.momosi.carific13.databinding.FragmentDetailedStatisticsBinding
 import sk.momosi.carific13.model.Car

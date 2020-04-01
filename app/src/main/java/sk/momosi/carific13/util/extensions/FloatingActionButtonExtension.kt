@@ -1,7 +1,7 @@
 package sk.momosi.carific13.util.extensions
 
-import android.support.design.widget.FloatingActionButton
 import android.view.animation.AnimationUtils
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import sk.momosi.carific13.R
 
 

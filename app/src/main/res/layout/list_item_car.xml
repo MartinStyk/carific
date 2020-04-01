@@ -22,7 +22,7 @@
         android:onClick="@{() -> listener.onItemClick(car)}"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/BasicCard"
             android:layout_marginEnd="@dimen/space_small"
             android:layout_marginLeft="@dimen/space_small"
@@ -85,7 +85,7 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

@@ -1,6 +1,6 @@
 package sk.momosi.carific13.ui.car.list
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 
 class CarChoiceListActivity : CarListActivity() {
 
